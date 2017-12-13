@@ -22,7 +22,7 @@ import com.ngocthach.taskmanager.db.AppDatabase;
 /**
  * Android Application class. Used for accessing singletons.
  */
-public class BasicApp extends Application {
+public class MyApplication extends Application {
 
     private AppExecutors mAppExecutors;
 
@@ -31,6 +31,7 @@ public class BasicApp extends Application {
         super.onCreate();
 
         mAppExecutors = new AppExecutors();
+
     }
 
     public AppDatabase getDatabase() {

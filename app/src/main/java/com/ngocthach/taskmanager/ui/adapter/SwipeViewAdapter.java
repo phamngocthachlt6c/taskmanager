@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by tryczson on 13/12/2017.
+ * Created by ThachPham on 13/12/2017.
  */
 
 public class SwipeViewAdapter extends FragmentPagerAdapter {

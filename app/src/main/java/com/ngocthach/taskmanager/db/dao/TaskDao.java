@@ -11,7 +11,7 @@ import com.ngocthach.taskmanager.db.entity.TaskEntity;
 import java.util.List;
 
 /**
- * Created by tryczson on 11/12/2017.
+ * Created by ThachPham on 11/12/2017.
  */
 @Dao
 public interface TaskDao {

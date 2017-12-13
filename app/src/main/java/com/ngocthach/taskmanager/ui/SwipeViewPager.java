@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 /**
- * Created by tryczson on 13/12/2017.
+ * Created by ThachPham on 13/12/2017.
  */
 
 public class SwipeViewPager extends ViewPager {
