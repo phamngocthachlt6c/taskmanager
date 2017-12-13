@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layoutDim"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_container">
+
+        <ScrollView
+            android:id="@+id/scrollviewMenu1"
+            android:layout_width="290dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent"
+            android:fillViewport="true"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="290dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:background="@color/colorAccent"
+                android:clickable="true"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="9dp"
+                    android:weightSum="1">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8">
+
+                        <com.mikhaellopez.circularimageview.CircularImageView
+                            android:id="@+id/imageViewAvatar"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/ic_launcher_background"
+                            app:civ_border_color="@color/colorAccent"
+                            app:civ_border_width="1dp" />
+
+                        <TextView
+                            android:id="@+id/textViewNameUser"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="10dp"
+                            android:gravity="center_vertical"
+                            android:lines="2"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="14dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        android:gravity="center">
+
+                        <ImageButton
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:background="@color/colorAccent"
+                            android:src="@drawable/ic_launcher_background" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="40dp"
+                    android:background="@color/colorAccent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="47dp"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="30dp"
+                        android:layout_weight="0.8"
+                        android:gravity="center_vertical"
+                        android:text="aaa"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="14dp" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/textViewReceiveLetterBadge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp"
+                            android:animateLayoutChanges="true"
+                            android:background="@drawable/ic_launcher_background"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:singleLine="true"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="10dp"
+                            android:visibility="gone" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="40dp"
+                    android:background="@color/colorAccent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="47dp"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="50dp"
+                        android:layout_weight="0.8"
+                        android:gravity="center_vertical"
+                        android:text="aaa"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="10dp" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.2"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/textViewSendLetterBadge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:animateLayoutChanges="true"
+                            android:background="@drawable/ic_launcher_background"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:singleLine="true"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="14dp"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/coordinatorLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/appBarLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center_vertical"
+                    app:layout_scrollFlags="scroll|enterAlways">
+
+                    <ImageButton
+                        android:id="@+id/buttonHome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/ic_launcher_background"
+                        android:visibility="gone" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/ic_launcher_background"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp">
+
+                    </RelativeLayout>
+                </android.support.v7.widget.Toolbar>
+
+
+
+            </android.support.design.widget.AppBarLayout>
+
+            <RelativeLayout
+                android:id="@+id/layoutMain"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusableInTouchMode="true"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <com.ngocthach.taskmanager.ui.SwipeViewPager
+                    android:id="@+id/swipeView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="30dp" />
+
+            </RelativeLayout>
+
+        </android.support.design.widget.CoordinatorLayout>
+
+        <RelativeLayout
+            android:id="@+id/layoutTab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true">
+
+            <requestFocus />
+
+            <View
+                android:id="@+id/dividerBottom"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_above="@+id/tabs"
+                android:layout_gravity="bottom"
+                android:background="@color/colorAccent" />
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom"
+                app:tabBackground="@color/colorAccent"
+                app:tabGravity="fill"
+                app:tabMode="fixed" />
+
+            <LinearLayout
+                android:layout_width="40dp"
+                android:layout_height="45dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:gravity="left">
+
+                <TextView
+                    android:id="@+id/textViewNotificaitonBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="10dp"
+                    android:animateLayoutChanges="true"
+                    android:background="@drawable/ic_launcher_background"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:singleLine="true"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="10dp"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imgSendLetterActive"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="5dp"
+                android:src="@drawable/ic_launcher_background"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/imgSendLetterDeactive"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/ic_launcher_background"
+                android:visibility="visible" />
+        </RelativeLayout>
+
+        <android.support.design.widget.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="290dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:background="@color/colorAccent"
+            android:clickable="false"
+            android:scrollbars="vertical">
+
+            <ScrollView
+                android:id="@+id/scrollviewMenu2"
+                android:layout_width="290dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorAccent"
+                android:fillViewport="true"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="290dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:clickable="true"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </ScrollView>
+
+        </android.support.design.widget.NavigationView>
+    </android.support.v4.widget.DrawerLayout>
+
+</FrameLayout>
