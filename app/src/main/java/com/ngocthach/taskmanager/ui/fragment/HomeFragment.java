@@ -1,5 +1,7 @@
 package com.ngocthach.taskmanager.ui.fragment;
 
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ngocthach.taskmanager.R;
+import com.ngocthach.taskmanager.viewmodel.TaskViewModel;
+
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by tryczson on 13/12/2017.
@@ -16,7 +24,12 @@ import com.ngocthach.taskmanager.R;
 
 public class HomeFragment extends Fragment {
 
-    private RecyclerView taskRecyclerView;
+    @BindView(R.id.listTask)
+    RecyclerView taskRecyclerView;
+
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
+    private TaskViewModel taskViewModel;
 
     @Nullable
     @Override
@@ -27,6 +40,13 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
+    }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        taskViewModel = ViewModelProviders.of(this, viewModelFactory).get(TaskViewModel.class);
     }
 }
