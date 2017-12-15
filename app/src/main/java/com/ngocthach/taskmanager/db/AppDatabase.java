@@ -25,6 +25,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import android.util.Log;
 
 import com.ngocthach.taskmanager.AppExecutors;
 import com.ngocthach.taskmanager.db.dao.TaskDao;
@@ -32,7 +33,7 @@ import com.ngocthach.taskmanager.db.entity.TaskEntity;
 
 import java.util.List;
 
-@Database(entities = {TaskEntity.class}, version = 1)
+@Database(entities = {TaskEntity.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase sInstance;
@@ -70,8 +71,8 @@ public abstract class AppDatabase extends RoomDatabase {
                         super.onCreate(db);
                         executors.diskIO().execute(() -> {
                             // Add a delay to simulate a long-running operation
-                            addDelay();
                             // Generate the data for pre-population
+                            Log.d("aaaaa", "onCreate: generate data");
                             AppDatabase database = AppDatabase.getInstance(appContext, executors);
                             List<TaskEntity> task = DataGenerator.generateTasks();
 
@@ -100,13 +101,6 @@ public abstract class AppDatabase extends RoomDatabase {
         database.runInTransaction(() -> {
             database.taskDao().insertAll(tasks);
         });
-    }
-
-    private static void addDelay() {
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException ignored) {
-        }
     }
 
     public LiveData<Boolean> getDatabaseCreated() {

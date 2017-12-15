@@ -27,7 +27,12 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskLi
     }
 
     public void loadListTask(List<TaskEntity> list) {
-        listTask = list;
+        if(listTask == null) {
+            listTask = list;
+        } else {
+            listTask.clear();
+            listTask.addAll(list);
+        }
         notifyDataSetChanged();
     }
 
@@ -47,7 +52,7 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskLi
         return listTask == null? 0 : listTask.size();
     }
 
-    static class TaskViewHolder extends RecyclerView.ViewHolder {
+    class TaskViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.taskTitle)
         TextView taskTitle;

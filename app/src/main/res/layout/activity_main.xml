@@ -11,165 +11,6 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar_container">
 
-        <ScrollView
-            android:id="@+id/scrollviewMenu1"
-            android:layout_width="290dp"
-            android:layout_height="match_parent"
-            android:background="@color/colorAccent"
-            android:fillViewport="true"
-            android:scrollbars="none">
-
-            <LinearLayout
-                android:layout_width="290dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:background="@color/colorAccent"
-                android:clickable="true"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="9dp"
-                    android:weightSum="1">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.8">
-
-                        <com.mikhaellopez.circularimageview.CircularImageView
-                            android:id="@+id/imageViewAvatar"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_marginLeft="10dp"
-                            android:src="@drawable/ic_launcher_background"
-                            app:civ_border_color="@color/colorAccent"
-                            app:civ_border_width="1dp" />
-
-                        <TextView
-                            android:id="@+id/textViewNameUser"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="10dp"
-                            android:gravity="center_vertical"
-                            android:lines="2"
-                            android:textColor="@color/colorAccent"
-                            android:textSize="14dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.2"
-                        android:gravity="center">
-
-                        <ImageButton
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:background="@color/colorAccent"
-                            android:src="@drawable/ic_launcher_background" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="40dp"
-                    android:background="@color/colorAccent" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="47dp"
-                    android:orientation="horizontal"
-                    android:padding="10dp"
-                    android:weightSum="1">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="30dp"
-                        android:layout_weight="0.8"
-                        android:gravity="center_vertical"
-                        android:text="aaa"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="14dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.2"
-                        android:gravity="center">
-
-                        <TextView
-                            android:id="@+id/textViewReceiveLetterBadge"
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:animateLayoutChanges="true"
-                            android:background="@drawable/ic_launcher_background"
-                            android:ellipsize="end"
-                            android:gravity="center"
-                            android:paddingLeft="5dp"
-                            android:paddingRight="5dp"
-                            android:singleLine="true"
-                            android:textColor="@color/colorAccent"
-                            android:textSize="10dp"
-                            android:visibility="gone" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="40dp"
-                    android:background="@color/colorAccent" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="47dp"
-                    android:orientation="horizontal"
-                    android:padding="10dp"
-                    android:weightSum="1">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="50dp"
-                        android:layout_weight="0.8"
-                        android:gravity="center_vertical"
-                        android:text="aaa"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="10dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="0.2"
-                        android:gravity="center">
-
-                        <TextView
-                            android:id="@+id/textViewSendLetterBadge"
-                            android:layout_width="wrap_content"
-                            android:layout_height="30dp"
-                            android:animateLayoutChanges="true"
-                            android:background="@drawable/ic_launcher_background"
-                            android:ellipsize="end"
-                            android:gravity="center"
-                            android:paddingLeft="5dp"
-                            android:paddingRight="5dp"
-                            android:singleLine="true"
-                            android:textColor="@color/colorAccent"
-                            android:textSize="14dp"
-                            android:visibility="gone" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </LinearLayout>
-        </ScrollView>
-
         <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/coordinatorLayout"
@@ -193,16 +34,23 @@
 
                     <ImageButton
                         android:id="@+id/buttonHome"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_marginRight="10dp"
                         android:background="@android:color/transparent"
-                        android:src="@drawable/ic_launcher_background"
-                        android:visibility="gone" />
-
+                        android:src="@drawable/ic_launcher_background"/>
+                    <TextView
+                        android:textColor="@color/colorAccent"
+                        android:text="Tap Lich icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/imgSendLetterActive"
                         android:background="@drawable/ic_launcher_background"
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp">
@@ -307,13 +155,13 @@
             android:id="@+id/nav_view"
             android:layout_width="290dp"
             android:layout_height="match_parent"
-            android:layout_gravity="right"
+            android:layout_gravity="start"
             android:background="@color/colorAccent"
             android:clickable="false"
             android:scrollbars="vertical">
 
             <ScrollView
-                android:id="@+id/scrollviewMenu2"
+                android:id="@+id/scrollviewMenu1"
                 android:layout_width="290dp"
                 android:layout_height="match_parent"
                 android:background="@color/colorAccent"
@@ -324,6 +172,7 @@
                     android:layout_width="290dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="right"
+                    android:background="@color/colorAccent"
                     android:clickable="true"
                     android:orientation="vertical">
 
@@ -331,8 +180,139 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
+                        android:padding="9dp"
                         android:weightSum="1">
 
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.8">
+
+                            <com.mikhaellopez.circularimageview.CircularImageView
+                                android:id="@+id/imageViewAvatar"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_marginLeft="10dp"
+                                android:src="@drawable/ic_launcher_background"
+                                app:civ_border_color="@color/colorAccent"
+                                app:civ_border_width="1dp" />
+
+                            <TextView
+                                android:id="@+id/textViewNameUser"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="10dp"
+                                android:gravity="center_vertical"
+                                android:lines="2"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="14dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.2"
+                            android:gravity="center">
+
+                            <ImageButton
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:background="@color/colorAccent"
+                                android:src="@drawable/ic_launcher_background" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="40dp"
+                        android:background="@color/colorAccent" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="47dp"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="30dp"
+                            android:layout_weight="0.8"
+                            android:gravity="center_vertical"
+                            android:text="aaa"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="14dp" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.2"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/textViewReceiveLetterBadge"
+                                android:layout_width="wrap_content"
+                                android:layout_height="20dp"
+                                android:animateLayoutChanges="true"
+                                android:background="@drawable/ic_launcher_background"
+                                android:ellipsize="end"
+                                android:gravity="center"
+                                android:paddingLeft="5dp"
+                                android:paddingRight="5dp"
+                                android:singleLine="true"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="10dp"
+                                android:visibility="gone" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="40dp"
+                        android:background="@color/colorAccent" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="47dp"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="50dp"
+                            android:layout_weight="0.8"
+                            android:gravity="center_vertical"
+                            android:text="aaa"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="10dp" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="0.2"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/textViewSendLetterBadge"
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:animateLayoutChanges="true"
+                                android:background="@drawable/ic_launcher_background"
+                                android:ellipsize="end"
+                                android:gravity="center"
+                                android:paddingLeft="5dp"
+                                android:paddingRight="5dp"
+                                android:singleLine="true"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="14dp"
+                                android:visibility="gone" />
+                        </LinearLayout>
 
                     </LinearLayout>
 

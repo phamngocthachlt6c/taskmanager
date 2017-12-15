@@ -8,6 +8,7 @@ import android.arch.persistence.room.Query;
 
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,6 +21,9 @@ public interface TaskDao {
 
     @Query("SELECT * FROM tasks WHERE id = :id")
     LiveData<TaskEntity> loadTask(int id);
+
+    @Query("SELECT * FROM tasks WHERE date BETWEEN :time1 AND :time2 ORDER BY date")
+    LiveData<List<TaskEntity>> loadTasks(long time1, long time2);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<TaskEntity> tasks);

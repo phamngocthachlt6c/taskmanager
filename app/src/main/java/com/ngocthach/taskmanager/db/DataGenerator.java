@@ -19,6 +19,8 @@ package com.ngocthach.taskmanager.db;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,10 +30,10 @@ public class DataGenerator {
 
     public static List<TaskEntity> generateTasks() {
         List<TaskEntity> tasks = new ArrayList<>();
-        tasks.add(new TaskEntity("task1"));
-        tasks.add(new TaskEntity("task2"));
-        tasks.add(new TaskEntity("task3"));
-        tasks.add(new TaskEntity("task4"));
+        tasks.add(new TaskEntity("task1", new Date(2017, 12, 11, 12, 12, 12)));
+        tasks.add(new TaskEntity("task2", new Date(2017, 12, 12, 12, 12, 12)));
+        tasks.add(new TaskEntity("task3", new Date(2017, 12, 13, 12, 12, 12)));
+        tasks.add(new TaskEntity("task4", new Date(2017, 12, 13, 12, 12, 12)));
         return tasks;
     }
 }
