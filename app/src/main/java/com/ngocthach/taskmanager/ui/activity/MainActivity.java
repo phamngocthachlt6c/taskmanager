@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         swipeViewPager.setOffscreenPageLimit(4);
         SwipeViewAdapter adapter = new SwipeViewAdapter(getSupportFragmentManager());
         adapter.addFragment(homeFragment, "ONE"); // all task on today
-        adapter.addFragment(new HomeFragment(), "TWO"); // calendar to choose day -> view task
+        adapter.addFragment(new HomeFragment(), "TWO"); // chart
         adapter.addFragment(new HomeFragment(), "THREE");
         adapter.addFragment(new HomeFragment(), "FOUR");
         adapter.addFragment(new HomeFragment(), "FOUR");
