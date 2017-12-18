@@ -2,18 +2,16 @@ package com.ngocthach.taskmanager.ui.fragment;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CalendarView;
-import android.widget.Toast;
 
-import com.ngocthach.taskmanager.MyApplication;
+import com.applandeo.materialcalendarview.CalendarView;
 import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.ui.activity.MainActivity;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -49,14 +47,13 @@ public class CalendarFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         getDialog().setTitle("Calendar");
         View v = inflater.inflate(R.layout.fragment_calendar, container, false);
-        CalendarView calendarView = (CalendarView) v.findViewById(R.id.simpleCalendarView);
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull  CalendarView calendarView, int i, int i1, int i2) {
-//                Day = " + i2 + "\n" + "Month = " + i1 + "\n" + "Year = " + i
-                ((MainActivity) getActivity()).setActionBarTitle(new Date(i - 1900, i1, i2));
-                getDialog().cancel();
-            }
+        CalendarView calendarView = (CalendarView) v.findViewById(R.id.calendarView);
+        calendarView.setDate(Calendar.getInstance().getTime());
+        calendarView.setOnDayClickListener(eventDay -> {
+            Log.d("aaaaa", "onDayClick: " + eventDay.getCalendar().getTime().toString());
+            Date date = new Date(eventDay.getCalendar().getTime().getTime());
+            ((MainActivity) getActivity()).setActionBarTitle(date);
+            getDialog().cancel();
         });
         return v;
     }

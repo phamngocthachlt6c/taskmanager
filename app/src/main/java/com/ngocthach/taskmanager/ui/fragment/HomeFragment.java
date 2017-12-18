@@ -18,6 +18,7 @@ import com.ngocthach.taskmanager.db.entity.TaskEntity;
 import com.ngocthach.taskmanager.ui.adapter.RecyclerTaskListAdapter;
 import com.ngocthach.taskmanager.viewmodel.TaskViewModel;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class HomeFragment extends Fragment {
         TaskViewModel.Factory factory = new TaskViewModel.Factory(getActivity().getApplication());
 
         taskViewModel = ViewModelProviders.of(this, factory).get(TaskViewModel.class);
-        taskViewModel.setDate(new Date(2017 - 1900, 12, 11)); // change the date string param to be Date
+        taskViewModel.setDate(Calendar.getInstance().getTime()); // change the date string param to be Date
         taskViewModel.getListTask().observe(this, (List<TaskEntity> tasks) -> {
             getActivity().runOnUiThread(() -> {
                         taskListAdapter.loadListTask(tasks);
@@ -68,10 +69,15 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    public void changeListTask(Date date) {
+        Log.d("bbbbbbb", "changeListTask: year = " + date.getYear() + ", tostring = " + date);
+        taskViewModel.setDate(date);
+    }
+
     public void insertTask() {
 //        Log.d("aaaaa", "insertTask: insert task");
-//        new Thread(() -> taskViewModel.getDataRepository().insertTask(
-//                new TaskEntity("task6", new Date(2017, 12, 12, 12, 12, 12)))).start();
-        taskViewModel.setDate(new Date(2017 - 1900, 12, 13));
+        new Thread(() -> taskViewModel.getDataRepository().insertTask(
+                new TaskEntity("task6", new Date(2017, 12, 14, 12, 12, 12)))).start();
+//        taskViewModel.setDate(new Date(2017 - 1900, 12, 13));
     }
 }

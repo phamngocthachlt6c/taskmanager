@@ -53,6 +53,7 @@ public class DataRepository {
         cal.setTime(date);
         Date dateTime1 = new Date(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
         Date dateTime2 = new Date(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 23, 59, 59);
+        Log.d("aaaaaa", "getTasks: dateTime2 = " + dateTime2);
         return mDatabase.taskDao().loadTasks(dateTime1.getTime(), dateTime2.getTime());
     }
 

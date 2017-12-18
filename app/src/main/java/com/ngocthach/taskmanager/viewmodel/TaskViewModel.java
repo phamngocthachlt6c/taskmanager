@@ -33,6 +33,7 @@ public class TaskViewModel extends AndroidViewModel {
         date.setValue(null);
         Log.d("aaaa", "TaskViewModel: getRepository");
         dataRepository = ((MyApplication) application).getRepository();
+
         listTask = Transformations.switchMap(date, input -> {
             Log.d("aaaaa", "TaskViewModel transformations: value = " + date.getValue());
             return dataRepository.getTasks(date.getValue());

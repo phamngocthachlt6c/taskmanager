@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -48,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
             SimpleDateFormat fmtOut = new SimpleDateFormat("dd-MM-yyyy");
             actionBar.setTitle(fmtOut.format(date));
         }
+        if(homeFragment != null) {
+            homeFragment.changeListTask(date);
+        }
     }
 
     private void initSwipeViewPager() {
@@ -76,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_calendar:
-                showCalendarDialog();
+                new Thread(() -> showCalendarDialog()).start();
                 return true;
 
             default:
