@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="5dp">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="@string/fragment_text_add_task" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -33,11 +44,12 @@
                     android:layout_below="@+id/textViewNameField"
                     android:layout_marginLeft="@dimen/fragment_add_task_edit_text_margin_left"
                     android:layout_marginStart="@dimen/fragment_add_task_edit_text_margin_left" />
+
                 <TextView
-                    android:layout_below="@id/editTextTaskName"
                     android:id="@+id/textViewContentField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/editTextTaskName"
                     android:text="@string/fragment_add_task_content_field"
                     android:textColor="@color/fragment_add_task_title_color" />
 
@@ -48,7 +60,51 @@
                     android:layout_below="@id/textViewContentField"
                     android:layout_marginLeft="@dimen/fragment_add_task_edit_text_margin_left"
                     android:layout_marginStart="@dimen/fragment_add_task_edit_text_margin_left" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroupTypeOfTask"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/editTextTaskContent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radioSingleDayTask"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="30dp"
+                        android:layout_marginRight="30dp"
+                        android:checked="true"
+                        android:text="@string/single_day_task" />
+
+                    <RadioButton
+                        android:id="@+id/radioDailyTask"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/daily_task" />
+                </RadioGroup>
             </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/panelDailyTask"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:paddingTop="30dp">
+
+                <TextView
+                    android:text="@string/fragment_text_choose_day_in_week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <Spinner
+                    android:id="@+id/dayOnWeek"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
 
             <com.ngocthach.taskmanager.ui.view.CustomDatePicker
                 android:id="@+id/datePicker"
