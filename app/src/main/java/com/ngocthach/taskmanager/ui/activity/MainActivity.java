@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.ui.SwipeViewPager;
 import com.ngocthach.taskmanager.ui.adapter.SwipeViewAdapter;
+import com.ngocthach.taskmanager.ui.fragment.AddTaskFragment;
 import com.ngocthach.taskmanager.ui.fragment.CalendarFragment;
 import com.ngocthach.taskmanager.ui.fragment.HomeFragment;
 
@@ -38,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         setActionBarTitle(date);
 
         homeFragment = new HomeFragment();
-        findViewById(R.id.imgSendLetterDeactive).setOnClickListener(view -> homeFragment.insertTask());
 
         initSwipeViewPager();
     }
@@ -80,9 +80,14 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_calendar:
-                new Thread(() -> showCalendarDialog()).start();
+                DialogFragment calendarFragment = CalendarFragment.newInstance(mStackLevel);
+                showDialog(calendarFragment);
                 return true;
 
+            case R.id.action_add_task:
+                DialogFragment addTaskFragment = AddTaskFragment.newInstance(mStackLevel);
+                showDialog(addTaskFragment);
+                return true;
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
@@ -91,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    void showCalendarDialog() {
+    void showDialog(DialogFragment dialogFragment) {
         mStackLevel++;
 
         // DialogFragment.show() will take care of adding the fragment
@@ -104,9 +109,7 @@ public class MainActivity extends AppCompatActivity {
         }
         ft.addToBackStack(null);
 
-        // Create and show the dialog.
-        DialogFragment calendarFragment = CalendarFragment.newInstance(mStackLevel);
-        calendarFragment.show(ft, "dialog");
+        dialogFragment.show(ft, "dialog");
     }
 
 }

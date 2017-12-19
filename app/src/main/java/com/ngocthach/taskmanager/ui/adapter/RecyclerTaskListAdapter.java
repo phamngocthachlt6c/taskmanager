@@ -44,7 +44,7 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskLi
 
     @Override
     public void onBindViewHolder(TaskViewHolder holder, int position) {
-        holder.taskTitle.setText(listTask.get(position).getTitle());
+        holder.taskTitle.setText(listTask.get(position).getTitle() + " " + listTask.get(position).getDate().getYear());
     }
 
     @Override

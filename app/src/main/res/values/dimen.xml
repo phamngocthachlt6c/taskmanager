@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- fragment add task -->
+    <dimen name="fragment_add_task_edit_text_margin_left">10dp</dimen>
+    <dimen name="fragment_add_task_calendar_height">300dp</dimen>
+    <dimen name="fragment_add_task_calendar_margin">5dp</dimen>
+    <dimen name="fragment_add_task_distance_of_add_task_cancel">30dp</dimen>
+
+</resources>

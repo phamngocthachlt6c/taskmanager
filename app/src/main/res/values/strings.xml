@@ -1,3 +1,11 @@
 <resources>
+    <!-- commons -->
     <string name="app_name">Task Manager</string>
+    <string name="text_ok">OK</string>
+    <string name="text_cancel">CANCEL</string>
+
+    <!-- fragment add task -->
+    <string name="fragment_add_task_name_field">Task name</string>
+    <string name="fragment_add_task_title">Add your task</string>
+    <string name="fragment_text_add_task">Add task</string>
 </resources>

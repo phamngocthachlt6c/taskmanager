@@ -20,6 +20,9 @@ public class TaskEntity {
     @TypeConverters({DateConverter.class})
     private Date date;
 
+    public TaskEntity() {
+    }
+
     public TaskEntity(String title, Date date) {
         this.title = title;
         this.date = date;
