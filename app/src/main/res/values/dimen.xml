@@ -7,4 +7,8 @@
     <dimen name="fragment_add_task_calendar_margin">5dp</dimen>
     <dimen name="fragment_add_task_distance_of_add_task_cancel">30dp</dimen>
 
+    <!-- task list -->
+    <dimen name="task_item_margin">5dp</dimen>
+    <dimen name="icon_size">40dp</dimen>
+
 </resources>

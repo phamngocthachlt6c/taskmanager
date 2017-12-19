@@ -3,6 +3,7 @@ package com.ngocthach.taskmanager.ui.activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,7 +14,6 @@ import android.view.MenuItem;
 import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.ui.view.SwipeViewPager;
 import com.ngocthach.taskmanager.ui.adapter.SwipeViewAdapter;
-import com.ngocthach.taskmanager.ui.fragment.AddTaskFragment;
 import com.ngocthach.taskmanager.ui.fragment.CalendarFragment;
 import com.ngocthach.taskmanager.ui.fragment.HomeFragment;
 
@@ -84,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_add_task:
-                DialogFragment addTaskFragment = AddTaskFragment.newInstance(mStackLevel);
-                showDialog(addTaskFragment);
+                Intent intent = new Intent(this, AddTaskActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 // If we got here, the user's action was not recognized.

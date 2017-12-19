@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -21,9 +22,11 @@ import butterknife.ButterKnife;
 public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskListAdapter.TaskViewHolder> {
 
     private List<TaskEntity> listTask;
+    private SimpleDateFormat dateFormat;
 
     public RecyclerTaskListAdapter(List<TaskEntity> listTask) {
         this.listTask = listTask;
+        dateFormat = new SimpleDateFormat("HH:mm");
     }
 
     public void loadListTask(List<TaskEntity> list) {
@@ -44,7 +47,9 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskLi
 
     @Override
     public void onBindViewHolder(TaskViewHolder holder, int position) {
-        holder.taskTitle.setText(listTask.get(position).getTitle() + " " + listTask.get(position).getDate().getYear());
+        holder.taskTitle.setText(listTask.get(position).getTitle());
+        holder.taskContent.setText(listTask.get(position).getContent());
+        holder.taskTime.setText(dateFormat.format(listTask.get(position).getDate()));
     }
 
     @Override
@@ -56,6 +61,10 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskLi
 
         @BindView(R.id.taskTitle)
         TextView taskTitle;
+        @BindView(R.id.taskContent)
+        TextView taskContent;
+        @BindView(R.id.taskTime)
+        TextView taskTime;
 
         public TaskViewHolder(View itemView) {
             super(itemView);

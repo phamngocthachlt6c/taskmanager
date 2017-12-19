@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="5dp">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -33,39 +33,59 @@
                     android:layout_below="@+id/textViewNameField"
                     android:layout_marginLeft="@dimen/fragment_add_task_edit_text_margin_left"
                     android:layout_marginStart="@dimen/fragment_add_task_edit_text_margin_left" />
+                <TextView
+                    android:layout_below="@id/editTextTaskName"
+                    android:id="@+id/textViewContentField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fragment_add_task_content_field"
+                    android:textColor="@color/fragment_add_task_title_color" />
+
+                <MultiAutoCompleteTextView
+                    android:id="@+id/editTextTaskContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textViewContentField"
+                    android:layout_marginLeft="@dimen/fragment_add_task_edit_text_margin_left"
+                    android:layout_marginStart="@dimen/fragment_add_task_edit_text_margin_left" />
             </RelativeLayout>
 
             <com.ngocthach.taskmanager.ui.view.CustomDatePicker
                 android:id="@+id/datePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/fragment_add_task_calendar_margin"
                 android:layout_marginStart="@dimen/fragment_add_task_calendar_margin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:calendarViewShown="false"
-                android:datePickerMode="spinner"/>
+                android:datePickerMode="spinner" />
+
             <TimePicker
+                android:id="@+id/timePicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:timePickerMode="spinner"/>
+                android:timePickerMode="spinner" />
         </LinearLayout>
     </ScrollView>
+
     <LinearLayout
-        android:gravity="center"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
         <Button
             android:id="@+id/addTaskButton"
-            android:text="@string/fragment_text_add_task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/fragment_add_task_distance_of_add_task_cancel"
-            android:layout_marginRight="@dimen/fragment_add_task_distance_of_add_task_cancel"/>
+            android:layout_marginRight="@dimen/fragment_add_task_distance_of_add_task_cancel"
+            android:text="@string/fragment_text_add_task" />
+
         <Button
             android:id="@+id/cancelButton"
-            android:text="@string/text_cancel"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@string/text_cancel" />
     </LinearLayout>
 
 </LinearLayout>

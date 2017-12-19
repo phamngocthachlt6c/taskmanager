@@ -5,7 +5,8 @@
     <string name="text_cancel">CANCEL</string>
 
     <!-- fragment add task -->
-    <string name="fragment_add_task_name_field">Task name</string>
+    <string name="fragment_add_task_name_field">Title</string>
+    <string name="fragment_add_task_content_field">Content</string>
     <string name="fragment_add_task_title">Add your task</string>
     <string name="fragment_text_add_task">Add task</string>
 </resources>
