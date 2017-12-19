@@ -5,12 +5,12 @@
         <!-- "Mark Favorite", should appear as action button if possible -->
         <item
             android:id="@+id/action_calendar"
-            android:icon="@drawable/ic_launcher_background"
+            android:icon="@mipmap/calendar_icon"
             android:title="calendar"
             app:showAsAction="ifRoom"/>
         <item
             android:id="@+id/action_add_task"
-            android:icon="@drawable/ic_launcher_background"
+            android:icon="@mipmap/add_task_icon"
             android:title="calendar"
             app:showAsAction="ifRoom"/>
 
