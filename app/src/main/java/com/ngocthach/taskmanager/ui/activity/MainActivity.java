@@ -7,12 +7,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ngocthach.taskmanager.R;
-import com.ngocthach.taskmanager.ui.SwipeViewPager;
+import com.ngocthach.taskmanager.ui.view.SwipeViewPager;
 import com.ngocthach.taskmanager.ui.adapter.SwipeViewAdapter;
 import com.ngocthach.taskmanager.ui.fragment.AddTaskFragment;
 import com.ngocthach.taskmanager.ui.fragment.CalendarFragment;
