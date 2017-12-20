@@ -32,6 +32,10 @@ public class HomeFragment extends Fragment {
 
     @BindView(R.id.listTask)
     RecyclerView taskRecyclerView;
+    @BindView(R.id.noDataLayout)
+    View noDataLayout;
+    @BindView(R.id.loadingLayout)
+    View loadingLayout;
 
     private TaskViewModel taskViewModel;
     private RecyclerTaskListAdapter taskListAdapter;
@@ -46,7 +50,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        taskListAdapter = new RecyclerTaskListAdapter(getContext());
+        taskListAdapter = new RecyclerTaskListAdapter(getContext(), taskViewModel);
         taskRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         taskRecyclerView.setAdapter(taskListAdapter);
         taskListAdapter.setSwipeToDeleteItem(taskRecyclerView);
@@ -60,7 +64,15 @@ public class HomeFragment extends Fragment {
         taskViewModel.setDate(Calendar.getInstance().getTime()); // change the date string param to be Date
         Log.d("aaaaaa", "onActivityCreated: currentDate = " + Calendar.getInstance().getTime().getYear());
         taskViewModel.getListTaskObserver().observe(this, (List<TaskEntity> tasks) -> {
-            taskListAdapter.loadListTask(tasks);
+            if(tasks!= null && !tasks.isEmpty()) {
+                noDataLayout.setVisibility(View.GONE);
+                taskRecyclerView.setVisibility(View.VISIBLE);
+                taskListAdapter.loadListTask(tasks);
+            } else {
+                taskRecyclerView.setVisibility(View.GONE);
+                noDataLayout.setVisibility(View.VISIBLE);
+            }
+            loadingLayout.setVisibility(View.GONE);
         });
 
         Log.d("aaaaaa", "onActivityCreated: date______" + new Date(2017, 12, 11, 12, 12, 12).getYear());
@@ -68,6 +80,9 @@ public class HomeFragment extends Fragment {
 
     public void changeListTask(Date date) {
         Log.d("bbbbbbb", "changeListTask: year = " + date.getYear() + ", tostring = " + date);
+        loadingLayout.setVisibility(View.VISIBLE);
+        noDataLayout.setVisibility(View.GONE);
+        taskRecyclerView.setVisibility(View.GONE);
         taskViewModel.setDate(date);
     }
 

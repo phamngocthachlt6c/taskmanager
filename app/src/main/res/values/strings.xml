@@ -3,6 +3,12 @@
     <string name="app_name">Task Manager</string>
     <string name="text_ok">OK</string>
     <string name="text_cancel">CANCEL</string>
+    <string name="text_nodata">There is no task</string>
+
+    <!-- menu -->
+    <string name="calendar">Calendar</string>
+    <string name="setting">Setting</string>
+    <string name="add_task">Add task</string>
 
     <!-- fragment add task -->
     <string name="fragment_add_task_name_field">Title</string>

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
@@ -20,6 +21,7 @@ import com.ngocthach.taskmanager.DataRepository;
 import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.db.AppDatabase;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
+import com.ngocthach.taskmanager.viewmodel.TaskViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,13 +39,19 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskLi
     private List<TaskEntity> listTask;
     private SimpleDateFormat dateFormat;
     private Context context;
+    private TaskViewModel viewModel;
     private Bitmap iconDeleted;
 
-    public RecyclerTaskListAdapter(Context context/*, executors */) {
+    private Rect rs, rd;
+
+    public RecyclerTaskListAdapter(Context context/*, executors */, TaskViewModel taskViewModel) {
         listTask = new ArrayList<>();
         dateFormat = new SimpleDateFormat("HH:mm");
         this.context = context;
-         iconDeleted = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
+        viewModel = taskViewModel;
+        iconDeleted = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_delete);
+        rs = new Rect();
+        rd = new Rect();
     }
 
     public void setSwipeToDeleteItem(RecyclerView recyclerView) {
@@ -58,6 +66,7 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskLi
                 //Remove swiped item from list and notify the RecyclerView
                 TaskEntity task = listTask.get(viewHolder.getAdapterPosition());
                 listTask.remove(viewHolder.getAdapterPosition());
+                viewModel.deleteTask(viewHolder.getAdapterPosition());
                 notifyDataSetChanged();
                 new Thread(() -> DataRepository.getInstance(AppDatabase.getInstance(context, new AppExecutors()))
                         .deleteTask(task)).start();
@@ -72,7 +81,11 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskLi
 
                 c.drawRect((float) itemView.getLeft(), (float) itemView.getTop(), dX,
                         (float) itemView.getBottom(), p);
-                c.drawBitmap(iconDeleted, itemView.getLeft(), (float) itemView.getTop(), p);
+                rs.left = itemView.getLeft() + 10;
+                rs.top = itemView.getTop() + (itemView.getBottom() - itemView.getTop() - 30) / 2;
+                rs.right = rs.left + 30;
+                rs.bottom = rs.top + 30;
+                c.drawBitmap(iconDeleted, rs, rs, p);
 
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }

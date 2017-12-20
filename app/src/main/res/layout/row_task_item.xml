@@ -41,7 +41,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_toLeftOf="@id/taskTime"
                 android:layout_toStartOf="@id/taskTime"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/icon_bell" />
 
             <TextView
                 android:id="@+id/taskTime"

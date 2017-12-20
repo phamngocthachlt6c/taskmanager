@@ -49,6 +49,10 @@ public class TaskViewModel extends AndroidViewModel {
         });
     }
 
+    public void deleteTask(int position) {
+        listTask.remove(position);
+    }
+
     public void insertList(TaskEntity taskEntity) {
         listTask.add(taskEntity);
         Log.d("aaaaaa", "insertList: listsize = " + listTask.size());

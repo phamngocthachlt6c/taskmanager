@@ -6,17 +6,17 @@
         <item
             android:id="@+id/action_calendar"
             android:icon="@mipmap/calendar_icon"
-            android:title="calendar"
+            android:title="@string/calendar"
             app:showAsAction="ifRoom"/>
         <item
             android:id="@+id/action_add_task"
             android:icon="@mipmap/add_task_icon"
-            android:title="calendar"
-            app:showAsAction="ifRoom"/>
+            android:title="@string/add_task"
+            app:showAsAction="always"/>
 
         <!-- Settings, should always be in the overflow -->
         <item android:id="@+id/action_settings"
-            android:title="setting"
+            android:title="@string/setting"
             app:showAsAction="never"/>
 
     </menu>

@@ -9,7 +9,7 @@
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="@color/app_color_theme"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:title="@string/fragment_text_add_task" />
@@ -172,6 +172,7 @@
     </ScrollView>
 
     <LinearLayout
+        android:background="@color/app_color_theme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
