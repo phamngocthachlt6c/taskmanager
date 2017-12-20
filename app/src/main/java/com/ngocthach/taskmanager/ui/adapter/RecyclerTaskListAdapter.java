@@ -1,6 +1,10 @@
 package com.ngocthach.taskmanager.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
@@ -33,11 +37,13 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskLi
     private List<TaskEntity> listTask;
     private SimpleDateFormat dateFormat;
     private Context context;
+    private Bitmap iconDeleted;
 
     public RecyclerTaskListAdapter(Context context/*, executors */) {
         listTask = new ArrayList<>();
         dateFormat = new SimpleDateFormat("HH:mm");
         this.context = context;
+         iconDeleted = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
     }
 
     public void setSwipeToDeleteItem(RecyclerView recyclerView) {
@@ -55,6 +61,20 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskLi
                 notifyDataSetChanged();
                 new Thread(() -> DataRepository.getInstance(AppDatabase.getInstance(context, new AppExecutors()))
                         .deleteTask(task)).start();
+            }
+
+            @Override
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                // Get RecyclerView item from the ViewHolder
+                View itemView = viewHolder.itemView;
+                Paint p = new Paint();
+                p.setColor(context.getResources().getColor(R.color.light_red));
+
+                c.drawRect((float) itemView.getLeft(), (float) itemView.getTop(), dX,
+                        (float) itemView.getBottom(), p);
+                c.drawBitmap(iconDeleted, itemView.getLeft(), (float) itemView.getTop(), p);
+
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);

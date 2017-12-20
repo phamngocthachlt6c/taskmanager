@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="light_red">#F79EA9</color>
+
     <!-- fragment add task -->
     <color name="fragment_add_task_title_color">#FF4081</color>
 </resources>
