@@ -1,12 +1,19 @@
 package com.ngocthach.taskmanager.ui.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.ngocthach.taskmanager.AppExecutors;
+import com.ngocthach.taskmanager.DataRepository;
 import com.ngocthach.taskmanager.R;
+import com.ngocthach.taskmanager.db.AppDatabase;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 
 import java.text.SimpleDateFormat;
@@ -23,19 +30,24 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskLi
 
     private List<TaskEntity> listTask;
     private SimpleDateFormat dateFormat;
+    private Context context;
 
-    public RecyclerTaskListAdapter(List<TaskEntity> listTask) {
+    public RecyclerTaskListAdapter(Context context, List<TaskEntity> listTask) {
         this.listTask = listTask;
         dateFormat = new SimpleDateFormat("HH:mm");
+        this.context = context;
     }
 
     public void loadListTask(List<TaskEntity> list) {
-        if(listTask == null) {
+        Log.d("aaaaaaa", "loadListTask: notifyDatasetChanged");
+        if (listTask == null) {
             listTask = list;
         } else {
             listTask.clear();
             listTask.addAll(list);
         }
+
+        // this method not refresh all the item, so don't care about list too long
         notifyDataSetChanged();
     }
 
@@ -50,11 +62,18 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskLi
         holder.taskTitle.setText(listTask.get(position).getTitle());
         holder.taskContent.setText(listTask.get(position).getContent());
         holder.taskTime.setText(dateFormat.format(listTask.get(position).getDate()));
+        holder.isDoneCb.setOnCheckedChangeListener(null);
+        holder.isDoneCb.setChecked(listTask.get(position).isDone());
+        holder.isDoneCb.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            listTask.get(position).setDone(isChecked);
+            new Thread(() -> DataRepository.getInstance(AppDatabase.getInstance(context, new AppExecutors()))
+                    .updateTask(listTask.get(position))).start();
+        });
     }
 
     @Override
     public int getItemCount() {
-        return listTask == null? 0 : listTask.size();
+        return listTask == null ? 0 : listTask.size();
     }
 
     class TaskViewHolder extends RecyclerView.ViewHolder {
@@ -65,10 +84,19 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskLi
         TextView taskContent;
         @BindView(R.id.taskTime)
         TextView taskTime;
+        @BindView(R.id.isDoneCb)
+        CheckBox isDoneCb;
 
         public TaskViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+    }
+
+    private void printList() {
+        Log.d("aaaaaaaa", "printList: start print list **********************");
+        for (TaskEntity task : listTask) {
+            Log.d("aaaaaaa", "printList: task isdone = " + task.isDone());
         }
     }
 }

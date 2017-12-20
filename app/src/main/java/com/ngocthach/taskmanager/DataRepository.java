@@ -65,4 +65,8 @@ public class DataRepository {
         Log.d("aaaaa", "insertTask: insert task dao");
         mDatabase.taskDao().insertAll(Arrays.asList(taskEntity));
     }
+
+    public void updateTask(TaskEntity taskEntity) {
+        mDatabase.taskDao().updateTask(taskEntity);
+    }
 }

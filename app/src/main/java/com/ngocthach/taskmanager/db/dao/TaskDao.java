@@ -5,6 +5,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 
@@ -27,5 +28,8 @@ public interface TaskDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<TaskEntity> tasks);
+
+    @Update
+    void updateTask(TaskEntity task);
 
 }
