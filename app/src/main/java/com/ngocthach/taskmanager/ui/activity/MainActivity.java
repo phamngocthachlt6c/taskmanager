@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ngocthach.taskmanager.R;
+import com.ngocthach.taskmanager.common.Constants;
 import com.ngocthach.taskmanager.ui.view.SwipeViewPager;
 import com.ngocthach.taskmanager.ui.adapter.SwipeViewAdapter;
 import com.ngocthach.taskmanager.ui.fragment.CalendarFragment;
@@ -21,10 +22,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
 
-    private SwipeViewPager swipeViewPager;
+    @BindView(R.id.swipeView)
+    SwipeViewPager swipeViewPager;
+
     private HomeFragment homeFragment;
+    private Date currentDate;
 
     private int mStackLevel;
 
@@ -32,17 +39,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-        Date date = Calendar.getInstance().getTime();
-        setActionBarTitle(date);
-
+        currentDate = Calendar.getInstance().getTime();
+        setActionBarTitle(currentDate);
         homeFragment = new HomeFragment();
-
         initSwipeViewPager();
     }
 
     public void setActionBarTitle(Date date) {
+        currentDate = date;
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
             SimpleDateFormat fmtOut = new SimpleDateFormat("dd-MM-yyyy");
@@ -54,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initSwipeViewPager() {
-        swipeViewPager = (SwipeViewPager) findViewById(R.id.swipeView);
         swipeViewPager.setOffscreenPageLimit(4);
         SwipeViewAdapter adapter = new SwipeViewAdapter(getSupportFragmentManager());
         adapter.addFragment(homeFragment, "ONE"); // all task on today
@@ -85,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.action_add_task:
                 Intent intent = new Intent(this, AddTaskActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, Constants.ADD_TASK_REQUEST);
                 return true;
             default:
                 // If we got here, the user's action was not recognized.
@@ -111,4 +117,12 @@ public class MainActivity extends AppCompatActivity {
         dialogFragment.show(ft, "dialog");
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == Constants.ADD_TASK_REQUEST) {
+            if(resultCode == Constants.ADD_TASK_SUCCESS) {
+                homeFragment.changeListTask(currentDate);
+            }
+        }
+    }
 }

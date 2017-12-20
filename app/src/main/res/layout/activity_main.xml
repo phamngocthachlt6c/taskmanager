@@ -100,15 +100,6 @@
                     android:src="@drawable/ic_launcher_background"
                     android:visibility="gone" />
 
-                <ImageView
-                    android:id="@+id/imgSendLetterDeactive"
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="10dp"
-                    android:src="@drawable/ic_launcher_background"
-                    android:visibility="visible" />
             </RelativeLayout>
 
             <android.support.design.widget.NavigationView

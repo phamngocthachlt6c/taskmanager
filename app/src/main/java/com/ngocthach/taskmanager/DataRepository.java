@@ -45,7 +45,7 @@ public class DataRepository {
         return mDatabase.taskDao().loadAllTasks();
     }
 
-    public LiveData<List<TaskEntity>> getTasks(Date date) {
+    public List<TaskEntity> getTasks(Date date) {
         if(date == null) {
             return null;
         }

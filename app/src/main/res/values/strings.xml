@@ -9,7 +9,9 @@
     <string name="fragment_add_task_content_field">Content</string>
     <string name="fragment_add_task_title">Add your task</string>
     <string name="fragment_text_add_task">Add task</string>
+    <string name="fragment_text_set_alarm">Set alarm</string>
     <string name="fragment_text_choose_day_in_week">Choose day in week</string>
+    <string name="fragment_text_set_time_content">Time</string>
     <string name="daily_task">Daily task</string>
     <string name="single_day_task">Single day task</string>
 

@@ -5,7 +5,6 @@ import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
 import com.ngocthach.taskmanager.db.converter.DateConverter;
-import com.ngocthach.taskmanager.model.Task;
 
 import java.util.Date;
 
@@ -27,6 +26,7 @@ public class TaskEntity {
 
     @TypeConverters({DateConverter.class})
     private Date date;
+    private int dayInWeek;
 
     public TaskEntity() {
     }
@@ -98,5 +98,13 @@ public class TaskEntity {
 
     public void setPriority(int priority) {
         this.priority = priority;
+    }
+
+    public int getDayInWeek() {
+        return dayInWeek;
+    }
+
+    public void setDayInWeek(int dayInWeek) {
+        this.dayInWeek = dayInWeek;
     }
 }

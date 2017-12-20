@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ngocthach.taskmanager.AppExecutors;
@@ -86,6 +86,8 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskLi
         TextView taskTime;
         @BindView(R.id.isDoneCb)
         CheckBox isDoneCb;
+        @BindView(R.id.taskIsNotify)
+        ImageView taskIsNotify;
 
         public TaskViewHolder(View itemView) {
             super(itemView);

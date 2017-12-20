@@ -2,9 +2,11 @@ package com.ngocthach.taskmanager.viewmodel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
+import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
@@ -27,7 +29,6 @@ public class TaskViewModel extends AndroidViewModel {
     private MediatorLiveData<Date> date;
     private DataRepository dataRepository;
     private LiveData<List<TaskEntity>> listTask;
-    MutableLiveData<List<TaskEntity>> list;
 
     public TaskViewModel(Application application) {
         super(application);
@@ -38,7 +39,10 @@ public class TaskViewModel extends AndroidViewModel {
 
         listTask = Transformations.switchMap(date, input -> {
             Log.d("aaaaa", "TaskViewModel transformations: value = " + date.getValue());
-            return dataRepository.getTasks(date.getValue());
+
+            MutableLiveData<List<TaskEntity>> list = new MutableLiveData<List<TaskEntity>>();
+            new Thread(() -> list.postValue(dataRepository.getTasks(date.getValue()))).start();
+            return list;
         });
     }
 
