@@ -30,7 +30,7 @@ public class TaskViewModel extends AndroidViewModel {
     private List<TaskEntity> listTask = null;
     private MutableLiveData<List<TaskEntity>> list;
 
-    public TaskViewModel(Application application) {
+    public TaskViewModel(Application application/*, executor*/) {
         super(application);
         date = new MediatorLiveData<>();
         date.setValue(null);
@@ -76,9 +76,5 @@ public class TaskViewModel extends AndroidViewModel {
         public <T extends ViewModel> T create(Class<T> modelClass) {
             return (T) new TaskViewModel(mApplication);
         }
-    }
-
-    public DataRepository getDataRepository() {
-        return dataRepository;
     }
 }

@@ -58,10 +58,8 @@ public class HomeFragment extends Fragment {
         TaskViewModel.Factory factory = new TaskViewModel.Factory(getActivity().getApplication());
         taskViewModel = ViewModelProviders.of(this, factory).get(TaskViewModel.class);
         taskViewModel.setDate(Calendar.getInstance().getTime()); // change the date string param to be Date
-//        taskViewModel.setDate(new Date(2017 - 1900, 12, 11, 12, 12, 12)); // change the date string param to be Date
         Log.d("aaaaaa", "onActivityCreated: currentDate = " + Calendar.getInstance().getTime().getYear());
         taskViewModel.getListTaskObserver().observe(this, (List<TaskEntity> tasks) -> {
-            Log.d("aaaaaa", "onActivityCreated: listsize = " + tasks.size());
             taskListAdapter.loadListTask(tasks);
         });
 
@@ -75,13 +73,6 @@ public class HomeFragment extends Fragment {
 
     public void insertTaskToList(TaskEntity taskEntity) {
         taskViewModel.insertList(taskEntity);
-    }
-
-    public void insertTask(TaskEntity taskEntity) {
-//        Log.d("aaaaa", "insertTask: insert task");
-        new Thread(() -> taskViewModel.getDataRepository().insertTask(
-                taskEntity)).start();
-//        taskViewModel.setDate(new Date(2017 - 1900, 12, 13));
     }
 
 }
