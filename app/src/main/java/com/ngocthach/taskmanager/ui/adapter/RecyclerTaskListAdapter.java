@@ -2,6 +2,7 @@ package com.ngocthach.taskmanager.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,10 +34,31 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskLi
     private SimpleDateFormat dateFormat;
     private Context context;
 
-    public RecyclerTaskListAdapter(Context context) {
+    public RecyclerTaskListAdapter(Context context/*, executors */) {
         listTask = new ArrayList<>();
         dateFormat = new SimpleDateFormat("HH:mm");
         this.context = context;
+    }
+
+    public void setSwipeToDeleteItem(RecyclerView recyclerView) {
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                //Remove swiped item from list and notify the RecyclerView
+                TaskEntity task = listTask.get(viewHolder.getAdapterPosition());
+                listTask.remove(viewHolder.getAdapterPosition());
+                notifyDataSetChanged();
+                new Thread(() -> DataRepository.getInstance(AppDatabase.getInstance(context, new AppExecutors()))
+                        .deleteTask(task)).start();
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     public void loadListTask(List<TaskEntity> list) {

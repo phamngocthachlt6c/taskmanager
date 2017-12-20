@@ -69,4 +69,8 @@ public class DataRepository {
     public void updateTask(TaskEntity taskEntity) {
         mDatabase.taskDao().updateTask(taskEntity);
     }
+
+    public void deleteTask(TaskEntity taskEntity) {
+        mDatabase.taskDao().deleteTask(taskEntity);
+    }
 }

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,14 +49,13 @@ public class HomeFragment extends Fragment {
         taskListAdapter = new RecyclerTaskListAdapter(getContext());
         taskRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         taskRecyclerView.setAdapter(taskListAdapter);
+        taskListAdapter.setSwipeToDeleteItem(taskRecyclerView);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         TaskViewModel.Factory factory = new TaskViewModel.Factory(getActivity().getApplication());
-
         taskViewModel = ViewModelProviders.of(this, factory).get(TaskViewModel.class);
         taskViewModel.setDate(Calendar.getInstance().getTime()); // change the date string param to be Date
 //        taskViewModel.setDate(new Date(2017 - 1900, 12, 11, 12, 12, 12)); // change the date string param to be Date
@@ -83,4 +83,5 @@ public class HomeFragment extends Fragment {
                 taskEntity)).start();
 //        taskViewModel.setDate(new Date(2017 - 1900, 12, 13));
     }
+
 }
