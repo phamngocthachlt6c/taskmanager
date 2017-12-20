@@ -17,6 +17,7 @@ import com.ngocthach.taskmanager.db.AppDatabase;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,20 +33,19 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskLi
     private SimpleDateFormat dateFormat;
     private Context context;
 
-    public RecyclerTaskListAdapter(Context context, List<TaskEntity> listTask) {
-        this.listTask = listTask;
+    public RecyclerTaskListAdapter(Context context) {
+        listTask = new ArrayList<>();
         dateFormat = new SimpleDateFormat("HH:mm");
         this.context = context;
     }
 
     public void loadListTask(List<TaskEntity> list) {
         Log.d("aaaaaaa", "loadListTask: notifyDatasetChanged");
-        if (listTask == null) {
-            listTask = list;
-        } else {
-            listTask.clear();
-            listTask.addAll(list);
+        if(list == null || listTask == null) {
+            return;
         }
+        listTask.clear();
+        listTask.addAll(list);
 
         // this method not refresh all the item, so don't care about list too long
         notifyDataSetChanged();

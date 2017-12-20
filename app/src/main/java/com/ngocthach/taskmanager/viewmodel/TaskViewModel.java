@@ -2,11 +2,9 @@ package com.ngocthach.taskmanager.viewmodel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
@@ -28,7 +26,9 @@ public class TaskViewModel extends AndroidViewModel {
 
     private MediatorLiveData<Date> date;
     private DataRepository dataRepository;
-    private LiveData<List<TaskEntity>> listTask;
+    private LiveData<List<TaskEntity>> listTaskObserver;
+    private List<TaskEntity> listTask = null;
+    private MutableLiveData<List<TaskEntity>> list;
 
     public TaskViewModel(Application application) {
         super(application);
@@ -37,17 +37,26 @@ public class TaskViewModel extends AndroidViewModel {
         Log.d("aaaa", "TaskViewModel: getRepository");
         dataRepository = ((MyApplication) application).getRepository();
 
-        listTask = Transformations.switchMap(date, input -> {
+        listTaskObserver = Transformations.switchMap(date, input -> {
             Log.d("aaaaa", "TaskViewModel transformations: value = " + date.getValue());
 
-            MutableLiveData<List<TaskEntity>> list = new MutableLiveData<List<TaskEntity>>();
-            new Thread(() -> list.postValue(dataRepository.getTasks(date.getValue()))).start();
+            list = new MutableLiveData<List<TaskEntity>>();
+            new Thread(() -> {
+                listTask = dataRepository.getTasks(date.getValue());
+                list.postValue(listTask);
+            }).start();
             return list;
         });
     }
 
-    public LiveData<List<TaskEntity>> getListTask() {
-        return listTask;
+    public void insertList(TaskEntity taskEntity) {
+        listTask.add(taskEntity);
+        Log.d("aaaaaa", "insertList: listsize = " + listTask.size());
+        list.setValue(listTask);
+    }
+
+    public LiveData<List<TaskEntity>> getListTaskObserver() {
+        return listTaskObserver;
     }
 
     public void setDate(Date date) {

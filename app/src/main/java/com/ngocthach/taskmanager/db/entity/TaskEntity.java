@@ -3,6 +3,8 @@ package com.ngocthach.taskmanager.db.entity;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.ngocthach.taskmanager.db.converter.DateConverter;
 
@@ -13,7 +15,7 @@ import java.util.Date;
  */
 
 @Entity(tableName = "tasks")
-public class TaskEntity {
+public class TaskEntity implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -35,6 +37,30 @@ public class TaskEntity {
         this.title = title;
         this.date = date;
     }
+
+    protected TaskEntity(Parcel in) {
+        id = in.readInt();
+        title = in.readString();
+        content = in.readString();
+        typeOfTask = in.readInt();
+        isNotification = in.readByte() != 0;
+        isDone = in.readByte() != 0;
+        priority = in.readInt();
+        dayInWeek = in.readInt();
+        date = new Date(in.readLong());
+    }
+
+    public static final Creator<TaskEntity> CREATOR = new Creator<TaskEntity>() {
+        @Override
+        public TaskEntity createFromParcel(Parcel in) {
+            return new TaskEntity(in);
+        }
+
+        @Override
+        public TaskEntity[] newArray(int size) {
+            return new TaskEntity[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -106,5 +132,23 @@ public class TaskEntity {
 
     public void setDayInWeek(int dayInWeek) {
         this.dayInWeek = dayInWeek;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(title);
+        parcel.writeString(content);
+        parcel.writeInt(typeOfTask);
+        parcel.writeByte((byte) (isNotification ? 1 : 0));
+        parcel.writeByte((byte) (isDone ? 1 : 0));
+        parcel.writeInt(priority);
+        parcel.writeInt(dayInWeek);
+        parcel.writeLong(date.getTime());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 }

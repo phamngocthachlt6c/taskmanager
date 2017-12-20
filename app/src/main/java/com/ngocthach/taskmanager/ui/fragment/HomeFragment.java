@@ -2,7 +2,6 @@ package com.ngocthach.taskmanager.ui.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
@@ -21,8 +19,6 @@ import com.ngocthach.taskmanager.viewmodel.TaskViewModel;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,7 +45,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        taskListAdapter = new RecyclerTaskListAdapter(getContext(), null);
+        taskListAdapter = new RecyclerTaskListAdapter(getContext());
         taskRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         taskRecyclerView.setAdapter(taskListAdapter);
     }
@@ -64,10 +60,9 @@ public class HomeFragment extends Fragment {
         taskViewModel.setDate(Calendar.getInstance().getTime()); // change the date string param to be Date
 //        taskViewModel.setDate(new Date(2017 - 1900, 12, 11, 12, 12, 12)); // change the date string param to be Date
         Log.d("aaaaaa", "onActivityCreated: currentDate = " + Calendar.getInstance().getTime().getYear());
-        taskViewModel.getListTask().observe(this, (List<TaskEntity> tasks) -> {
-            getActivity().runOnUiThread(() -> {
-                        taskListAdapter.loadListTask(tasks);
-            });
+        taskViewModel.getListTaskObserver().observe(this, (List<TaskEntity> tasks) -> {
+            Log.d("aaaaaa", "onActivityCreated: listsize = " + tasks.size());
+            taskListAdapter.loadListTask(tasks);
         });
 
         Log.d("aaaaaa", "onActivityCreated: date______" + new Date(2017, 12, 11, 12, 12, 12).getYear());
@@ -76,6 +71,10 @@ public class HomeFragment extends Fragment {
     public void changeListTask(Date date) {
         Log.d("bbbbbbb", "changeListTask: year = " + date.getYear() + ", tostring = " + date);
         taskViewModel.setDate(date);
+    }
+
+    public void insertTaskToList(TaskEntity taskEntity) {
+        taskViewModel.insertList(taskEntity);
     }
 
     public void insertTask(TaskEntity taskEntity) {

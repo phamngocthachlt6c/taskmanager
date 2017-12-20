@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == Constants.ADD_TASK_REQUEST) {
             if(resultCode == Constants.ADD_TASK_SUCCESS) {
-                homeFragment.changeListTask(currentDate);
+                homeFragment.insertTaskToList(data.getParcelableExtra("taskEntity"));
             }
         }
     }

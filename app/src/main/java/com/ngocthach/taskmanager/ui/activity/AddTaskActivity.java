@@ -1,5 +1,6 @@
 package com.ngocthach.taskmanager.ui.activity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -96,8 +97,10 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.addTaskButton:
-                addTask();
-                setResult(Constants.ADD_TASK_SUCCESS);
+                TaskEntity insertedTask = addTask();
+                Intent data = new Intent();
+                data.putExtra("taskEntity", insertedTask);
+                setResult(Constants.ADD_TASK_SUCCESS, data);
                 super.onBackPressed();
                 break;
 
@@ -114,9 +117,10 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {}
+    public void onNothingSelected(AdapterView<?> adapterView) {
+    }
 
-    private void addTask() {
+    private TaskEntity addTask() {
         TaskEntity taskEntity = new TaskEntity();
         int hour, minute;
         if (Build.VERSION.SDK_INT < 23) {
@@ -126,7 +130,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
             hour = timePicker.getHour();
             minute = timePicker.getMinute();
         }
-        if(typeOfTaskRadioGroup.getCheckedRadioButtonId() == R.id.radioDailyTask) {
+        if (typeOfTaskRadioGroup.getCheckedRadioButtonId() == R.id.radioDailyTask) {
             taskEntity.setTypeOfTask(Constants.TaskEntity.DAILY_TASK);
         } else {
             taskEntity.setTypeOfTask(Constants.TaskEntity.SINGLE_DAY_TASK);
@@ -140,5 +144,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
         taskEntity.setContent(taskContentEd.getText().toString());
         new Thread(() -> DataRepository.getInstance(AppDatabase.getInstance(this, new AppExecutors()))
                 .insertTask(taskEntity)).start();
+
+        return taskEntity;
     }
 }
