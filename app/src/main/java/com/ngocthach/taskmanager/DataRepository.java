@@ -61,9 +61,9 @@ public class DataRepository {
         return mDatabase.taskDao().loadTask(productId);
     }
 
-    public void insertTask(TaskEntity taskEntity) {
+    public long insertTask(TaskEntity taskEntity) {
         Log.d("aaaaa", "insertTask: insert task dao");
-        mDatabase.taskDao().insertAll(Arrays.asList(taskEntity));
+        return mDatabase.taskDao().insertTask(taskEntity);
     }
 
     public void updateTask(TaskEntity taskEntity) {

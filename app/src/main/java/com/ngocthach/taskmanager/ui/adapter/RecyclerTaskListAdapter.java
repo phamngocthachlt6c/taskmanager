@@ -35,7 +35,10 @@ import butterknife.ButterKnife;
  * Created by ThachPham on 13/12/2017.
  */
 
-public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskListAdapter.TaskViewHolder> {
+public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private static final int TASK_VIEW = 0;
+    private static final int FOOTER_VIEW = 1;
 
     private List<TaskEntity> listTask;
     private SimpleDateFormat dateFormat;
@@ -64,30 +67,36 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskLi
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 //Remove swiped item from list and notify the RecyclerView
-                TaskEntity task = listTask.get(viewHolder.getAdapterPosition());
-                listTask.remove(viewHolder.getAdapterPosition());
-                viewModel.deleteTask(viewHolder.getAdapterPosition());
-                notifyDataSetChanged();
-                new Thread(() -> DataRepository.getInstance(AppDatabase.getInstance(context, new AppExecutors()))
-                        .deleteTask(task)).start();
+                if(viewHolder instanceof TaskViewHolder) {
+                    TaskEntity task = listTask.get(viewHolder.getAdapterPosition());
+                    listTask.remove(viewHolder.getAdapterPosition());
+                    viewModel.deleteTask(viewHolder.getAdapterPosition());
+                    notifyDataSetChanged();
+                    new Thread(() -> DataRepository.getInstance(AppDatabase.getInstance(context, new AppExecutors()))
+                            .deleteTask(task)).start();
+                }
             }
 
             @Override
             public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 // Get RecyclerView item from the ViewHolder
                 View itemView = viewHolder.itemView;
-                Paint p = new Paint();
-                p.setColor(context.getResources().getColor(R.color.light_red));
-                p.setAlpha((int) (255 * (dX / (itemView.getRight() - itemView.getLeft()))));
-                c.drawRect((float) itemView.getLeft(), (float) itemView.getTop(), dX,
-                        (float) itemView.getBottom(), p);
-                rs.left = itemView.getLeft() + 10;
-                rs.top = itemView.getTop() + (itemView.getBottom() - itemView.getTop() - 60) / 2;
-                rs.right = rs.left + 60;
-                rs.bottom = rs.top + 60;
-                c.drawBitmap(iconDeleted, null, rs, p);
+                if(viewHolder instanceof TaskViewHolder) {
+                    Paint p = new Paint();
+                    p.setColor(context.getResources().getColor(R.color.light_red));
+                    p.setAlpha((int) (255 * (dX / (itemView.getRight() - itemView.getLeft()))));
+                    c.drawRect((float) itemView.getLeft(), (float) itemView.getTop(), dX,
+                            (float) itemView.getBottom(), p);
+                    rs.left = itemView.getLeft() + 10;
+                    rs.top = itemView.getTop() + (itemView.getBottom() - itemView.getTop() - 60) / 2;
+                    rs.right = rs.left + 60;
+                    rs.bottom = rs.top + 60;
+                    c.drawBitmap(iconDeleted, null, rs, p);
 
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                } else {
+                    super.onChildDraw(c, recyclerView, viewHolder, itemView.getLeft(), dY, actionState, isCurrentlyActive);
+                }
             }
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
@@ -107,35 +116,57 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskLi
     }
 
     @Override
-    public TaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_task_item, parent, false);
-        return new TaskViewHolder(view);
+    public int getItemViewType(int position) {
+        if(position < listTask.size()) {
+            return TASK_VIEW;
+        } else {
+            return FOOTER_VIEW;
+        }
     }
 
     @Override
-    public void onBindViewHolder(TaskViewHolder holder, int position) {
-        holder.taskTitle.setText(listTask.get(position).getTitle());
-        holder.taskContent.setText(listTask.get(position).getContent());
-        holder.taskTime.setText(dateFormat.format(listTask.get(position).getDate()));
-        holder.isDoneCb.setOnCheckedChangeListener(null);
-        holder.isDoneCb.setChecked(listTask.get(position).isDone());
-        holder.isDoneCb.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            listTask.get(position).setDone(isChecked);
-            new Thread(() -> DataRepository.getInstance(AppDatabase.getInstance(context, new AppExecutors()))
-                    .updateTask(listTask.get(position))).start();
-        });
-        if(listTask.get(position).getPriority() == Constants.TaskEntity.HIGHT_PRIOR) {
-            holder.bgLayout.setBackgroundColor(context.getResources().getColor(R.color.high_priority));
-        } else if(listTask.get(position).getPriority() == Constants.TaskEntity.MEDIUM_PRIOR) {
-            holder.bgLayout.setBackgroundColor(context.getResources().getColor(R.color.medium_priority));
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view;
+        if(viewType == TASK_VIEW) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_task_item, parent, false);
+            return new TaskViewHolder(view);
         } else {
-            holder.bgLayout.setBackgroundColor(context.getResources().getColor(R.color.low_priority));
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_footer_item, parent, false);
+            return new FooterViewHolder(view);
+        }
+
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+        if(holder instanceof TaskViewHolder) {
+            TaskViewHolder taskViewHolder = (TaskViewHolder) holder;
+            taskViewHolder.taskTitle.setText(listTask.get(position).getTitle());
+            taskViewHolder.taskContent.setText(listTask.get(position).getContent());
+            taskViewHolder.taskTime.setText(dateFormat.format(listTask.get(position).getDate()));
+            taskViewHolder.isDoneCb.setOnCheckedChangeListener(null);
+            taskViewHolder.isDoneCb.setChecked(listTask.get(position).isDone());
+            taskViewHolder.isDoneCb.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+                listTask.get(position).setDone(isChecked);
+                new Thread(() -> DataRepository.getInstance(AppDatabase.getInstance(context, new AppExecutors()))
+                        .updateTask(listTask.get(position))).start();
+            });
+            if (listTask.get(position).getPriority() == Constants.TaskEntity.HIGHT_PRIOR) {
+                taskViewHolder.bgLayout.setBackgroundColor(context.getResources().getColor(R.color.high_priority));
+            } else if (listTask.get(position).getPriority() == Constants.TaskEntity.MEDIUM_PRIOR) {
+                taskViewHolder.bgLayout.setBackgroundColor(context.getResources().getColor(R.color.medium_priority));
+            } else {
+                taskViewHolder.bgLayout.setBackgroundColor(context.getResources().getColor(R.color.low_priority));
+            }
+        } else {
+
         }
     }
 
     @Override
     public int getItemCount() {
-        return listTask == null ? 0 : listTask.size();
+        return listTask == null ? 0 : listTask.size() + 1;
     }
 
     class TaskViewHolder extends RecyclerView.ViewHolder {
@@ -156,6 +187,14 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskLi
         public TaskViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+    }
+
+    // may be appear Ads here
+    class FooterViewHolder extends RecyclerView.ViewHolder {
+
+        public FooterViewHolder(View itemView) {
+            super(itemView);
         }
     }
 

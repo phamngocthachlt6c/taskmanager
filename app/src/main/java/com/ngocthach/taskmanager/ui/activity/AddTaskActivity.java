@@ -4,14 +4,12 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
+import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -117,11 +115,19 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.addTaskButton:
-                TaskEntity insertedTask = addTask();
-                Intent data = new Intent();
-                data.putExtra("taskEntity", insertedTask);
-                setResult(Constants.ADD_TASK_SUCCESS, data);
-                super.onBackPressed();
+                TaskEntity insertedTask = getInfo();
+                new Thread(() -> {
+                    long success = DataRepository.getInstance(AppDatabase.getInstance(this, new AppExecutors()))
+                            .insertTask(insertedTask);
+                    if(success > 0) {
+                        runOnUiThread(() -> {
+                            Intent data = new Intent();
+                            data.putExtra("taskEntity", insertedTask);
+                            setResult(Constants.ADD_TASK_SUCCESS, data);
+                            super.onBackPressed();
+                        });
+                    }
+                }).start();
                 break;
 
             case R.id.cancelButton:
@@ -131,7 +137,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    private TaskEntity addTask() {
+    private TaskEntity getInfo() {
         TaskEntity taskEntity = new TaskEntity();
         int hour, minute;
         if (Build.VERSION.SDK_INT < 23) {
@@ -154,9 +160,6 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
         taskEntity.setDayInWeek(spinnerItemSelected);
         taskEntity.setTitle(taskNameEditText.getText().toString());
         taskEntity.setContent(taskContentEd.getText().toString());
-        new Thread(() -> DataRepository.getInstance(AppDatabase.getInstance(this, new AppExecutors()))
-                .insertTask(taskEntity)).start();
-
         return taskEntity;
     }
 }

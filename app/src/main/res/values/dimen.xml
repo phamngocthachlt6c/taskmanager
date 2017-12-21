@@ -9,7 +9,7 @@
     <dimen name="fragment_text_title_margin_left">10dp</dimen>
 
     <!-- task list -->
-    <dimen name="task_item_margin">5dp</dimen>
+    <dimen name="task_item_margin">1dp</dimen>
     <dimen name="icon_size">40dp</dimen>
     <dimen name="notify_icon_size">20dp</dimen>
 

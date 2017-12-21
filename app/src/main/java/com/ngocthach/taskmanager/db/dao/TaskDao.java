@@ -30,6 +30,9 @@ public interface TaskDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<TaskEntity> tasks);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long insertTask(TaskEntity task);
+
     @Update
     void updateTask(TaskEntity task);
 
