@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,10 +49,6 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        taskListAdapter = new RecyclerTaskListAdapter(getContext(), taskViewModel);
-        taskRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        taskRecyclerView.setAdapter(taskListAdapter);
-        taskListAdapter.setSwipeToDeleteItem(taskRecyclerView);
     }
 
     @Override
@@ -62,6 +57,11 @@ public class HomeFragment extends Fragment {
         TaskViewModel.Factory factory = new TaskViewModel.Factory(getActivity().getApplication());
         taskViewModel = ViewModelProviders.of(this, factory).get(TaskViewModel.class);
         taskViewModel.setDate(Calendar.getInstance().getTime()); // change the date string param to be Date
+        taskListAdapter = new RecyclerTaskListAdapter(getContext(), taskViewModel);
+        taskRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        taskRecyclerView.setAdapter(taskListAdapter);
+        taskListAdapter.setSwipeToDeleteItem(taskRecyclerView);
+
         Log.d("aaaaaa", "onActivityCreated: currentDate = " + Calendar.getInstance().getTime().getYear());
         taskViewModel.getListTaskObserver().observe(this, (List<TaskEntity> tasks) -> {
             if(tasks!= null && !tasks.isEmpty()) {

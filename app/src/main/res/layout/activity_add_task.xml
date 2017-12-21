@@ -78,23 +78,42 @@
                     android:id="@+id/imageAlarm"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_below="@id/textViewAlarmField"
                     android:layout_toEndOf="@id/textViewAlarmField"
                     android:layout_toRightOf="@id/textViewAlarmField"
-                    android:layout_below="@id/textViewAlarmField"
-                    android:layout_above="@id/textTimeContent"
                     android:src="@mipmap/ic_launcher" />
 
                 <View
                     android:id="@+id/view1"
-                    android:layout_below="@id/textViewAlarmField"
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"/>
+                    android:layout_height="10dp"
+                    android:layout_below="@id/imageAlarm" />
+
+                <TextView
+                    android:id="@+id/textPriorityField"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/view1"
+                    android:layout_marginLeft="@dimen/fragment_text_title_margin_left"
+                    android:layout_marginStart="@dimen/fragment_text_title_margin_left"
+                    android:text="@string/fragment_text_priority"
+                    android:textColor="@color/fragment_add_task_title_color" />
+
+                <Spinner
+                    android:id="@+id/priority"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/textPriorityField"
+                    android:layout_toRightOf="@id/textPriorityField"
+                    android:layout_below="@id/textPriorityField" />
 
                 <TextView
                     android:id="@+id/textTimeContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/view1"
+                    android:layout_below="@id/priority"
                     android:layout_marginLeft="@dimen/fragment_text_title_margin_left"
                     android:layout_marginStart="@dimen/fragment_text_title_margin_left"
                     android:text="@string/fragment_text_set_time_content"
@@ -113,7 +132,8 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/editTextTaskContent"
                         android:gravity="center"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <RadioButton
                             android:id="@+id/radioSingleDayTask"
@@ -172,9 +192,9 @@
     </ScrollView>
 
     <LinearLayout
-        android:background="@color/app_color_theme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/app_color_theme"
         android:gravity="center"
         android:orientation="horizontal">
 

@@ -10,4 +10,9 @@
 
     <!-- fragment add task -->
     <color name="fragment_add_task_title_color">#FF4081</color>
+
+    <!-- Task entity -->
+    <color name="high_priority">#F78181</color>
+    <color name="medium_priority">#F4FA58</color>
+    <color name="low_priority">#ACFA58</color>
 </resources>

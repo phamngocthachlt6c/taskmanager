@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.ngocthach.taskmanager.AppExecutors;
 import com.ngocthach.taskmanager.DataRepository;
 import com.ngocthach.taskmanager.R;
+import com.ngocthach.taskmanager.common.Constants;
 import com.ngocthach.taskmanager.db.AppDatabase;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 import com.ngocthach.taskmanager.viewmodel.TaskViewModel;
@@ -42,7 +43,7 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskLi
     private TaskViewModel viewModel;
     private Bitmap iconDeleted;
 
-    private Rect rs, rd;
+    private Rect rs;
 
     public RecyclerTaskListAdapter(Context context/*, executors */, TaskViewModel taskViewModel) {
         listTask = new ArrayList<>();
@@ -51,7 +52,6 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskLi
         viewModel = taskViewModel;
         iconDeleted = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_delete);
         rs = new Rect();
-        rd = new Rect();
     }
 
     public void setSwipeToDeleteItem(RecyclerView recyclerView) {
@@ -78,14 +78,14 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskLi
                 View itemView = viewHolder.itemView;
                 Paint p = new Paint();
                 p.setColor(context.getResources().getColor(R.color.light_red));
-
+                p.setAlpha((int) (255 * (dX / (itemView.getRight() - itemView.getLeft()))));
                 c.drawRect((float) itemView.getLeft(), (float) itemView.getTop(), dX,
                         (float) itemView.getBottom(), p);
                 rs.left = itemView.getLeft() + 10;
-                rs.top = itemView.getTop() + (itemView.getBottom() - itemView.getTop() - 30) / 2;
-                rs.right = rs.left + 30;
-                rs.bottom = rs.top + 30;
-                c.drawBitmap(iconDeleted, rs, rs, p);
+                rs.top = itemView.getTop() + (itemView.getBottom() - itemView.getTop() - 60) / 2;
+                rs.right = rs.left + 60;
+                rs.bottom = rs.top + 60;
+                c.drawBitmap(iconDeleted, null, rs, p);
 
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
@@ -124,6 +124,13 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskLi
             new Thread(() -> DataRepository.getInstance(AppDatabase.getInstance(context, new AppExecutors()))
                     .updateTask(listTask.get(position))).start();
         });
+        if(listTask.get(position).getPriority() == Constants.TaskEntity.HIGHT_PRIOR) {
+            holder.bgLayout.setBackgroundColor(context.getResources().getColor(R.color.high_priority));
+        } else if(listTask.get(position).getPriority() == Constants.TaskEntity.MEDIUM_PRIOR) {
+            holder.bgLayout.setBackgroundColor(context.getResources().getColor(R.color.medium_priority));
+        } else {
+            holder.bgLayout.setBackgroundColor(context.getResources().getColor(R.color.low_priority));
+        }
     }
 
     @Override
@@ -133,6 +140,8 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerTaskLi
 
     class TaskViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.bgLayout)
+        View bgLayout;
         @BindView(R.id.taskTitle)
         TextView taskTitle;
         @BindView(R.id.taskContent)

@@ -77,7 +77,7 @@ public class TaskViewModel extends AndroidViewModel {
         }
 
         @Override
-        public <T extends ViewModel> T create(Class<T> modelClass) {
+        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
             return (T) new TaskViewModel(mApplication);
         }
     }

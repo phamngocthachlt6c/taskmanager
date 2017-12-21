@@ -26,6 +26,7 @@ import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.common.Constants;
 import com.ngocthach.taskmanager.db.AppDatabase;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
+import com.ngocthach.taskmanager.ui.adapter.PriorityAdapter;
 
 import java.util.Date;
 
@@ -36,7 +37,7 @@ import butterknife.ButterKnife;
  * Created by ThachPham on 19/12/2017.
  */
 
-public class AddTaskActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class AddTaskActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.editTextTaskName)
     EditText taskNameEditText;
@@ -44,6 +45,8 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
     MultiAutoCompleteTextView taskContentEd;
     @BindView(R.id.dayOnWeek)
     Spinner daySpinner;
+    @BindView(R.id.priority)
+    Spinner prioritySpinner;
     @BindView(R.id.datePicker)
     DatePicker datePicker;
     @BindView(R.id.timePicker)
@@ -58,6 +61,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
     View panelDailyTask;
 
     private int spinnerItemSelected;
+    private int priorityItemSelected;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,12 +86,28 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.dayOnWeek, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        daySpinner.setAdapter(adapter);
-        daySpinner.setOnItemSelectedListener(this);
-        spinnerItemSelected = 0;
+        PriorityAdapter priorityAdapter = new PriorityAdapter(this, getResources().getStringArray(R.array.priority));
+        prioritySpinner.setAdapter(priorityAdapter);
+        prioritySpinner.setSelection(1);
+        prioritySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                priorityItemSelected = i;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        priorityItemSelected = 1;
+
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+//                R.array.dayOnWeek, android.R.layout.simple_spinner_item);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        daySpinner.setAdapter(adapter);
+//        daySpinner.setOnItemSelectedListener(this);
+//        spinnerItemSelected = 0;
 
         addTask.setOnClickListener(this);
         cancel.setOnClickListener(this);
@@ -111,15 +131,6 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-        spinnerItemSelected = position;
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-    }
-
     private TaskEntity addTask() {
         TaskEntity taskEntity = new TaskEntity();
         int hour, minute;
@@ -135,6 +146,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
         } else {
             taskEntity.setTypeOfTask(Constants.TaskEntity.SINGLE_DAY_TASK);
         }
+        taskEntity.setPriority(priorityItemSelected);
         Date date = new Date(datePicker.getYear() - 1900, datePicker.getMonth(), datePicker.getDayOfMonth(),
                 hour, minute);
         Log.d("aaaaa", "onClick: Fragment addtask date = " + date);
