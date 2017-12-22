@@ -76,9 +76,9 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 //Remove swiped item from list and notify the RecyclerView
                 if (viewHolder instanceof TaskViewHolder) {
-                    TaskEntity task = listTask.get(viewHolder.getAdapterPosition());
-                    listTask.remove(viewHolder.getAdapterPosition());
-                    viewModel.deleteTask(viewHolder.getAdapterPosition());
+                    TaskEntity task = listTask.get(viewHolder.getAdapterPosition() - 1);
+                    listTask.remove(viewHolder.getAdapterPosition() - 1);
+                    viewModel.deleteTask(viewHolder.getAdapterPosition() - 1);
                     notifyDataChanged();
                     new Thread(() -> DataRepository.getInstance(AppDatabase.getInstance(context, new AppExecutors()))
                             .deleteTask(task)).start();
