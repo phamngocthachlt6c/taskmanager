@@ -30,6 +30,7 @@ import com.ngocthach.taskmanager.viewmodel.TaskViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -50,6 +51,8 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
     private Context context;
     private TaskViewModel viewModel;
     private Bitmap iconDeleted;
+
+    private int sortType = Constants.TIMING;
 
     private Rect rs;
 
@@ -76,7 +79,7 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
                     TaskEntity task = listTask.get(viewHolder.getAdapterPosition());
                     listTask.remove(viewHolder.getAdapterPosition());
                     viewModel.deleteTask(viewHolder.getAdapterPosition());
-                    notifyDataSetChanged();
+                    notifyDataChanged();
                     new Thread(() -> DataRepository.getInstance(AppDatabase.getInstance(context, new AppExecutors()))
                             .deleteTask(task)).start();
                 }
@@ -108,6 +111,10 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
+    public void setSortType(int type) {
+        sortType = type;
+    }
+
     public void loadListTask(List<TaskEntity> list) {
         Log.d("aaaaaaa", "loadListTask: notifyDatasetChanged");
         if (list == null || listTask == null) {
@@ -117,7 +124,19 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
         listTask.addAll(list);
 
         // this method not refresh all the item, so don't care about list too long
+        notifyDataChanged();
+    }
+
+    public void notifyDataChanged() {
+        for(TaskEntity taskEntity : listTask) {
+            taskEntity.setSortType(sortType);
+        }
+        sortList();
         notifyDataSetChanged();
+    }
+
+    private void sortList() {
+        Collections.sort(listTask);
     }
 
     @Override

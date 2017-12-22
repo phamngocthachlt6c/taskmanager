@@ -1,11 +1,14 @@
 package com.ngocthach.taskmanager.db.entity;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
+import com.ngocthach.taskmanager.common.Constants;
 import com.ngocthach.taskmanager.db.converter.DateConverter;
 
 import java.util.Date;
@@ -15,7 +18,7 @@ import java.util.Date;
  */
 
 @Entity(tableName = "tasks")
-public class TaskEntity implements Parcelable {
+public class TaskEntity implements Parcelable, Comparable<TaskEntity> {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -29,6 +32,9 @@ public class TaskEntity implements Parcelable {
     @TypeConverters({DateConverter.class})
     private Date date;
     private int dayInWeek;
+
+    @Ignore
+    private int sortType;
 
     public TaskEntity() {
     }
@@ -134,6 +140,10 @@ public class TaskEntity implements Parcelable {
         this.dayInWeek = dayInWeek;
     }
 
+    public void setSortType(int sortType) {
+        this.sortType = sortType;
+    }
+
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(id);
@@ -161,5 +171,14 @@ public class TaskEntity implements Parcelable {
         priority = taskEntity.priority;
         dayInWeek = taskEntity.dayInWeek;
         date = taskEntity.date;
+    }
+
+    @Override
+    public int compareTo(@NonNull TaskEntity taskEntity) {
+        if(sortType == Constants.TIMING) {
+            return ((Long) date.getTime()).compareTo(taskEntity.date.getTime());
+        } else {
+            return ((Integer) priority).compareTo(taskEntity.priority);
+        }
     }
 }

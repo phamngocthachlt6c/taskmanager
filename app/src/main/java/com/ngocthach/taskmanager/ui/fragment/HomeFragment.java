@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ngocthach.taskmanager.R;
+import com.ngocthach.taskmanager.common.Constants;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 import com.ngocthach.taskmanager.ui.adapter.RecyclerTaskListAdapter;
 import com.ngocthach.taskmanager.viewmodel.TaskViewModel;
@@ -58,6 +59,7 @@ public class HomeFragment extends Fragment {
         taskViewModel = ViewModelProviders.of(this, factory).get(TaskViewModel.class);
         taskViewModel.setDate(Calendar.getInstance().getTime()); // change the date string param to be Date
         taskListAdapter = new RecyclerTaskListAdapter(getContext(), taskViewModel);
+        taskListAdapter.setSortType(Constants.TIMING); // TODO: get the sorttype from SharePref
         taskRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         taskRecyclerView.setAdapter(taskListAdapter);
         taskListAdapter.setSwipeToDeleteItem(taskRecyclerView);

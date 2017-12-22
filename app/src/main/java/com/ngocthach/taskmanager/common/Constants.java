@@ -27,4 +27,8 @@ public class Constants {
     public static final int EDIT_TASK_SUCCESS = 4;
     public static final int EDIT_TASK_FAILED = 5;
 
+    // ---------- SORT TYPE ---------------//
+    public static final int TIMING = 0;
+    public static final int PRIORITY = 1;
+
 }

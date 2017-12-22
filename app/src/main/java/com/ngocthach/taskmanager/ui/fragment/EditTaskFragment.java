@@ -80,7 +80,6 @@ public class EditTaskFragment extends Fragment implements View.OnClickListener {
 
                 @Override
                 public void onNothingSelected(AdapterView<?> adapterView) {
-
                 }
             });
         }
