@@ -43,6 +43,7 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private static final int TASK_VIEW = 0;
     private static final int FOOTER_VIEW = 1;
+    private static final int HEADER_VIEW = 1;
 
     private List<TaskEntity> listTask;
     private SimpleDateFormat dateFormat;
@@ -71,7 +72,7 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 //Remove swiped item from list and notify the RecyclerView
-                if(viewHolder instanceof TaskViewHolder) {
+                if (viewHolder instanceof TaskViewHolder) {
                     TaskEntity task = listTask.get(viewHolder.getAdapterPosition());
                     listTask.remove(viewHolder.getAdapterPosition());
                     viewModel.deleteTask(viewHolder.getAdapterPosition());
@@ -85,7 +86,7 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
             public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 // Get RecyclerView item from the ViewHolder
                 View itemView = viewHolder.itemView;
-                if(viewHolder instanceof TaskViewHolder) {
+                if (viewHolder instanceof TaskViewHolder) {
                     Paint p = new Paint();
                     p.setColor(context.getResources().getColor(R.color.light_red));
                     p.setAlpha((int) (255 * (dX / (itemView.getRight() - itemView.getLeft()))));
@@ -109,7 +110,7 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     public void loadListTask(List<TaskEntity> list) {
         Log.d("aaaaaaa", "loadListTask: notifyDatasetChanged");
-        if(list == null || listTask == null) {
+        if (list == null || listTask == null) {
             return;
         }
         listTask.clear();
@@ -121,7 +122,9 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemViewType(int position) {
-        if(position < listTask.size()) {
+        if (position < 1) {
+            return HEADER_VIEW;
+        } else if (position < listTask.size() + 1) {
             return TASK_VIEW;
         } else {
             return FOOTER_VIEW;
@@ -131,7 +134,10 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
-        if(viewType == TASK_VIEW) {
+        if (viewType == HEADER_VIEW) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_footer_item, parent, false);
+            return new HeaderViewHolder(view);
+        } else if (viewType == TASK_VIEW) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_task_item, parent, false);
             return new TaskViewHolder(view);
         } else {
@@ -144,21 +150,24 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-        if(holder instanceof TaskViewHolder) {
+        if (holder instanceof HeaderViewHolder) {
+            // Check list is null then set visible gone
+            // If the date not TO DAY...
+        } else if (holder instanceof TaskViewHolder) {
             TaskViewHolder taskViewHolder = (TaskViewHolder) holder;
-            taskViewHolder.taskTitle.setText(listTask.get(position).getTitle());
-            taskViewHolder.taskContent.setText(listTask.get(position).getContent());
-            taskViewHolder.taskTime.setText(dateFormat.format(listTask.get(position).getDate()));
+            taskViewHolder.taskTitle.setText(listTask.get(position - 1).getTitle());
+            taskViewHolder.taskContent.setText(listTask.get(position - 1).getContent());
+            taskViewHolder.taskTime.setText(dateFormat.format(listTask.get(position - 1).getDate()));
             taskViewHolder.isDoneCb.setOnCheckedChangeListener(null);
-            taskViewHolder.isDoneCb.setChecked(listTask.get(position).isDone());
+            taskViewHolder.isDoneCb.setChecked(listTask.get(position - 1).isDone());
             taskViewHolder.isDoneCb.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-                listTask.get(position).setDone(isChecked);
+                listTask.get(position - 1).setDone(isChecked);
                 new Thread(() -> DataRepository.getInstance(AppDatabase.getInstance(context, new AppExecutors()))
-                        .updateTask(listTask.get(position))).start();
+                        .updateTask(listTask.get(position - 1))).start();
             });
-            if (listTask.get(position).getPriority() == Constants.TaskEntity.HIGHT_PRIOR) {
+            if (listTask.get(position - 1).getPriority() == Constants.TaskEntity.HIGHT_PRIOR) {
                 taskViewHolder.bgLayout.setBackgroundColor(context.getResources().getColor(R.color.high_priority));
-            } else if (listTask.get(position).getPriority() == Constants.TaskEntity.MEDIUM_PRIOR) {
+            } else if (listTask.get(position - 1).getPriority() == Constants.TaskEntity.MEDIUM_PRIOR) {
                 taskViewHolder.bgLayout.setBackgroundColor(context.getResources().getColor(R.color.medium_priority));
             } else {
                 taskViewHolder.bgLayout.setBackgroundColor(context.getResources().getColor(R.color.low_priority));
@@ -172,7 +181,7 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
                         break;
                     case MotionEvent.ACTION_UP:
                         Intent intent = new Intent(context, TaskDetailActivity.class);
-                        intent.putExtra("taskEntity", listTask.get(position));
+                        intent.putExtra("taskEntity", listTask.get(position - 1));
                         ((MainActivity) context).startActivityForResult(intent, Constants.EDIT_TASK_REQUEST);
                     case MotionEvent.ACTION_CANCEL:
                         taskViewHolder.foregroundLayout.setVisibility(View.GONE);
@@ -182,13 +191,14 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
                 return true;
             });
         } else {
-
+            // Check list is null then set visible gone
+            // If the date not TO DAY...
         }
     }
 
     @Override
     public int getItemCount() {
-        return listTask == null ? 0 : listTask.size() + 1;
+        return listTask == null ? 2 : listTask.size() + 2;
     }
 
     class TaskViewHolder extends RecyclerView.ViewHolder {
@@ -218,6 +228,13 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
     class FooterViewHolder extends RecyclerView.ViewHolder {
 
         public FooterViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+    class HeaderViewHolder extends RecyclerView.ViewHolder {
+
+        public HeaderViewHolder(View itemView) {
             super(itemView);
         }
     }
