@@ -151,4 +151,15 @@ public class TaskEntity implements Parcelable {
     public int describeContents() {
         return 0;
     }
+
+    public void copy(TaskEntity taskEntity) {
+        title = taskEntity.title;
+        content = taskEntity.content;
+        typeOfTask = taskEntity.typeOfTask;
+        isNotification = taskEntity.isNotification;
+        isDone = taskEntity.isDone;
+        priority = taskEntity.priority;
+        dayInWeek = taskEntity.dayInWeek;
+        date = taskEntity.date;
+    }
 }

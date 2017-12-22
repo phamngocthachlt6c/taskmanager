@@ -119,10 +119,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == Constants.ADD_TASK_REQUEST) {
-            if(resultCode == Constants.ADD_TASK_SUCCESS) {
-                homeFragment.insertTaskToList(data.getParcelableExtra("taskEntity"));
-            }
+        switch (requestCode) {
+            case Constants.ADD_TASK_REQUEST:
+                if(resultCode == Constants.ADD_TASK_SUCCESS) {
+                    homeFragment.insertTaskToList(data.getParcelableExtra("taskEntity"));
+                }
+                break;
+            case Constants.EDIT_TASK_REQUEST:
+                if(resultCode == Constants.EDIT_TASK_SUCCESS) {
+                    homeFragment.refreshList();
+                }
+                break;
         }
     }
 }

@@ -34,7 +34,7 @@ public interface TaskDao {
     long insertTask(TaskEntity task);
 
     @Update
-    void updateTask(TaskEntity task);
+    int updateTask(TaskEntity task);
 
     @Delete
     void deleteTask(TaskEntity task);

@@ -52,6 +52,10 @@ public class TaskDetailActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
 
         taskEntity = getIntent().getParcelableExtra("taskEntity");
+        updateUI();
+    }
+
+    public void updateUI() {
         if(taskEntity != null) {
             ActionBar actionBar = getSupportActionBar();
             if(actionBar != null) {

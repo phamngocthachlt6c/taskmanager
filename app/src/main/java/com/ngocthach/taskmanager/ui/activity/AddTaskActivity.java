@@ -58,7 +58,6 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
     @BindView(R.id.panelDailyTask)
     View panelDailyTask;
 
-    private int spinnerItemSelected;
     private int priorityItemSelected;
 
     @Override
@@ -158,7 +157,6 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
                 hour, minute);
         Log.d("aaaaa", "onClick: Fragment addtask date = " + date);
         taskEntity.setDate(date);
-        taskEntity.setDayInWeek(spinnerItemSelected);
         taskEntity.setTitle(taskNameEditText.getText().toString());
         taskEntity.setContent(taskContentEd.getText().toString());
         return taskEntity;

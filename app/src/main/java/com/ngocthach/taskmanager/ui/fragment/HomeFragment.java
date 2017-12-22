@@ -90,4 +90,8 @@ public class HomeFragment extends Fragment {
         taskViewModel.insertList(taskEntity);
     }
 
+    public void refreshList() {
+        taskViewModel.refreshList();
+    }
+
 }

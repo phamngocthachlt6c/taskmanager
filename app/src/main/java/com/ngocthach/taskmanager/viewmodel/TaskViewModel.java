@@ -59,6 +59,10 @@ public class TaskViewModel extends AndroidViewModel {
         list.setValue(listTask);
     }
 
+    public void refreshList() {
+        date.setValue(date.getValue());
+    }
+
     public LiveData<List<TaskEntity>> getListTaskObserver() {
         return listTaskObserver;
     }
