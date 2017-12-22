@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/background_color_theme">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -72,7 +73,8 @@
                     android:layout_marginLeft="@dimen/fragment_text_title_margin_left"
                     android:layout_marginStart="@dimen/fragment_text_title_margin_left"
                     android:text="@string/fragment_text_set_alarm"
-                    android:textColor="@color/fragment_add_task_title_color" />
+                    android:textColor="@color/fragment_add_task_title_color"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/imageAlarm"
@@ -81,13 +83,15 @@
                     android:layout_below="@id/textViewAlarmField"
                     android:layout_toEndOf="@id/textViewAlarmField"
                     android:layout_toRightOf="@id/textViewAlarmField"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/ic_launcher"
+                    android:visibility="gone" />
 
                 <View
                     android:id="@+id/view1"
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
-                    android:layout_below="@id/imageAlarm" />
+                    android:layout_below="@id/imageAlarm"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/textPriorityField"
@@ -101,13 +105,13 @@
 
                 <Spinner
                     android:id="@+id/priority"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/textPriorityField"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
                     android:layout_toEndOf="@id/textPriorityField"
-                    android:layout_toRightOf="@id/textPriorityField"
-                    android:layout_below="@id/textPriorityField" />
+                    android:layout_toRightOf="@id/textPriorityField" />
 
                 <TextView
                     android:id="@+id/textTimeContent"
@@ -173,8 +177,9 @@
                     </LinearLayout>
 
                     <com.ngocthach.taskmanager.ui.view.CustomDatePicker
+                        android:layout_gravity="center"
                         android:id="@+id/datePicker"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/fragment_add_task_calendar_margin"
                         android:layout_marginStart="@dimen/fragment_add_task_calendar_margin"
@@ -182,8 +187,9 @@
                         android:datePickerMode="spinner" />
 
                     <TimePicker
+                        android:layout_gravity="center"
                         android:id="@+id/timePicker"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:timePickerMode="spinner" />
                 </LinearLayout>

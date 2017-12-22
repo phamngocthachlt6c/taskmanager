@@ -1,6 +1,7 @@
 package com.ngocthach.taskmanager.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -22,6 +24,8 @@ import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.common.Constants;
 import com.ngocthach.taskmanager.db.AppDatabase;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
+import com.ngocthach.taskmanager.ui.activity.MainActivity;
+import com.ngocthach.taskmanager.ui.activity.TaskDetailActivity;
 import com.ngocthach.taskmanager.viewmodel.TaskViewModel;
 
 import java.text.SimpleDateFormat;
@@ -159,6 +163,24 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
             } else {
                 taskViewHolder.bgLayout.setBackgroundColor(context.getResources().getColor(R.color.low_priority));
             }
+
+            taskViewHolder.itemView.setOnTouchListener((view, motionEvent) -> {
+                view.performClick();
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        taskViewHolder.foregroundLayout.setVisibility(View.VISIBLE);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        Intent intent = new Intent(context, TaskDetailActivity.class);
+                        intent.putExtra("taskEntity", listTask.get(position));
+                        ((MainActivity) context).startActivityForResult(intent, Constants.EDIT_TASK_REQUEST);
+                    case MotionEvent.ACTION_CANCEL:
+                        taskViewHolder.foregroundLayout.setVisibility(View.GONE);
+                        break;
+                }
+
+                return true;
+            });
         } else {
 
         }
@@ -183,6 +205,8 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
         CheckBox isDoneCb;
         @BindView(R.id.taskIsNotify)
         ImageView taskIsNotify;
+        @BindView(R.id.foregroundLayout)
+        View foregroundLayout;
 
         public TaskViewHolder(View itemView) {
             super(itemView);

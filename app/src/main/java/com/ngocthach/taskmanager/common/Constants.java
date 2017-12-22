@@ -17,8 +17,14 @@ public class Constants {
         public static final int LOW_PRIOR =2;
     }
 
+    // --------- ADD TASK -----------------//
     public static final int ADD_TASK_REQUEST = 0;
     public static final int ADD_TASK_SUCCESS = 1;
     public static final int ADD_TASK_FAILED = 2;
+
+    // ---------- EDIT TASK --------------//
+    public static final int EDIT_TASK_REQUEST = 3;
+    public static final int EDIT_TASK_SUCCESS = 4;
+    public static final int EDIT_TASK_FAILED = 5;
 
 }

@@ -119,6 +119,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
                 new Thread(() -> {
                     long success = DataRepository.getInstance(AppDatabase.getInstance(this, new AppExecutors()))
                             .insertTask(insertedTask);
+                    Log.d("aaaaa", "onClick: success = " + success);
                     if(success > 0) {
                         runOnUiThread(() -> {
                             Intent data = new Intent();
