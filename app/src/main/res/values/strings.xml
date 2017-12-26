@@ -1,6 +1,6 @@
 <resources>
     <!-- commons -->
-    <string name="app_name">Happy Day</string>
+    <string name="app_name">Mission</string>
     <string name="text_ok">OK</string>
     <string name="text_cancel">CANCEL</string>
     <string name="text_nodata">There is no task</string>

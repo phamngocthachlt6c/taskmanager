@@ -11,8 +11,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.ngocthach.taskmanager.MyApplication;
 import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.common.Constants;
+import com.ngocthach.taskmanager.common.MySharedPreferences;
 import com.ngocthach.taskmanager.ui.view.SwipeViewPager;
 import com.ngocthach.taskmanager.ui.adapter.SwipeViewAdapter;
 import com.ngocthach.taskmanager.ui.fragment.CalendarFragment;
@@ -22,6 +24,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -29,11 +33,12 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.swipeView)
     SwipeViewPager swipeViewPager;
-
     private HomeFragment homeFragment;
-    private Date currentDate;
 
+    private Date currentDate;
     private int mStackLevel;
+    @Inject
+    MySharedPreferences mySharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
         setActionBarTitle(currentDate);
         homeFragment = new HomeFragment();
         initSwipeViewPager();
+
+        ((MyApplication) getApplicationContext()).getMyComponent().inject(this);
+        mySharedPreferences.putData();
     }
 
     public void setActionBarTitle(Date date) {

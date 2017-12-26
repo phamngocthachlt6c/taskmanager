@@ -17,7 +17,11 @@
 package com.ngocthach.taskmanager;
 
 import android.app.Application;
+
 import com.ngocthach.taskmanager.db.AppDatabase;
+import com.ngocthach.taskmanager.di.AppComponent;
+import com.ngocthach.taskmanager.di.DaggerAppComponent;
+import com.ngocthach.taskmanager.di.SharedPreferencesModule;
 
 /**
  * Android Application class. Used for accessing singletons.
@@ -25,13 +29,21 @@ import com.ngocthach.taskmanager.db.AppDatabase;
 public class MyApplication extends Application {
 
     private AppExecutors mAppExecutors;
+    private AppComponent appComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
         mAppExecutors = new AppExecutors();
+        appComponent = DaggerAppComponent.builder()
+                .sharedPreferencesModule(new SharedPreferencesModule(getApplicationContext()))
+                .build();
 
+    }
+
+    public AppComponent getMyComponent() {
+        return appComponent;
     }
 
     public AppDatabase getDatabase() {
@@ -41,4 +53,5 @@ public class MyApplication extends Application {
     public DataRepository getRepository() {
         return DataRepository.getInstance(getDatabase());
     }
+
 }

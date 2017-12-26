@@ -18,11 +18,9 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ngocthach.taskmanager.AppExecutors;
-import com.ngocthach.taskmanager.DataRepository;
+import com.ngocthach.taskmanager.MyApplication;
 import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.common.Constants;
-import com.ngocthach.taskmanager.db.AppDatabase;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 import com.ngocthach.taskmanager.ui.activity.MainActivity;
 import com.ngocthach.taskmanager.ui.activity.TaskDetailActivity;
@@ -80,7 +78,7 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
                     listTask.remove(viewHolder.getAdapterPosition() - 1);
                     viewModel.deleteTask(viewHolder.getAdapterPosition() - 1);
                     notifyDataChanged();
-                    new Thread(() -> DataRepository.getInstance(AppDatabase.getInstance(context, new AppExecutors()))
+                    new Thread(() -> ((MyApplication) context.getApplicationContext()).getRepository()
                             .deleteTask(task)).start();
                 }
             }
@@ -181,7 +179,7 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
             taskViewHolder.isDoneCb.setChecked(listTask.get(position - 1).isDone());
             taskViewHolder.isDoneCb.setOnCheckedChangeListener((compoundButton, isChecked) -> {
                 listTask.get(position - 1).setDone(isChecked);
-                new Thread(() -> DataRepository.getInstance(AppDatabase.getInstance(context, new AppExecutors()))
+                new Thread(() -> ((MyApplication) context.getApplicationContext()).getRepository()
                         .updateTask(listTask.get(position - 1))).start();
             });
             if (listTask.get(position - 1).getPriority() == Constants.TaskEntity.HIGHT_PRIOR) {

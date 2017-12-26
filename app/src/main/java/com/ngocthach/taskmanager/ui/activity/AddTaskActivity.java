@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -18,11 +17,9 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
-import com.ngocthach.taskmanager.AppExecutors;
-import com.ngocthach.taskmanager.DataRepository;
+import com.ngocthach.taskmanager.MyApplication;
 import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.common.Constants;
-import com.ngocthach.taskmanager.db.AppDatabase;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 import com.ngocthach.taskmanager.ui.adapter.PriorityAdapter;
 
@@ -116,7 +113,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.addTaskButton:
                 TaskEntity insertedTask = getInfo();
                 new Thread(() -> {
-                    long success = DataRepository.getInstance(AppDatabase.getInstance(this, new AppExecutors()))
+                    long success = ((MyApplication) getApplication()).getRepository()
                             .insertTask(insertedTask);
                     Log.d("aaaaa", "onClick: success = " + success);
                     if(success > 0) {

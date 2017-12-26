@@ -17,11 +17,9 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
-import com.ngocthach.taskmanager.AppExecutors;
-import com.ngocthach.taskmanager.DataRepository;
+import com.ngocthach.taskmanager.MyApplication;
 import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.common.Constants;
-import com.ngocthach.taskmanager.db.AppDatabase;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 import com.ngocthach.taskmanager.ui.activity.TaskDetailActivity;
 import com.ngocthach.taskmanager.ui.adapter.PriorityAdapter;
@@ -92,7 +90,7 @@ public class EditTaskFragment extends Fragment implements View.OnClickListener {
             case R.id.addTaskButton:
                 getInfo();
                 new Thread(() -> {
-                    int success = DataRepository.getInstance(AppDatabase.getInstance(getActivity(), new AppExecutors()))
+                    int success = ((MyApplication) getActivity().getApplication()).getRepository()
                             .updateTask(taskEntity);
                     Log.d("aaaaa", "onClick: success update = " + success);
                     if(success == 1) {
