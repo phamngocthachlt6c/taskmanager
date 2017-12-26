@@ -3,6 +3,8 @@ package com.ngocthach.taskmanager.di;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import javax.inject.Inject;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -14,14 +16,9 @@ import dagger.Provides;
 @Module
 public class SharedPreferencesModule {
 
-    private Context context;
-
-    public SharedPreferencesModule(Context context) {
-        this.context = context;
-    }
-
+    @Inject
     @Provides
-    SharedPreferences provideSharedPreferences() {
+    SharedPreferences provideSharedPreferences(Context context) {
         return context.getSharedPreferences("name", Context.MODE_PRIVATE);
     }
 }
