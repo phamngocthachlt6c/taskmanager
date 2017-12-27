@@ -28,6 +28,7 @@ public class TaskEntity implements Parcelable, Comparable<TaskEntity> {
     private boolean isNotification;
     private boolean isDone;
     private int priority;
+    private String iconUrl;
 
     @TypeConverters({DateConverter.class})
     private Date date;
@@ -54,6 +55,7 @@ public class TaskEntity implements Parcelable, Comparable<TaskEntity> {
         priority = in.readInt();
         dayInWeek = in.readInt();
         date = new Date(in.readLong());
+        iconUrl = in.readString();
     }
 
     public static final Creator<TaskEntity> CREATOR = new Creator<TaskEntity>() {
@@ -144,6 +146,14 @@ public class TaskEntity implements Parcelable, Comparable<TaskEntity> {
         this.sortType = sortType;
     }
 
+    public String getIconUrl() {
+        return iconUrl;
+    }
+
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
+    }
+
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(id);
@@ -155,6 +165,7 @@ public class TaskEntity implements Parcelable, Comparable<TaskEntity> {
         parcel.writeInt(priority);
         parcel.writeInt(dayInWeek);
         parcel.writeLong(date.getTime());
+        parcel.writeString(iconUrl);
     }
 
     @Override
@@ -171,6 +182,7 @@ public class TaskEntity implements Parcelable, Comparable<TaskEntity> {
         priority = taskEntity.priority;
         dayInWeek = taskEntity.dayInWeek;
         date = taskEntity.date;
+        iconUrl = taskEntity.iconUrl;
     }
 
     @Override

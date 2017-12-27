@@ -22,6 +22,9 @@
     <string name="daily_task">Daily task</string>
     <string name="single_day_task">Single day task</string>
     <string name="text_edit_task">Done</string>
+    <string name="text_icon_image">Icon</string>
+    <string name="text_change_icon_image">Tap to change icon</string>
+    <string name="text_choose_icon">Choose your task icon</string>
 
     <string-array name="dayOnWeek">
         <item>Monday</item>
@@ -38,5 +41,7 @@
         <item>Medium</item>
         <item>Low</item>
     </string-array>
+
+    <string name="link_icon">https://www.flaticon.com/search?word=plus</string>
 
 </resources>

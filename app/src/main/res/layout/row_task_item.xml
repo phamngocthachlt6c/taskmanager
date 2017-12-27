@@ -19,14 +19,16 @@
             android:orientation="horizontal"
             android:padding="5dp">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/circleView"
+            <ImageView
+                android:id="@+id/iconView"
                 android:layout_width="@dimen/icon_size"
                 android:layout_height="@dimen/icon_size"
                 android:layout_gravity="top"
                 android:src="@mipmap/ic_launcher" />
 
             <RelativeLayout
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">

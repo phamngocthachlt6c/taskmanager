@@ -25,6 +25,7 @@ import com.ngocthach.taskmanager.db.entity.TaskEntity;
 import com.ngocthach.taskmanager.ui.activity.MainActivity;
 import com.ngocthach.taskmanager.ui.activity.TaskDetailActivity;
 import com.ngocthach.taskmanager.viewmodel.TaskViewModel;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -172,6 +173,9 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
             // If the date not TO DAY...
         } else if (holder instanceof TaskViewHolder) {
             TaskViewHolder taskViewHolder = (TaskViewHolder) holder;
+            Picasso.with(context).load(listTask.get(position - 1).getIconUrl())
+                    .error(R.mipmap.ic_launcher)
+                    .into(taskViewHolder.iconView);
             taskViewHolder.taskTitle.setText(listTask.get(position - 1).getTitle());
             taskViewHolder.taskContent.setText(listTask.get(position - 1).getContent());
             taskViewHolder.taskTime.setText(dateFormat.format(listTask.get(position - 1).getDate()));
@@ -234,6 +238,8 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
         ImageView taskIsNotify;
         @BindView(R.id.foregroundLayout)
         View foregroundLayout;
+        @BindView(R.id.iconView)
+        ImageView iconView;
 
         public TaskViewHolder(View itemView) {
             super(itemView);

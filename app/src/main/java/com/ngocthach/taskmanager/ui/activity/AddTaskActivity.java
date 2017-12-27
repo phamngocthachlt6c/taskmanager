@@ -1,5 +1,8 @@
 package com.ngocthach.taskmanager.ui.activity;
 
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -22,6 +26,8 @@ import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.common.Constants;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 import com.ngocthach.taskmanager.ui.adapter.PriorityAdapter;
+import com.ngocthach.taskmanager.ui.fragment.ChooseImageFragment;
+import com.squareup.picasso.Picasso;
 
 import java.util.Date;
 
@@ -54,8 +60,12 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
     RadioGroup typeOfTaskRadioGroup;
     @BindView(R.id.panelDailyTask)
     View panelDailyTask;
+    @BindView(R.id.iconView)
+    ImageView iconView;
 
     private int priorityItemSelected;
+    private int mStackLevel;
+    private String iconUrl = Constants.DEFAULT_TASK_ICON_PATH;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,6 +76,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_add_task);
         ButterKnife.bind(this);
 
+        Picasso.with(this).load(Constants.DEFAULT_TASK_ICON_PATH).error(R.mipmap.ic_launcher).into(iconView);
         panelDailyTask = findViewById(R.id.panelDailyTask);
         typeOfTaskRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             switch (checkedId) {
@@ -105,6 +116,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
 
         addTask.setOnClickListener(this);
         cancel.setOnClickListener(this);
+        iconView.setOnClickListener(this);
     }
 
     @Override
@@ -131,11 +143,23 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
                 setResult(Constants.ADD_TASK_FAILED);
                 super.onBackPressed();
                 break;
+
+            case R.id.iconView:
+                ChooseImageFragment fragment = ChooseImageFragment.newInstance();
+                fragment.setOnChangeIconImage(path -> {
+                    iconUrl = path;
+                    Picasso.with(AddTaskActivity.this).load(iconUrl)
+                            .error(R.mipmap.ic_launcher)
+                            .into(iconView);
+                });
+                showDialog(fragment);
+                break;
         }
     }
 
     private TaskEntity getInfo() {
         TaskEntity taskEntity = new TaskEntity();
+        taskEntity.setIconUrl(iconUrl);
         int hour, minute;
         if (Build.VERSION.SDK_INT < 23) {
             hour = timePicker.getCurrentHour();
@@ -157,5 +181,21 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
         taskEntity.setTitle(taskNameEditText.getText().toString());
         taskEntity.setContent(taskContentEd.getText().toString());
         return taskEntity;
+    }
+
+    void showDialog(DialogFragment dialogFragment) {
+        mStackLevel++;
+
+        // DialogFragment.show() will take care of adding the fragment
+        // in a transaction.  We also want to remove any currently showing
+        // dialog, so make our own transaction and take care of that here.
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        dialogFragment.show(ft, "dialog");
     }
 }
