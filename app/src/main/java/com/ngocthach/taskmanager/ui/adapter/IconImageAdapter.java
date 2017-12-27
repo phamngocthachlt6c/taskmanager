@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * ${CLASS}
- * Created by tryczson on 27/12/2017.
+ * Created by ThachPham on 27/12/2017.
  */
 
 public class IconImageAdapter extends BaseAdapter {
@@ -25,9 +25,6 @@ public class IconImageAdapter extends BaseAdapter {
     public IconImageAdapter(Context context, List<String> listPathIcon) {
         this.context = context;
         this.listPathIcon = listPathIcon;
-        for(String s : listPathIcon) {
-            Log.d("xxxxxx", "IconImageAdapter: str = " + s);
-        }
     }
 
     @Override

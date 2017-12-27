@@ -11,6 +11,8 @@ import javax.inject.Inject;
 
 public class MySharedPreferences {
 
+    private static final String SORT_TYPE = "sort_type";
+
     private SharedPreferences mSharedPreferences;
 
     @Inject
@@ -18,7 +20,13 @@ public class MySharedPreferences {
         this.mSharedPreferences = mSharedPreferences;
     }
 
-    public void putData() {
+    public void setSortType(int type) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putInt(SORT_TYPE, type);
+        editor.apply();
+    }
 
+    public int getSortType() {
+        return mSharedPreferences.getInt(SORT_TYPE, Constants.TIMING);
     }
 }

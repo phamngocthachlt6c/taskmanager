@@ -11,8 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ngocthach.taskmanager.MyApplication;
 import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.common.Constants;
+import com.ngocthach.taskmanager.common.MySharedPreferences;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 import com.ngocthach.taskmanager.ui.adapter.RecyclerTaskListAdapter;
 import com.ngocthach.taskmanager.viewmodel.TaskViewModel;
@@ -20,6 +22,8 @@ import com.ngocthach.taskmanager.viewmodel.TaskViewModel;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +41,8 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.loadingLayout)
     View loadingLayout;
 
+    @Inject
+    MySharedPreferences sharedPreferences;
     private TaskViewModel taskViewModel;
     private RecyclerTaskListAdapter taskListAdapter;
 
@@ -50,6 +56,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        ((MyApplication) getActivity().getApplication()).getMyComponent().inject(this);
     }
 
     @Override
@@ -58,15 +65,14 @@ public class HomeFragment extends Fragment {
         TaskViewModel.Factory factory = new TaskViewModel.Factory(getActivity().getApplication());
         taskViewModel = ViewModelProviders.of(this, factory).get(TaskViewModel.class);
         taskViewModel.setDate(Calendar.getInstance().getTime()); // change the date string param to be Date
-        taskListAdapter = new RecyclerTaskListAdapter(getContext(), taskViewModel);
-        taskListAdapter.setSortType(Constants.TIMING); // TODO: get the sorttype from SharePref
+        taskListAdapter = new RecyclerTaskListAdapter(getContext(), taskViewModel, sharedPreferences);
         taskRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         taskRecyclerView.setAdapter(taskListAdapter);
         taskListAdapter.setSwipeToDeleteItem(taskRecyclerView);
 
         Log.d("aaaaaa", "onActivityCreated: currentDate = " + Calendar.getInstance().getTime().getYear());
         taskViewModel.getListTaskObserver().observe(this, (List<TaskEntity> tasks) -> {
-            if(tasks!= null && !tasks.isEmpty()) {
+            if(tasks!= null) {
                 noDataLayout.setVisibility(View.GONE);
                 taskRecyclerView.setVisibility(View.VISIBLE);
                 taskListAdapter.loadListTask(tasks);
@@ -76,8 +82,6 @@ public class HomeFragment extends Fragment {
             }
             loadingLayout.setVisibility(View.GONE);
         });
-
-        Log.d("aaaaaa", "onActivityCreated: date______" + new Date(2017, 12, 11, 12, 12, 12).getYear());
     }
 
     public void changeListTask(Date date) {

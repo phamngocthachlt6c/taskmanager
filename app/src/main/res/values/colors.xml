@@ -7,8 +7,13 @@
     <color name="colorAccent">#FF4081</color>
     <color name="app_color_theme">#ffcc33</color>
     <color name="background_color_theme">#F3F2F2</color>
+    <color name="actionbar_title_color">#FF4081</color>
+    <color name="gray">#D8D4D4</color>
 
     <color name="light_red">#F79EA9</color>
+
+    <!-- header item -->
+    <color name="task_list_title">#FF4081</color>
 
     <!-- fragment add task -->
     <color name="fragment_add_task_title_color">#FF4081</color>

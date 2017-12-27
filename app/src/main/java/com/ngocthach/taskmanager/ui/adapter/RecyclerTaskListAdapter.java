@@ -1,5 +1,7 @@
 package com.ngocthach.taskmanager.ui.adapter;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -7,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.support.annotation.MainThread;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
@@ -14,13 +17,18 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.ngocthach.taskmanager.MyApplication;
 import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.common.Constants;
+import com.ngocthach.taskmanager.common.MySharedPreferences;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 import com.ngocthach.taskmanager.ui.activity.MainActivity;
 import com.ngocthach.taskmanager.ui.activity.TaskDetailActivity;
@@ -31,6 +39,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,7 +53,7 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private static final int TASK_VIEW = 0;
     private static final int FOOTER_VIEW = 1;
-    private static final int HEADER_VIEW = 1;
+    private static final int HEADER_VIEW = 2;
 
     private List<TaskEntity> listTask;
     private SimpleDateFormat dateFormat;
@@ -51,17 +61,20 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
     private TaskViewModel viewModel;
     private Bitmap iconDeleted;
 
-    private int sortType = Constants.TIMING;
-
+    private MySharedPreferences sharedPreferences;
+    private int sortType;
     private Rect rs;
 
-    public RecyclerTaskListAdapter(Context context/*, executors */, TaskViewModel taskViewModel) {
+    public RecyclerTaskListAdapter(Context context/*, executors */, TaskViewModel taskViewModel, MySharedPreferences sharedPreferences) {
         listTask = new ArrayList<>();
         dateFormat = new SimpleDateFormat("HH:mm");
         this.context = context;
+        this.sharedPreferences = sharedPreferences;
         viewModel = taskViewModel;
         iconDeleted = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_delete);
         rs = new Rect();
+
+        setSortType(sharedPreferences.getSortType());
     }
 
     public void setSwipeToDeleteItem(RecyclerView recyclerView) {
@@ -115,7 +128,8 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public void loadListTask(List<TaskEntity> list) {
-        Log.d("aaaaaaa", "loadListTask: notifyDatasetChanged");
+        Log.d("aaaaaaa", "loadListTask: notifyDatasetChanged " + sortType);
+
         if (list == null || listTask == null) {
             return;
         }
@@ -127,7 +141,7 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public void notifyDataChanged() {
-        for(TaskEntity taskEntity : listTask) {
+        for (TaskEntity taskEntity : listTask) {
             taskEntity.setSortType(sortType);
         }
         sortList();
@@ -153,7 +167,7 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         if (viewType == HEADER_VIEW) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_footer_item, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_header_item, parent, false);
             return new HeaderViewHolder(view);
         } else if (viewType == TASK_VIEW) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_task_item, parent, false);
@@ -171,6 +185,52 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
         if (holder instanceof HeaderViewHolder) {
             // Check list is null then set visible gone
             // If the date not TO DAY...
+
+            HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
+            View.OnClickListener onClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (headerViewHolder.settingLayout.getVisibility() == View.VISIBLE) {
+                        Animation animHide = AnimationUtils.loadAnimation(context, R.anim.view_hide);
+                        headerViewHolder.settingLayout.startAnimation(animHide);
+                        headerViewHolder.settingLayout.setVisibility(View.GONE);
+                        headerViewHolder.iconSettingBt.setImageResource(R.mipmap.arrow_down);
+                    } else {
+                        headerViewHolder.settingLayout.setVisibility(View.VISIBLE);
+                        headerViewHolder.iconSettingBt.setImageResource(R.mipmap.arrow_up);
+                        Animation animShow = AnimationUtils.loadAnimation(context, R.anim.view_show);
+                        headerViewHolder.settingLayout.startAnimation(animShow);
+                    }
+                }
+            };
+            headerViewHolder.headerSettingBt.setOnClickListener(onClickListener);
+            headerViewHolder.headerSettingBt.setOnClickListener(onClickListener);
+            headerViewHolder.iconSettingBt.setOnClickListener(onClickListener);
+
+            if (sharedPreferences.getSortType() == Constants.TIMING) {
+                headerViewHolder.radioSortTypeTime.setChecked(true);
+            } else {
+                headerViewHolder.radioSorttypePriority.setChecked(true);
+            }
+            headerViewHolder.radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                    switch (i) {
+                        case R.id.radioSortTypeTime:
+                            sharedPreferences.setSortType(Constants.TIMING);
+                            setSortType(Constants.TIMING);
+                            notifyDataChanged();
+                            break;
+                        case R.id.radioSortTypePriority:
+                            sharedPreferences.setSortType(Constants.PRIORITY);
+                            setSortType(Constants.PRIORITY);
+                            notifyDataChanged();
+                            break;
+                    }
+                }
+            });
+
+
         } else if (holder instanceof TaskViewHolder) {
             TaskViewHolder taskViewHolder = (TaskViewHolder) holder;
             Picasso.with(context).load(listTask.get(position - 1).getIconUrl())
@@ -214,12 +274,15 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
         } else {
             // Check list is null then set visible gone
             // If the date not TO DAY...
+            FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
+            footerViewHolder.text.setText("afsdf");
         }
     }
 
     @Override
     public int getItemCount() {
-        return listTask == null ? 2 : listTask.size() + 2;
+        // Plus more 2 because it always have 2 item header and footer
+        return listTask == null ? 2 : (listTask.size() + 2);
     }
 
     class TaskViewHolder extends RecyclerView.ViewHolder {
@@ -250,15 +313,32 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
     // may be appear Ads here
     class FooterViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.zzzz)
+        TextView text;
+
         public FooterViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 
     class HeaderViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.settingLayout)
+        View settingLayout;
+        @BindView(R.id.headerSettingBt)
+        View headerSettingBt;
+        @BindView(R.id.iconSettingBt)
+        ImageView iconSettingBt;
+        @BindView(R.id.radioSortType)
+        RadioGroup radioGroup;
+        @BindView(R.id.radioSortTypeTime)
+        RadioButton radioSortTypeTime;
+        @BindView(R.id.radioSortTypePriority)
+        RadioButton radioSorttypePriority;
 
         public HeaderViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 

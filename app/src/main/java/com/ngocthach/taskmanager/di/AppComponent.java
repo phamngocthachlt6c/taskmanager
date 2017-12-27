@@ -1,6 +1,7 @@
 package com.ngocthach.taskmanager.di;
 
 import com.ngocthach.taskmanager.ui.activity.MainActivity;
+import com.ngocthach.taskmanager.ui.fragment.HomeFragment;
 
 import dagger.Component;
 
@@ -13,4 +14,5 @@ import dagger.Component;
 public interface AppComponent {
 
     void inject(MainActivity mainActivity);
+    void inject(HomeFragment homeFragment);
 }

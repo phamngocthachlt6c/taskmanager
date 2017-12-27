@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.ngocthach.taskmanager.MyApplication;
 import com.ngocthach.taskmanager.R;
@@ -33,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.swipeView)
     SwipeViewPager swipeViewPager;
+    @BindView(R.id.actionbarTitle)
+    TextView actionbarTitle;
+
     private HomeFragment homeFragment;
 
     private Date currentDate;
@@ -53,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         initSwipeViewPager();
 
         ((MyApplication) getApplicationContext()).getMyComponent().inject(this);
-        mySharedPreferences.putData();
     }
 
     public void setActionBarTitle(Date date) {
@@ -61,7 +64,9 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
             SimpleDateFormat fmtOut = new SimpleDateFormat("dd-MM-yyyy");
-            actionBar.setTitle(fmtOut.format(date));
+            actionBar.setTitle("");
+            actionbarTitle.setText(fmtOut.format(date));
+
         }
         if(homeFragment != null) {
             homeFragment.changeListTask(date);
