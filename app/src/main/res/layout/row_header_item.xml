@@ -10,14 +10,30 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
-
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="sdfsdf" />
+        <LinearLayout
+            android:background="@mipmap/time_bg"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
+            <TextView
+                android:textStyle="bold"
+                android:textSize="40sp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8:19" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Remain time for your day" />
+        </LinearLayout>
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
@@ -29,11 +45,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="5dp"
-            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
-            android:paddingEnd="5dp">
+            android:paddingStart="5dp"
+            android:paddingTop="5dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -77,23 +93,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-                android:orientation="horizontal"
-                android:background="@color/gray">
+                android:background="@color/gray"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
                     android:layout_weight="1"
+                    android:padding="5dp"
                     android:text="@string/text_setting" />
 
                 <ImageView
-                    android:layout_marginRight="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_gravity="center_vertical"
                     android:id="@+id/iconSettingBt"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
                     android:src="@mipmap/arrow_down" />
             </LinearLayout>
         </LinearLayout>
