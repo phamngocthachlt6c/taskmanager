@@ -5,5 +5,5 @@ package com.ngocthach.taskmanager.db.entity;
  * Created by tryczson on 26/12/2017.
  */
 
-public class Habit {
+public class HabitEntity {
 }

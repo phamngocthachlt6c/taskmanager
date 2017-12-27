@@ -10,9 +10,10 @@ import android.arch.persistence.room.PrimaryKey;
 /**
  * Chi dinh truoc mot so tai khoan, con lai de user tu add them
  */
-public class Asset {
+public class AssetEntity {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String name;
+    private int typeOfAsset;
     private int amount;
 }
