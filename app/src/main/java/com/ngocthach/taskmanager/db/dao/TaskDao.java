@@ -8,6 +8,7 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
+import com.ngocthach.taskmanager.db.entity.AssetEntity;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 
 import java.util.Date;
@@ -18,6 +19,7 @@ import java.util.List;
  */
 @Dao
 public interface TaskDao {
+
     @Query("SELECT * FROM tasks")
     LiveData<List<TaskEntity>> loadAllTasks();
 
