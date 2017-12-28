@@ -31,6 +31,7 @@
     <string name="text_sort_by_time">Sort by time</string>
     <string name="text_sort_by_Priority">Sort by priority</string>
     <string name="text_setting">Setting</string>
+    <string name="text_remain_time">Remain time for your day</string>
 
     <string-array name="dayOnWeek">
         <item>Monday</item>

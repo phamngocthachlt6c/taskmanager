@@ -231,6 +231,7 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
             });
 
             if(TimeUtils.isSameDay(new Date(), viewModel.getValue())) {
+                headerViewHolder.cardViewTime.setVisibility(View.VISIBLE);
                 if(countDownTimer != null) {
                     countDownTimer.cancel();
                 }
@@ -255,7 +256,10 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
                 };
                 countDownTimer.start();
             } else {
-                headerViewHolder.remainTime.setText("00:00");
+                if(countDownTimer != null) {
+                    countDownTimer.cancel();
+                }
+                headerViewHolder.cardViewTime.setVisibility(View.GONE);
             }
 
         } else if (holder instanceof TaskViewHolder) {
@@ -364,6 +368,8 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
         RadioButton radioSorttypePriority;
         @BindView(R.id.remainTime)
         TextView remainTime;
+        @BindView(R.id.remainTimeCardView)
+        View cardViewTime;
 
         public HeaderViewHolder(View itemView) {
             super(itemView);
