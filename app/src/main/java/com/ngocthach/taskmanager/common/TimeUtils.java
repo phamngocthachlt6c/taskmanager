@@ -14,7 +14,7 @@ public class TimeUtils {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         // By millisecond
-        long currentTime = calendar.get(Calendar.HOUR) * 3600000 + calendar.get(Calendar.MINUTE) * 60000
+        long currentTime = calendar.get(Calendar.HOUR_OF_DAY) * 3600000 + calendar.get(Calendar.MINUTE) * 60000
                 + calendar.get(Calendar.SECOND) * 1000 + calendar.get(Calendar.MILLISECOND);
         long dayTime = 24 * 3600000;
         return dayTime - currentTime;
