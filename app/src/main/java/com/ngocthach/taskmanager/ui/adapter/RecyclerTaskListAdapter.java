@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.CountDownTimer;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
@@ -26,6 +27,7 @@ import com.ngocthach.taskmanager.MyApplication;
 import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.common.Constants;
 import com.ngocthach.taskmanager.common.MySharedPreferences;
+import com.ngocthach.taskmanager.common.TimeUtils;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 import com.ngocthach.taskmanager.ui.activity.MainActivity;
 import com.ngocthach.taskmanager.ui.activity.TaskDetailActivity;
@@ -35,7 +37,9 @@ import com.squareup.picasso.Picasso;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,6 +63,7 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
     private MySharedPreferences sharedPreferences;
     private int sortType;
     private Rect rs;
+    private CountDownTimer countDownTimer;
 
     public RecyclerTaskListAdapter(Context context/*, executors */, TaskViewModel taskViewModel, MySharedPreferences sharedPreferences) {
         listTask = new ArrayList<>();
@@ -225,6 +230,33 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
                 }
             });
 
+            if(TimeUtils.isSameDay(new Date(), viewModel.getValue())) {
+                if(countDownTimer != null) {
+                    countDownTimer.cancel();
+                }
+                countDownTimer = new CountDownTimer(TimeUtils.getRemainTimeToDay(), 500) {
+                    boolean isShowColon;
+
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        long hour = millisUntilFinished / (60 * 60 * 1000);
+                        long min = (millisUntilFinished % (60 * 60 * 1000)) / (60 * 1000);
+                        headerViewHolder.remainTime
+                                .setText(isShowColon ? (String.format("%02d:%02d", hour, min + 1)) : String.format("%02d %02d", hour, min + 1));
+                        isShowColon = !isShowColon;
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        // TODO: report day
+                        headerViewHolder.remainTime.setText("00:00");
+                        cancel();
+                    }
+                };
+                countDownTimer.start();
+            } else {
+                headerViewHolder.remainTime.setText("00:00");
+            }
 
         } else if (holder instanceof TaskViewHolder) {
             TaskViewHolder taskViewHolder = (TaskViewHolder) holder;
@@ -330,6 +362,8 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
         RadioButton radioSortTypeTime;
         @BindView(R.id.radioSortTypePriority)
         RadioButton radioSorttypePriority;
+        @BindView(R.id.remainTime)
+        TextView remainTime;
 
         public HeaderViewHolder(View itemView) {
             super(itemView);

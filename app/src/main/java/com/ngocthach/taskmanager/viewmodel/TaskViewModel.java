@@ -71,6 +71,10 @@ public class TaskViewModel extends AndroidViewModel {
         this.date.setValue(date);
     }
 
+    public Date getValue() {
+        return date.getValue();
+    }
+
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
 
         @NonNull
