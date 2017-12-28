@@ -50,7 +50,7 @@ public class ChooseImageFragment extends DialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        List<String> listPath = FileUtils.getListAssetsFilePath(getActivity(), ".png");
+        List<String> listPath = FileUtils.getListAssetsFilePath(getActivity(), "icon_tasks", ".png");
         IconImageAdapter adapter = new IconImageAdapter(getActivity(), listPath);
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

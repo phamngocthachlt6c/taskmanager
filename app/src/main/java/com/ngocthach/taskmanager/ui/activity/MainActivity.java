@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     TabLayout mTabLayout;
 
     private HomeFragment homeFragment;
-
     private Date currentDate;
     private int mStackLevel;
     @Inject

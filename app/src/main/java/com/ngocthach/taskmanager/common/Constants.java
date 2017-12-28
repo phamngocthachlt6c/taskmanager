@@ -32,7 +32,7 @@ public class Constants {
     public static final int PRIORITY = 1;
 
     // ----------- PATH -------------------//
-    public static final String DEFAULT_TASK_ICON_PATH = "file:///android_asset/icon_task_1.png";
+    public static final String DEFAULT_TASK_ICON_PATH = "file:///android_asset/icon_tasks/icon_task_1.png";
     public static final String ASSETS_FOLDER_PATH = "file:///android_asset/";
 
 }
