@@ -4,6 +4,7 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     SwipeViewPager swipeViewPager;
     @BindView(R.id.actionbarTitle)
     TextView actionbarTitle;
+    @BindView(R.id.tabs)
+    TabLayout mTabLayout;
 
     private HomeFragment homeFragment;
 
@@ -55,8 +58,16 @@ public class MainActivity extends AppCompatActivity {
         setActionBarTitle(currentDate);
         homeFragment = new HomeFragment();
         initSwipeViewPager();
-
+        initTabPager();
         ((MyApplication) getApplicationContext()).getMyComponent().inject(this);
+    }
+
+    private void initTabPager() {
+        mTabLayout.setupWithViewPager(swipeViewPager);
+        mTabLayout.getTabAt(0).setIcon(R.mipmap.icon_home);
+        mTabLayout.getTabAt(1).setIcon(R.mipmap.icon_asset);
+        mTabLayout.getTabAt(2).setIcon(R.mipmap.icon_principle);
+        mTabLayout.getTabAt(3).setIcon(R.mipmap.icon_report);
     }
 
     public void setActionBarTitle(Date date) {
@@ -76,11 +87,10 @@ public class MainActivity extends AppCompatActivity {
     private void initSwipeViewPager() {
         swipeViewPager.setOffscreenPageLimit(4);
         SwipeViewAdapter adapter = new SwipeViewAdapter(getSupportFragmentManager());
-        adapter.addFragment(homeFragment, "ONE"); // all task on today
-        adapter.addFragment(new HomeFragment(), "TWO"); // chart
-        adapter.addFragment(new HomeFragment(), "THREE");
-        adapter.addFragment(new HomeFragment(), "FOUR");
-        adapter.addFragment(new HomeFragment(), "FOUR");
+        adapter.addFragment(homeFragment, "HOME"); // all task on today
+        adapter.addFragment(new HomeFragment(), "ASSETS"); // chart
+        adapter.addFragment(new HomeFragment(), "RULE");
+        adapter.addFragment(new HomeFragment(), "REPORT");
         swipeViewPager.setAdapter(adapter);
     }
 

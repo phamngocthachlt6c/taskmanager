@@ -212,21 +212,18 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
             } else {
                 headerViewHolder.radioSorttypePriority.setChecked(true);
             }
-            headerViewHolder.radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                    switch (i) {
-                        case R.id.radioSortTypeTime:
-                            sharedPreferences.setSortType(Constants.TIMING);
-                            setSortType(Constants.TIMING);
-                            notifyDataChanged();
-                            break;
-                        case R.id.radioSortTypePriority:
-                            sharedPreferences.setSortType(Constants.PRIORITY);
-                            setSortType(Constants.PRIORITY);
-                            notifyDataChanged();
-                            break;
-                    }
+            headerViewHolder.radioGroup.setOnCheckedChangeListener((radioGroup, id) -> {
+                switch (id) {
+                    case R.id.radioSortTypeTime:
+                        sharedPreferences.setSortType(Constants.TIMING);
+                        setSortType(Constants.TIMING);
+                        notifyDataChanged();
+                        break;
+                    case R.id.radioSortTypePriority:
+                        sharedPreferences.setSortType(Constants.PRIORITY);
+                        setSortType(Constants.PRIORITY);
+                        notifyDataChanged();
+                        break;
                 }
             });
 

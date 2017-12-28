@@ -33,6 +33,8 @@
     <string name="text_setting">Setting</string>
     <string name="text_remain_time">Remain time for your day</string>
 
+    <string name="text_principle">Principle</string>
+
     <string-array name="dayOnWeek">
         <item>Monday</item>
         <item>Thursday</item>
