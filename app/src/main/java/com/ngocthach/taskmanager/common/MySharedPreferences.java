@@ -6,7 +6,7 @@ import javax.inject.Inject;
 
 /**
  * ${CLASS}
- * Created by tryczson on 26/12/2017.
+ * Created by ThachPham on 26/12/2017.
  */
 
 public class MySharedPreferences {

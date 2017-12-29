@@ -5,7 +5,7 @@ import android.util.DisplayMetrics;
 
 /**
  * ${CLASS}
- * Created by tryczson on 20/12/2017.
+ * Created by ThachPham on 20/12/2017.
  */
 
 public class UnitsConverter {
