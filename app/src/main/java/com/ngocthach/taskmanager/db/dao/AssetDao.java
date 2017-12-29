@@ -28,6 +28,9 @@ public interface AssetDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertAsset(AssetEntity asset);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertListAsset(List<AssetEntity> assets);
+
     @Update
     int updateAsset(AssetEntity asset);
 

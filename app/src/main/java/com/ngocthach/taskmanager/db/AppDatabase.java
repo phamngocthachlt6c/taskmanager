@@ -28,12 +28,14 @@ import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.ngocthach.taskmanager.AppExecutors;
+import com.ngocthach.taskmanager.db.dao.AssetDao;
 import com.ngocthach.taskmanager.db.dao.TaskDao;
+import com.ngocthach.taskmanager.db.entity.AssetEntity;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 
 import java.util.List;
 
-@Database(entities = {TaskEntity.class}, version = 2)
+@Database(entities = {TaskEntity.class, AssetEntity.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase sInstance;
@@ -42,6 +44,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public static final String DATABASE_NAME = "basic-sample-db";
 
     public abstract TaskDao taskDao();
+
+    public abstract AssetDao assetDao();
 
     private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
 
@@ -75,8 +79,10 @@ public abstract class AppDatabase extends RoomDatabase {
                             Log.d("aaaaa", "onCreate: generate data");
                             AppDatabase database = AppDatabase.getInstance(appContext, executors);
                             List<TaskEntity> task = DataGenerator.generateTasks();
+                            insertTaskData(database, task);
 
-                            insertData(database, task);
+                            List<AssetEntity> assets = DataGenerator.generateAssets();
+                            insertAssetData(database, assets);
                             // notify that the database was created and it's ready to be used
                             database.setDatabaseCreated();
                         });
@@ -97,9 +103,15 @@ public abstract class AppDatabase extends RoomDatabase {
         mIsDatabaseCreated.postValue(true);
     }
 
-    private static void insertData(final AppDatabase database, final List<TaskEntity> tasks) {
+    private static void insertTaskData(final AppDatabase database, final List<TaskEntity> tasks) {
         database.runInTransaction(() -> {
             database.taskDao().insertAll(tasks);
+        });
+    }
+
+    private static void insertAssetData(final AppDatabase database, final List<AssetEntity> assets) {
+        database.runInTransaction(() -> {
+            database.assetDao().insertListAsset(assets);
         });
     }
 

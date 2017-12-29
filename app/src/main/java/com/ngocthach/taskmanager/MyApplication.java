@@ -20,6 +20,7 @@ import android.app.Application;
 
 import com.ngocthach.taskmanager.db.AppDatabase;
 import com.ngocthach.taskmanager.di.AppComponent;
+import com.ngocthach.taskmanager.di.AssetViewModelModule;
 import com.ngocthach.taskmanager.di.ContextModule;
 import com.ngocthach.taskmanager.di.DaggerAppComponent;
 import com.ngocthach.taskmanager.di.SharedPreferencesModule;
@@ -40,6 +41,7 @@ public class MyApplication extends Application {
         appComponent = DaggerAppComponent.builder()
                 .contextModule(new ContextModule(getApplicationContext()))
                 .sharedPreferencesModule(new SharedPreferencesModule())
+                .assetViewModelModule(new AssetViewModelModule(this))
                 .build();
 
     }

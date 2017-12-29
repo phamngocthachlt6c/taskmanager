@@ -16,6 +16,7 @@
 
 package com.ngocthach.taskmanager.db;
 
+import com.ngocthach.taskmanager.db.entity.AssetEntity;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 
 import java.util.ArrayList;
@@ -35,5 +36,14 @@ public class DataGenerator {
         tasks.add(new TaskEntity("task3", new Date(2017, 12, 13, 12, 12, 12)));
         tasks.add(new TaskEntity("task4", new Date(2017, 12, 13, 12, 12, 12)));
         return tasks;
+    }
+
+    public static List<AssetEntity> generateAssets() {
+        List<AssetEntity> assets = new ArrayList<>();
+        assets.add(new AssetEntity("Long tot", "", 1, 1, "url"));
+        assets.add(new AssetEntity("Long tot", "", 1, 1, "url"));
+        assets.add(new AssetEntity("Long tot", "", 1, 1, "url"));
+        assets.add(new AssetEntity("Long tot", "", 1, 1, "url"));
+        return assets;
     }
 }

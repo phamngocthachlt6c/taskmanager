@@ -1,5 +1,6 @@
 package com.ngocthach.taskmanager.ui.fragment;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,8 +16,10 @@ import com.ngocthach.taskmanager.MyApplication;
 import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.common.Constants;
 import com.ngocthach.taskmanager.common.MySharedPreferences;
+import com.ngocthach.taskmanager.db.entity.AssetEntity;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 import com.ngocthach.taskmanager.ui.adapter.RecyclerTaskListAdapter;
+import com.ngocthach.taskmanager.viewmodel.AssetViewModel;
 import com.ngocthach.taskmanager.viewmodel.TaskViewModel;
 
 import java.util.Calendar;
@@ -34,17 +37,10 @@ import butterknife.ButterKnife;
 
 public class AssetsFragment extends Fragment {
 
-    @BindView(R.id.listTask)
-    RecyclerView taskRecyclerView;
-    @BindView(R.id.noDataLayout)
-    View noDataLayout;
-    @BindView(R.id.loadingLayout)
-    View loadingLayout;
-
     @Inject
     MySharedPreferences sharedPreferences;
-    private TaskViewModel taskViewModel;
-    private RecyclerTaskListAdapter taskListAdapter;
+    @Inject
+    AssetViewModel assetViewModel;
 
     @Nullable
     @Override
@@ -57,47 +53,20 @@ public class AssetsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         ((MyApplication) getActivity().getApplication()).getMyComponent().inject(this);
+        assetViewModel.getLiveAssets().observe(this, new Observer<List<AssetEntity>>() {
+            @Override
+            public void onChanged(@Nullable List<AssetEntity> assetEntities) {
+                if(assetEntities != null) {
+                    for(AssetEntity a : assetEntities) {
+                        Log.d("aaaaaaa", "onChanged: " + a.getName());
+                    }
+                }
+            }
+        });
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        TaskViewModel.Factory factory = new TaskViewModel.Factory(getActivity().getApplication());
-        taskViewModel = ViewModelProviders.of(this, factory).get(TaskViewModel.class);
-        taskViewModel.setDate(Calendar.getInstance().getTime()); // change the date string param to be Date
-        taskListAdapter = new RecyclerTaskListAdapter(getContext(), taskViewModel, sharedPreferences);
-        taskRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        taskRecyclerView.setAdapter(taskListAdapter);
-        taskListAdapter.setSwipeToDeleteItem(taskRecyclerView);
-
-        Log.d("aaaaaa", "onActivityCreated: currentDate = " + Calendar.getInstance().getTime().getYear());
-        taskViewModel.getListTaskObserver().observe(this, (List<TaskEntity> tasks) -> {
-            if(tasks!= null) {
-                noDataLayout.setVisibility(View.GONE);
-                taskRecyclerView.setVisibility(View.VISIBLE);
-                taskListAdapter.loadListTask(tasks);
-            } else {
-                taskRecyclerView.setVisibility(View.GONE);
-                noDataLayout.setVisibility(View.VISIBLE);
-            }
-            loadingLayout.setVisibility(View.GONE);
-        });
     }
-
-    public void changeListTask(Date date) {
-        Log.d("bbbbbbb", "changeListTask: year = " + date.getYear() + ", tostring = " + date);
-        loadingLayout.setVisibility(View.VISIBLE);
-        noDataLayout.setVisibility(View.GONE);
-        taskRecyclerView.setVisibility(View.GONE);
-        taskViewModel.setDate(date);
-    }
-
-    public void insertTaskToList(TaskEntity taskEntity) {
-        taskViewModel.insertList(taskEntity);
-    }
-
-    public void refreshList() {
-        taskViewModel.refreshList();
-    }
-
 }

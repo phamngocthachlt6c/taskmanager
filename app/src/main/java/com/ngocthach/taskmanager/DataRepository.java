@@ -7,6 +7,7 @@ import android.util.Log;
 
 
 import com.ngocthach.taskmanager.db.AppDatabase;
+import com.ngocthach.taskmanager.db.entity.AssetEntity;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 
 import java.util.Arrays;
@@ -72,5 +73,9 @@ public class DataRepository {
 
     public void deleteTask(TaskEntity taskEntity) {
         mDatabase.taskDao().deleteTask(taskEntity);
+    }
+
+    public LiveData<List<AssetEntity>> getLAssets() {
+        return mDatabase.assetDao().loadAllAssets();
     }
 }
