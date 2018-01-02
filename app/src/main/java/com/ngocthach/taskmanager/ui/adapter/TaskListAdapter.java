@@ -48,7 +48,7 @@ import butterknife.ButterKnife;
  * Created by ThachPham on 13/12/2017.
  */
 
-public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TASK_VIEW = 0;
     private static final int FOOTER_VIEW = 1;
@@ -65,7 +65,7 @@ public class RecyclerTaskListAdapter extends RecyclerView.Adapter<RecyclerView.V
     private Rect rs;
     private CountDownTimer countDownTimer;
 
-    public RecyclerTaskListAdapter(Context context/*, executors */, TaskViewModel taskViewModel, MySharedPreferences sharedPreferences) {
+    public TaskListAdapter(Context context/*, executors */, TaskViewModel taskViewModel, MySharedPreferences sharedPreferences) {
         listTask = new ArrayList<>();
         dateFormat = new SimpleDateFormat("HH:mm");
         this.context = context;
