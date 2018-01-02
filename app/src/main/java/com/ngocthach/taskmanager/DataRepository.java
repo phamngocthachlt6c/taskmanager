@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.ngocthach.taskmanager.db.AppDatabase;
 import com.ngocthach.taskmanager.db.entity.AssetEntity;
+import com.ngocthach.taskmanager.db.entity.PrincipleEntity;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 
 import java.util.Calendar;
@@ -82,5 +83,13 @@ public class DataRepository {
 
     public void deleteAsset(AssetEntity assetEntity) {
         mDatabase.assetDao().deleteAsset(assetEntity);
+    }
+
+    public LiveData<List<PrincipleEntity>> getPrinciples() {
+        return mDatabase.principleDao().loadAllPrinciples();
+    }
+
+    public void deletePrinciple(PrincipleEntity principle) {
+        mDatabase.principleDao().deletePrinciple(principle);
     }
 }

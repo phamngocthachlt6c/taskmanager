@@ -28,6 +28,9 @@
     <string name="text_change_icon_image">Tap to change icon</string>
     <string name="text_choose_icon">Choose your task icon</string>
 
+    <!-- fragment add asset -->
+    <string name="text_choose_icon_asset">Choose your asset icon</string>
+
     <!-- header item -->
     <string name="text_task_list_setting">Task list</string>
     <string name="text_sort_by_time">Sort by time</string>

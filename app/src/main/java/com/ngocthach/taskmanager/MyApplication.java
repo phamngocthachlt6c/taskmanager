@@ -24,6 +24,7 @@ import com.ngocthach.taskmanager.di.AppExecutorModule;
 import com.ngocthach.taskmanager.di.AssetViewModelModule;
 import com.ngocthach.taskmanager.di.ContextModule;
 import com.ngocthach.taskmanager.di.DaggerAppComponent;
+import com.ngocthach.taskmanager.di.PrincipleViewModelModule;
 import com.ngocthach.taskmanager.di.SharedPreferencesModule;
 
 import javax.inject.Inject;
@@ -46,6 +47,7 @@ public class MyApplication extends Application {
                 .sharedPreferencesModule(new SharedPreferencesModule())
                 .assetViewModelModule(new AssetViewModelModule(this))
                 .appExecutorModule(new AppExecutorModule())
+                .principleViewModelModule(new PrincipleViewModelModule(this))
                 .build();
         appComponent.inject(this);
 

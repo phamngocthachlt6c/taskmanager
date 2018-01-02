@@ -40,8 +40,7 @@ public class ChooseImageFragment extends DialogFragment {
     private Assets assetType;
 
     public static ChooseImageFragment newInstance() {
-        ChooseImageFragment f = new ChooseImageFragment();
-        return f;
+        return new ChooseImageFragment();
     }
 
     @Nullable
@@ -49,7 +48,14 @@ public class ChooseImageFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_choose_image_icon, container, false);
         ButterKnife.bind(this, view);
-        getDialog().setTitle(getResources().getString(R.string.text_choose_icon));
+        switch (assetType) {
+            case TASK:
+                getDialog().setTitle(getResources().getString(R.string.text_choose_icon));
+                break;
+            case ASSETS:
+                getDialog().setTitle(getResources().getString(R.string.text_choose_icon_asset));
+                break;
+        }
         return view;
     }
 

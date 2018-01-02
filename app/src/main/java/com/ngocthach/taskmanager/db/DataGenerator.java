@@ -17,6 +17,7 @@
 package com.ngocthach.taskmanager.db;
 
 import com.ngocthach.taskmanager.db.entity.AssetEntity;
+import com.ngocthach.taskmanager.db.entity.PrincipleEntity;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 
 import java.util.ArrayList;
@@ -45,5 +46,14 @@ public class DataGenerator {
         assets.add(new AssetEntity("Long tot", "", 1, 1, "url"));
         assets.add(new AssetEntity("Long tot", "", 1, 1, "url"));
         return assets;
+    }
+
+    public static List<PrincipleEntity> generatePrinciples() {
+        List<PrincipleEntity> principles = new ArrayList<>();
+        principles.add(new PrincipleEntity("An nhieu", 100, "url"));
+        principles.add(new PrincipleEntity("An nhieu", 100, "url"));
+        principles.add(new PrincipleEntity("An nhieu", 100, "url"));
+        principles.add(new PrincipleEntity("An nhieu", 100, "url"));
+        return principles;
     }
 }

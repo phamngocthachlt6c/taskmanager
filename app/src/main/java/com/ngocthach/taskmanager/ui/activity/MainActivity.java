@@ -20,6 +20,7 @@ import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.common.Constants;
 import com.ngocthach.taskmanager.common.MySharedPreferences;
 import com.ngocthach.taskmanager.ui.fragment.AssetsFragment;
+import com.ngocthach.taskmanager.ui.fragment.PrincipleFragment;
 import com.ngocthach.taskmanager.ui.view.SwipeViewPager;
 import com.ngocthach.taskmanager.ui.adapter.SwipeViewAdapter;
 import com.ngocthach.taskmanager.ui.fragment.CalendarFragment;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     private HomeFragment homeFragment;
     private AssetsFragment assetsFragment;
+    private PrincipleFragment principleFragment;
     private Date currentDate;
     private int mStackLevel;
     @Inject
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         setActionBarTitle(currentDate);
         homeFragment = new HomeFragment();
         assetsFragment = new AssetsFragment();
+        principleFragment = new PrincipleFragment();
         initSwipeViewPager();
         initTabPager();
         ((MyApplication) getApplicationContext()).getMyComponent().inject(this);
@@ -123,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         SwipeViewAdapter adapter = new SwipeViewAdapter(getSupportFragmentManager());
         adapter.addFragment(homeFragment, "HOME"); // all task on today
         adapter.addFragment(assetsFragment, "ASSETS"); // chart
-        adapter.addFragment(new HomeFragment(), "RULE");
+        adapter.addFragment(principleFragment, "PRINCIPLE");
         adapter.addFragment(new HomeFragment(), "REPORT");
         swipeViewPager.setAdapter(adapter);
     }

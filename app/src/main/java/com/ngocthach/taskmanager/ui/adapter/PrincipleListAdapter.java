@@ -11,8 +11,8 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.ngocthach.taskmanager.R;
-import com.ngocthach.taskmanager.db.entity.AssetEntity;
-import com.ngocthach.taskmanager.viewmodel.AssetViewModel;
+import com.ngocthach.taskmanager.db.entity.PrincipleEntity;
+import com.ngocthach.taskmanager.viewmodel.PrincipleViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -26,36 +26,36 @@ import butterknife.ButterKnife;
  * Created by ThachPham on 02/01/2018.
  */
 
-public class AssetsListAdapter extends RecyclerView.Adapter<AssetsListAdapter.AssetVH> {
+public class PrincipleListAdapter extends RecyclerView.Adapter<PrincipleListAdapter.PrincipleVH> {
 
-    private List<AssetEntity> assetEntities;
+    private List<PrincipleEntity> principleEntities;
     private Context mContext;
-    private AssetViewModel mViewModel;
+    private PrincipleViewModel mViewModel;
 
-    public AssetsListAdapter(Context context, AssetViewModel viewModel) {
+    public PrincipleListAdapter(Context context, PrincipleViewModel viewModel) {
         mContext = context;
         mViewModel = viewModel;
-        assetEntities = new ArrayList<>();
+        principleEntities = new ArrayList<>();
     }
 
-    public void loadList(List<AssetEntity> list) {
-        assetEntities.clear();
-        assetEntities.addAll(list);
+    public void loadList(List<PrincipleEntity> list) {
+        principleEntities.clear();
+        principleEntities.addAll(list);
         notifyDataSetChanged();
     }
 
     @Override
-    public AssetVH onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_asset_item, parent, false);
-        return new AssetVH(view);
+    public PrincipleVH onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_principle_item, parent, false);
+        return new PrincipleVH(view);
     }
 
     @Override
-    public void onBindViewHolder(AssetVH holder, int position) {
-        holder.assetTitle.setText(assetEntities.get(position).getName());
-        Picasso.with(mContext).load(assetEntities.get(position).getIconUrl())
+    public void onBindViewHolder(PrincipleVH holder, int position) {
+        holder.principleTitle.setText(principleEntities.get(position).getTitle());
+        Picasso.with(mContext).load(principleEntities.get(position).getIconUrl())
                 .error(R.mipmap.ic_launcher)
-                .into(holder.assetIcon);
+                .into(holder.principleIcon);
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -66,7 +66,7 @@ public class AssetsListAdapter extends RecyclerView.Adapter<AssetsListAdapter.As
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.action_delete:
-                                mViewModel.deleteAsset(assetEntities.get(position));
+                                mViewModel.deletePrinciple(principleEntities.get(position));
                                 break;
                         }
                         return false;
@@ -80,19 +80,20 @@ public class AssetsListAdapter extends RecyclerView.Adapter<AssetsListAdapter.As
 
     @Override
     public int getItemCount() {
-        return assetEntities.size();
+        return principleEntities.size();
     }
 
-    class AssetVH extends RecyclerView.ViewHolder {
+    class PrincipleVH extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.assetTitle)
-        TextView assetTitle;
+        @BindView(R.id.principleTitle)
+        TextView principleTitle;
         @BindView(R.id.iconView)
-        ImageView assetIcon;
+        ImageView principleIcon;
 
-        public AssetVH(View itemView) {
+        public PrincipleVH(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
     }
 }
+

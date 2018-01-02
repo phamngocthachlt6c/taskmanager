@@ -29,13 +29,15 @@ import android.util.Log;
 
 import com.ngocthach.taskmanager.AppExecutors;
 import com.ngocthach.taskmanager.db.dao.AssetDao;
+import com.ngocthach.taskmanager.db.dao.PrincipleDao;
 import com.ngocthach.taskmanager.db.dao.TaskDao;
 import com.ngocthach.taskmanager.db.entity.AssetEntity;
+import com.ngocthach.taskmanager.db.entity.PrincipleEntity;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 
 import java.util.List;
 
-@Database(entities = {TaskEntity.class, AssetEntity.class}, version = 2)
+@Database(entities = {TaskEntity.class, AssetEntity.class, PrincipleEntity.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase sInstance;
@@ -46,6 +48,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract TaskDao taskDao();
 
     public abstract AssetDao assetDao();
+
+    public abstract PrincipleDao principleDao();
 
     private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
 
@@ -83,6 +87,9 @@ public abstract class AppDatabase extends RoomDatabase {
 
                             List<AssetEntity> assets = DataGenerator.generateAssets();
                             insertAssetData(database, assets);
+
+                            List<PrincipleEntity> principles = DataGenerator.generatePrinciples();
+                            insertPrincipleData(database, principles);
                             // notify that the database was created and it's ready to be used
                             database.setDatabaseCreated();
                         });
@@ -112,6 +119,12 @@ public abstract class AppDatabase extends RoomDatabase {
     private static void insertAssetData(final AppDatabase database, final List<AssetEntity> assets) {
         database.runInTransaction(() -> {
             database.assetDao().insertListAsset(assets);
+        });
+    }
+
+    private static void insertPrincipleData(final AppDatabase database, final List<PrincipleEntity> principleEntities) {
+        database.runInTransaction(() -> {
+            database.principleDao().insertListPrinciple(principleEntities);
         });
     }
 
