@@ -33,6 +33,13 @@ public class Constants {
 
     // ----------- PATH -------------------//
     public static final String DEFAULT_TASK_ICON_PATH = "file:///android_asset/icon_tasks/icon_task_1.png";
+    public static final String DEFAULT_ASSET_ICON_PATH = "file:///android_asset/icon_assets/treasure1.png";
     public static final String ASSETS_FOLDER_PATH = "file:///android_asset/";
+
+    // ----------- TAB TYPE -----------------//
+    public static final int TAB_HOME = 0;
+    public static final int TAB_ASSETS = 1;
+    public static final int TAB_PRINCIPLE = 2;
+    public static final int TAB_REPORT = 3;
 
 }

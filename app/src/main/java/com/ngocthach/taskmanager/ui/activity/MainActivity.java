@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.ngocthach.taskmanager.MyApplication;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     TextView actionbarTitle;
     @BindView(R.id.tabs)
     TabLayout mTabLayout;
+    private Menu mOptionMenu;
 
     private HomeFragment homeFragment;
     private AssetsFragment assetsFragment;
@@ -70,6 +72,35 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout.getTabAt(1).setIcon(R.mipmap.icon_asset);
         mTabLayout.getTabAt(2).setIcon(R.mipmap.icon_principle);
         mTabLayout.getTabAt(3).setIcon(R.mipmap.icon_report);
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()) {
+                    case 0:
+                        setVisibleControlOptionMenu(Constants.TAB_HOME);
+                        break;
+                    case 1:
+                        setVisibleControlOptionMenu(Constants.TAB_ASSETS);
+                        break;
+                    case 2:
+                        setVisibleControlOptionMenu(Constants.TAB_PRINCIPLE);
+                        break;
+                    case 3:
+                        setVisibleControlOptionMenu(Constants.TAB_REPORT);
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     public void setActionBarTitle(Date date) {
@@ -98,8 +129,33 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.actionbar_menu_home, menu);
+        getMenuInflater().inflate(R.menu.main_activity_menu, menu);
+        mOptionMenu = menu;
         return true;
+    }
+
+    private void setVisibleControlOptionMenu(int tab) {
+        if(mOptionMenu == null) {
+            return;
+        }
+        switch (tab) {
+            case Constants.TAB_HOME:
+                mOptionMenu.findItem(R.id.action_add_task).setVisible(true);
+                mOptionMenu.findItem(R.id.action_calendar).setVisible(true);
+                mOptionMenu.findItem(R.id.action_add_asset).setVisible(false);
+                break;
+            case Constants.TAB_ASSETS:
+                mOptionMenu.findItem(R.id.action_add_task).setVisible(false);
+                mOptionMenu.findItem(R.id.action_calendar).setVisible(false);
+                mOptionMenu.findItem(R.id.action_add_asset).setVisible(true);
+                break;
+            case Constants.TAB_PRINCIPLE:
+
+                break;
+            case Constants.TAB_REPORT:
+
+                break;
+        }
     }
 
     @Override

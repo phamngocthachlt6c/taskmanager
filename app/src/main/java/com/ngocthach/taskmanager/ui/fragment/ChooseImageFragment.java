@@ -20,6 +20,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.ngocthach.taskmanager.ui.fragment.ChooseImageFragment.Assets.TASK;
+
 /**
  * ${CLASS}
  * Created by ThachPham on 27/12/2017.
@@ -27,10 +29,15 @@ import butterknife.ButterKnife;
 
 public class ChooseImageFragment extends DialogFragment {
 
+    public enum Assets {
+        TASK, ASSETS
+    }
+
     @BindView(R.id.chooseImageIconView)
     GridView gridView;
 
     private OnChangeIconImage onChangeIconImage;
+    private Assets assetType;
 
     public static ChooseImageFragment newInstance() {
         ChooseImageFragment f = new ChooseImageFragment();
@@ -46,17 +53,33 @@ public class ChooseImageFragment extends DialogFragment {
         return view;
     }
 
+    public void setAssetType(Assets asset) {
+        assetType = asset;
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        List<String> listPath = FileUtils.getListAssetsFilePath(getActivity(), "icon_tasks", ".png");
+        List<String> listPath;
+        switch (assetType) {
+            case TASK:
+                listPath = FileUtils.getListAssetsFilePath(getActivity(), "icon_tasks", ".png");
+                break;
+            case ASSETS:
+                listPath = FileUtils.getListAssetsFilePath(getActivity(), "icon_assets", ".png");
+                break;
+
+            default:
+                getDialog().cancel();
+                return;
+        }
         IconImageAdapter adapter = new IconImageAdapter(getActivity(), listPath);
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(onChangeIconImage != null) {
+                if (onChangeIconImage != null) {
                     onChangeIconImage.onChangePath(listPath.get(i));
                 }
                 getDialog().cancel();

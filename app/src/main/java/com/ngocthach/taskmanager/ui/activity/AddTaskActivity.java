@@ -146,6 +146,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
 
             case R.id.iconView:
                 ChooseImageFragment fragment = ChooseImageFragment.newInstance();
+                fragment.setAssetType(ChooseImageFragment.Assets.TASK);
                 fragment.setOnChangeIconImage(path -> {
                     iconUrl = path;
                     Picasso.with(AddTaskActivity.this).load(iconUrl)
