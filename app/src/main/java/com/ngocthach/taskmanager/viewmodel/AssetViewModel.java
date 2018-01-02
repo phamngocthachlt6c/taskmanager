@@ -18,7 +18,7 @@ public class AssetViewModel {
     private LiveData<List<AssetEntity>> listLiveAssets;
 
     public AssetViewModel(Application application) {
-        listLiveAssets = ((MyApplication) application).getRepository().getLAssets();
+        listLiveAssets = ((MyApplication) application).getRepository().getAssets();
     }
 
     public LiveData<List<AssetEntity>> getLiveAssets() {

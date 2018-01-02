@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color_theme"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/app_color_theme"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="@string/fragment_text_add_asset" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="15dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textViewNameField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/fragment_text_title_margin_left"
+                    android:layout_marginStart="@dimen/fragment_text_title_margin_left"
+                    android:text="@string/fragment_add_task_name_field"
+                    android:textColor="@color/fragment_add_task_title_color" />
+
+                <EditText
+                    android:id="@+id/editTextTaskName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textViewNameField"
+                    android:layout_marginLeft="@dimen/fragment_add_task_edit_text_margin_left"
+                    android:layout_marginStart="@dimen/fragment_add_task_edit_text_margin_left" />
+
+                <TextView
+                    android:id="@+id/textViewIconField"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/editTextTaskName"
+                    android:layout_marginLeft="@dimen/fragment_text_title_margin_left"
+                    android:layout_marginStart="@dimen/fragment_text_title_margin_left"
+                    android:text="@string/text_icon_image"
+                    android:textColor="@color/fragment_add_task_title_color" />
+
+                <ImageView
+                    android:id="@+id/iconView"
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size"
+                    android:layout_below="@+id/textViewIconField"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toEndOf="@+id/textViewIconField"
+                    android:layout_toRightOf="@id/textViewIconField"
+                    android:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textViewIconField"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_toEndOf="@id/iconView"
+                    android:layout_toRightOf="@id/iconView"
+                    android:text="@string/text_change_icon_image" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_color_theme"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/addTaskButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/fragment_add_task_distance_of_add_task_cancel"
+            android:layout_marginRight="@dimen/fragment_add_task_distance_of_add_task_cancel"
+            android:text="@string/fragment_text_add_asset" />
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_cancel" />
+    </LinearLayout>
+
+</LinearLayout>

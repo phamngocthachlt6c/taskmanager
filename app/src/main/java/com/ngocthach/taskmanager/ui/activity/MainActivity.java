@@ -174,6 +174,9 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, AddTaskActivity.class);
                 startActivityForResult(intent, Constants.ADD_TASK_REQUEST);
                 return true;
+            case R.id.action_add_asset:
+                startActivity(new Intent(this, AddAssetActivity.class));
+                return true;
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.

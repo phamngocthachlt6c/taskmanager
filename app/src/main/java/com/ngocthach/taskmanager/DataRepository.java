@@ -75,7 +75,11 @@ public class DataRepository {
         mDatabase.taskDao().deleteTask(taskEntity);
     }
 
-    public LiveData<List<AssetEntity>> getLAssets() {
+    public LiveData<List<AssetEntity>> getAssets() {
         return mDatabase.assetDao().loadAllAssets();
+    }
+
+    public long insertAsset(AssetEntity assetEntity) {
+        return mDatabase.assetDao().insertAsset(assetEntity);
     }
 }
