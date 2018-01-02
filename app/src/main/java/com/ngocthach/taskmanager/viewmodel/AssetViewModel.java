@@ -16,12 +16,23 @@ import java.util.List;
 public class AssetViewModel {
 
     private LiveData<List<AssetEntity>> listLiveAssets;
+    private Application mApplication;
 
     public AssetViewModel(Application application) {
+        mApplication = application;
         listLiveAssets = ((MyApplication) application).getRepository().getAssets();
     }
 
     public LiveData<List<AssetEntity>> getLiveAssets() {
         return listLiveAssets;
+    }
+
+    public void deleteAsset(AssetEntity assetEntity) {
+        ((MyApplication) mApplication).getMyAppExecutors().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                ((MyApplication) mApplication).getRepository().deleteAsset(assetEntity);
+            }
+        });
     }
 }

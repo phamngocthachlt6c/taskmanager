@@ -20,30 +20,39 @@ import android.app.Application;
 
 import com.ngocthach.taskmanager.db.AppDatabase;
 import com.ngocthach.taskmanager.di.AppComponent;
+import com.ngocthach.taskmanager.di.AppExecutorModule;
 import com.ngocthach.taskmanager.di.AssetViewModelModule;
 import com.ngocthach.taskmanager.di.ContextModule;
 import com.ngocthach.taskmanager.di.DaggerAppComponent;
 import com.ngocthach.taskmanager.di.SharedPreferencesModule;
+
+import javax.inject.Inject;
 
 /**
  * Android Application class. Used for accessing singletons.
  */
 public class MyApplication extends Application {
 
-    private AppExecutors mAppExecutors;
+    @Inject
+    AppExecutors mAppExecutors;
     private AppComponent appComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        mAppExecutors = new AppExecutors();
         appComponent = DaggerAppComponent.builder()
                 .contextModule(new ContextModule(getApplicationContext()))
                 .sharedPreferencesModule(new SharedPreferencesModule())
                 .assetViewModelModule(new AssetViewModelModule(this))
+                .appExecutorModule(new AppExecutorModule())
                 .build();
+        appComponent.inject(this);
 
+    }
+
+    public AppExecutors getMyAppExecutors() {
+        return mAppExecutors;
     }
 
     public AppComponent getMyComponent() {

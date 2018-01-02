@@ -50,7 +50,7 @@ public class AssetsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         ((MyApplication) getActivity().getApplication()).getMyComponent().inject(this);
-        mAssetsListAdapter = new AssetsListAdapter(getContext());
+        mAssetsListAdapter = new AssetsListAdapter(getContext(), assetViewModel);
         assetsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         assetsRecyclerView.setAdapter(mAssetsListAdapter);
         assetViewModel.getLiveAssets().observe(this, new Observer<List<AssetEntity>>() {

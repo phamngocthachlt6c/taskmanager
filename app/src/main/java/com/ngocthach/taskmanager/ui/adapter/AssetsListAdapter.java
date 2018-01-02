@@ -2,14 +2,19 @@ package com.ngocthach.taskmanager.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.db.entity.AssetEntity;
+import com.ngocthach.taskmanager.viewmodel.AssetViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -27,9 +32,11 @@ public class AssetsListAdapter extends RecyclerView.Adapter<AssetsListAdapter.As
 
     private List<AssetEntity> assetEntities;
     private Context mContext;
+    private AssetViewModel mViewModel;
 
-    public AssetsListAdapter(Context context) {
+    public AssetsListAdapter(Context context, AssetViewModel viewModel) {
         mContext = context;
+        mViewModel = viewModel;
         assetEntities = new ArrayList<>();
     }
 
@@ -51,6 +58,26 @@ public class AssetsListAdapter extends RecyclerView.Adapter<AssetsListAdapter.As
         Picasso.with(mContext).load(assetEntities.get(position).getIconUrl())
                 .error(R.mipmap.ic_launcher)
                 .into(holder.assetIcon);
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(mContext, v);
+                popupMenu.getMenuInflater().inflate(R.menu.asset_list_popup_menu, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.action_delete:
+                                mViewModel.deleteAsset(assetEntities.get(position));
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.show();
+                return false;
+            }
+        });
     }
 
     @Override
@@ -58,7 +85,7 @@ public class AssetsListAdapter extends RecyclerView.Adapter<AssetsListAdapter.As
         return assetEntities.size();
     }
 
-    static class AssetVH extends RecyclerView.ViewHolder {
+    class AssetVH extends RecyclerView.ViewHolder {
 
         @BindView(R.id.assetTitle)
         TextView assetTitle;

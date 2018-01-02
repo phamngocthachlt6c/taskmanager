@@ -1,8 +1,6 @@
 package com.ngocthach.taskmanager;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MediatorLiveData;
-import android.arch.lifecycle.Transformations;
 import android.util.Log;
 
 
@@ -10,7 +8,6 @@ import com.ngocthach.taskmanager.db.AppDatabase;
 import com.ngocthach.taskmanager.db.entity.AssetEntity;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -81,5 +78,9 @@ public class DataRepository {
 
     public long insertAsset(AssetEntity assetEntity) {
         return mDatabase.assetDao().insertAsset(assetEntity);
+    }
+
+    public void deleteAsset(AssetEntity assetEntity) {
+        mDatabase.assetDao().deleteAsset(assetEntity);
     }
 }

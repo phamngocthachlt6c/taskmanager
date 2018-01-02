@@ -9,6 +9,7 @@
     <string name="calendar">Calendar</string>
     <string name="setting">Setting</string>
     <string name="add_task">Add task</string>
+    <string name="text_delete">Delete</string>
 
     <!-- fragment add task -->
     <string name="fragment_add_task_name_field">Title</string>

@@ -239,6 +239,12 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     public void onTick(long millisUntilFinished) {
                         long hour = millisUntilFinished / (60 * 60 * 1000);
                         long min = (millisUntilFinished % (60 * 60 * 1000)) / (60 * 1000);
+
+                        // fix bug 12:60
+                        if(min == 60) {
+                            hour += 1;
+                            min = -1;
+                        }
                         headerViewHolder.remainTime
                                 .setText(isShowColon ? (String.format("%02d:%02d", hour, min + 1)) : String.format("%02d %02d", hour, min + 1));
                         isShowColon = !isShowColon;
