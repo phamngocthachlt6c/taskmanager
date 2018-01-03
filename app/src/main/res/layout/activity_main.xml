@@ -13,7 +13,7 @@
         android:background="@color/app_color_theme"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
         <TextView
             android:textColor="@color/fragment_add_task_title_color"

@@ -5,6 +5,12 @@
     <string name="text_cancel">CANCEL</string>
     <string name="text_nodata">There is no task</string>
 
+    <!-- tab page name -->
+    <string name="home_page">Tasks</string>
+    <string name="assets_page">Assets</string>
+    <string name="principles_page">Principles</string>
+    <string name="report_page">Report</string>
+
     <!-- menu -->
     <string name="calendar">Calendar</string>
     <string name="setting">Setting</string>

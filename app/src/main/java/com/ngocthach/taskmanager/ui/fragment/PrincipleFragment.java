@@ -13,11 +13,8 @@ import android.view.ViewGroup;
 import com.ngocthach.taskmanager.MyApplication;
 import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.common.MySharedPreferences;
-import com.ngocthach.taskmanager.db.entity.AssetEntity;
 import com.ngocthach.taskmanager.db.entity.PrincipleEntity;
-import com.ngocthach.taskmanager.ui.adapter.AssetsListAdapter;
 import com.ngocthach.taskmanager.ui.adapter.PrincipleListAdapter;
-import com.ngocthach.taskmanager.viewmodel.AssetViewModel;
 import com.ngocthach.taskmanager.viewmodel.PrincipleViewModel;
 
 import java.util.List;

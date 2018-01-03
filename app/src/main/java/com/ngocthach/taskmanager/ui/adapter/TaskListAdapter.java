@@ -36,10 +36,10 @@ import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,6 +64,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private int sortType;
     private Rect rs;
     private CountDownTimer countDownTimer;
+    private Date mHeaderDate;
 
     public TaskListAdapter(Context context/*, executors */, TaskViewModel taskViewModel, MySharedPreferences sharedPreferences) {
         listTask = new ArrayList<>();
@@ -73,7 +74,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         viewModel = taskViewModel;
         iconDeleted = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_delete);
         rs = new Rect();
-
+        mHeaderDate = Calendar.getInstance().getTime();
         setSortType(sharedPreferences.getSortType());
     }
 
@@ -185,8 +186,8 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (holder instanceof HeaderViewHolder) {
             // Check list is null then set visible gone
             // If the date not TO DAY...
-
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
+            headerViewHolder.headerDate.setText(android.text.format.DateFormat.getDateFormat(context).format(mHeaderDate));
             View.OnClickListener onClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -373,11 +374,17 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView remainTime;
         @BindView(R.id.remainTimeCardView)
         View cardViewTime;
+        @BindView(R.id.headerDate)
+        TextView headerDate;
 
         public HeaderViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public void setHeaderDate(Date date) {
+        mHeaderDate = date;
     }
 
     private void printList() {

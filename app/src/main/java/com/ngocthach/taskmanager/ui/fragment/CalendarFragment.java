@@ -52,7 +52,7 @@ public class CalendarFragment extends DialogFragment {
         calendarView.setOnDayClickListener(eventDay -> {
             Log.d("aaaaa", "onDayClick: " + eventDay.getCalendar().getTime().toString());
             Date date = new Date(eventDay.getCalendar().getTime().getTime());
-            ((MainActivity) getActivity()).setActionBarTitle(date);
+            ((MainActivity) getActivity()).getHomeFragment().changeListTask(date);
             getDialog().cancel();
         });
         return v;

@@ -63,7 +63,7 @@ public class HomeFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         TaskViewModel.Factory factory = new TaskViewModel.Factory(getActivity().getApplication());
         taskViewModel = ViewModelProviders.of(this, factory).get(TaskViewModel.class);
-        taskViewModel.setDate(Calendar.getInstance().getTime()); // change the date string param to be Date
+        taskViewModel.setDate(Calendar.getInstance().getTime());
         taskListAdapter = new TaskListAdapter(getContext(), taskViewModel, sharedPreferences);
         taskRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         taskRecyclerView.setAdapter(taskListAdapter);
@@ -85,6 +85,7 @@ public class HomeFragment extends Fragment {
 
     public void changeListTask(Date date) {
         Log.d("bbbbbbb", "changeListTask: year = " + date.getYear() + ", tostring = " + date);
+        taskListAdapter.setHeaderDate(date);
         loadingLayout.setVisibility(View.VISIBLE);
         noDataLayout.setVisibility(View.GONE);
         taskRecyclerView.setVisibility(View.GONE);

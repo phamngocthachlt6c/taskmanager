@@ -9,10 +9,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import com.ngocthach.taskmanager.MyApplication;
@@ -25,10 +23,6 @@ import com.ngocthach.taskmanager.ui.view.SwipeViewPager;
 import com.ngocthach.taskmanager.ui.adapter.SwipeViewAdapter;
 import com.ngocthach.taskmanager.ui.fragment.CalendarFragment;
 import com.ngocthach.taskmanager.ui.fragment.HomeFragment;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -45,10 +39,9 @@ public class MainActivity extends AppCompatActivity {
     TabLayout mTabLayout;
     private Menu mOptionMenu;
 
-    private HomeFragment homeFragment;
+    private HomeFragment mHomeFragment;
     private AssetsFragment assetsFragment;
     private PrincipleFragment principleFragment;
-    private Date currentDate;
     private int mStackLevel;
     @Inject
     MySharedPreferences mySharedPreferences;
@@ -60,9 +53,13 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-        currentDate = Calendar.getInstance().getTime();
-        setActionBarTitle(currentDate);
-        homeFragment = new HomeFragment();
+
+        // Set empty action bar title
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null) {
+            actionBar.setTitle("");
+        }
+        mHomeFragment = new HomeFragment();
         assetsFragment = new AssetsFragment();
         principleFragment = new PrincipleFragment();
         initSwipeViewPager();
@@ -107,24 +104,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void setActionBarTitle(Date date) {
-        currentDate = date;
-        ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null) {
-            SimpleDateFormat fmtOut = new SimpleDateFormat("dd-MM-yyyy");
-            actionBar.setTitle("");
-            actionbarTitle.setText(fmtOut.format(date));
-
-        }
-        if(homeFragment != null) {
-            homeFragment.changeListTask(date);
-        }
-    }
-
     private void initSwipeViewPager() {
         swipeViewPager.setOffscreenPageLimit(4);
         SwipeViewAdapter adapter = new SwipeViewAdapter(getSupportFragmentManager());
-        adapter.addFragment(homeFragment, "HOME"); // all task on today
+        adapter.addFragment(mHomeFragment, "HOME"); // all task on today
         adapter.addFragment(assetsFragment, "ASSETS"); // chart
         adapter.addFragment(principleFragment, "PRINCIPLE");
         adapter.addFragment(new HomeFragment(), "REPORT");
@@ -135,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_activity_menu, menu);
         mOptionMenu = menu;
+        setVisibleControlOptionMenu(Constants.TAB_HOME);
         return true;
     }
 
@@ -147,17 +131,19 @@ public class MainActivity extends AppCompatActivity {
                 mOptionMenu.findItem(R.id.action_add_task).setVisible(true);
                 mOptionMenu.findItem(R.id.action_calendar).setVisible(true);
                 mOptionMenu.findItem(R.id.action_add_asset).setVisible(false);
+                actionbarTitle.setText(getResources().getString(R.string.home_page));
                 break;
             case Constants.TAB_ASSETS:
                 mOptionMenu.findItem(R.id.action_add_task).setVisible(false);
                 mOptionMenu.findItem(R.id.action_calendar).setVisible(false);
                 mOptionMenu.findItem(R.id.action_add_asset).setVisible(true);
+                actionbarTitle.setText(getResources().getString(R.string.assets_page));
                 break;
             case Constants.TAB_PRINCIPLE:
-
+                actionbarTitle.setText(getResources().getString(R.string.principles_page));
                 break;
             case Constants.TAB_REPORT:
-
+                actionbarTitle.setText(getResources().getString(R.string.report_page));
                 break;
         }
     }
@@ -210,14 +196,18 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case Constants.ADD_TASK_REQUEST:
                 if(resultCode == Constants.ADD_TASK_SUCCESS) {
-                    homeFragment.insertTaskToList(data.getParcelableExtra("taskEntity"));
+                    mHomeFragment.insertTaskToList(data.getParcelableExtra("taskEntity"));
                 }
                 break;
             case Constants.EDIT_TASK_REQUEST:
                 if(resultCode == Constants.EDIT_TASK_SUCCESS) {
-                    homeFragment.refreshList();
+                    mHomeFragment.refreshList();
                 }
                 break;
         }
+    }
+
+    public HomeFragment getHomeFragment() {
+        return mHomeFragment;
     }
 }
