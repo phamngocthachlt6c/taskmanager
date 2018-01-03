@@ -21,6 +21,13 @@
         app:showAsAction="always"
         android:visible="false"/>
 
+    <item
+        android:id="@+id/action_add_principle"
+        android:icon="@mipmap/add_principle_icon"
+        android:title="@string/fragment_text_add_principle"
+        app:showAsAction="always"
+        android:visible="false"/>
+
     <!-- Settings, should always be in the overflow -->
     <item
         android:id="@+id/action_settings"

@@ -30,7 +30,7 @@ import static com.ngocthach.taskmanager.ui.fragment.ChooseImageFragment.Assets.T
 public class ChooseImageFragment extends DialogFragment {
 
     public enum Assets {
-        TASK, ASSETS
+        TASK, ASSETS, PRINCIPLE
     }
 
     @BindView(R.id.chooseImageIconView)
@@ -55,6 +55,9 @@ public class ChooseImageFragment extends DialogFragment {
             case ASSETS:
                 getDialog().setTitle(getResources().getString(R.string.text_choose_icon_asset));
                 break;
+            case PRINCIPLE:
+                getDialog().setTitle(getResources().getString(R.string.text_choose_icon_principle));
+                break;
         }
         return view;
     }
@@ -75,7 +78,9 @@ public class ChooseImageFragment extends DialogFragment {
             case ASSETS:
                 listPath = FileUtils.getListAssetsFilePath(getActivity(), "icon_assets", ".png");
                 break;
-
+            case PRINCIPLE:
+                listPath = FileUtils.getListAssetsFilePath(getActivity(), "icon_principles", ".png");
+                break;
             default:
                 getDialog().cancel();
                 return;

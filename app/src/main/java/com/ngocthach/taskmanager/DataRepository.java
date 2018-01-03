@@ -92,4 +92,8 @@ public class DataRepository {
     public void deletePrinciple(PrincipleEntity principle) {
         mDatabase.principleDao().deletePrinciple(principle);
     }
+
+    public long insertPrinciple(PrincipleEntity entity) {
+        return mDatabase.principleDao().insertPrinciple(entity);
+    }
 }

@@ -10,7 +10,6 @@ import android.graphics.Rect;
 import android.os.CountDownTimer;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -129,7 +128,6 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void loadListTask(List<TaskEntity> list) {
-        Log.d("aaaaaaa", "loadListTask: notifyDatasetChanged " + sortType);
 
         if (list == null || listTask == null) {
             return;
@@ -187,6 +185,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             // Check list is null then set visible gone
             // If the date not TO DAY...
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
+            headerViewHolder.setIsRecyclable(false);
             headerViewHolder.headerDate.setText(android.text.format.DateFormat.getDateFormat(context).format(mHeaderDate));
             View.OnClickListener onClickListener = new View.OnClickListener() {
                 @Override
@@ -310,6 +309,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             // Check list is null then set visible gone
             // If the date not TO DAY...
             FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
+            footerViewHolder.setIsRecyclable(false);
             footerViewHolder.text.setText("afsdf");
         }
     }
@@ -385,12 +385,5 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public void setHeaderDate(Date date) {
         mHeaderDate = date;
-    }
-
-    private void printList() {
-        Log.d("aaaaaaaa", "printList: start print list **********************");
-        for (TaskEntity task : listTask) {
-            Log.d("aaaaaaa", "printList: task isdone = " + task.isDone());
-        }
     }
 }

@@ -31,6 +31,11 @@ public class PrincipleViewModel extends AndroidViewModel {
     }
 
     public void deletePrinciple(PrincipleEntity principleEntity) {
-        ((MyApplication) mApplication).getRepository().deletePrinciple(principleEntity);
+        ((MyApplication) mApplication).getMyAppExecutors().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                ((MyApplication) mApplication).getRepository().deletePrinciple(principleEntity);
+            }
+        });
     }
 }

@@ -131,15 +131,21 @@ public class MainActivity extends AppCompatActivity {
                 mOptionMenu.findItem(R.id.action_add_task).setVisible(true);
                 mOptionMenu.findItem(R.id.action_calendar).setVisible(true);
                 mOptionMenu.findItem(R.id.action_add_asset).setVisible(false);
+                mOptionMenu.findItem(R.id.action_add_principle).setVisible(false);
                 actionbarTitle.setText(getResources().getString(R.string.home_page));
                 break;
             case Constants.TAB_ASSETS:
+                mOptionMenu.findItem(R.id.action_add_principle).setVisible(false);
                 mOptionMenu.findItem(R.id.action_add_task).setVisible(false);
                 mOptionMenu.findItem(R.id.action_calendar).setVisible(false);
                 mOptionMenu.findItem(R.id.action_add_asset).setVisible(true);
                 actionbarTitle.setText(getResources().getString(R.string.assets_page));
                 break;
             case Constants.TAB_PRINCIPLE:
+                mOptionMenu.findItem(R.id.action_add_principle).setVisible(true);
+                mOptionMenu.findItem(R.id.action_add_task).setVisible(false);
+                mOptionMenu.findItem(R.id.action_calendar).setVisible(false);
+                mOptionMenu.findItem(R.id.action_add_asset).setVisible(false);
                 actionbarTitle.setText(getResources().getString(R.string.principles_page));
                 break;
             case Constants.TAB_REPORT:
@@ -166,6 +172,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.action_add_asset:
                 startActivity(new Intent(this, AddAssetActivity.class));
+                return true;
+            case R.id.action_add_principle:
+                startActivity(new Intent(this, AddPrincipleActivity.class));
                 return true;
             default:
                 // If we got here, the user's action was not recognized.

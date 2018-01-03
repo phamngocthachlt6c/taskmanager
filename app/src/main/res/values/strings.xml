@@ -22,7 +22,6 @@
     <string name="fragment_add_task_content_field">Content</string>
     <string name="fragment_add_task_title">Add your task</string>
     <string name="fragment_text_add_task">Add task</string>
-    <string name="fragment_text_add_asset">Add asset</string>
     <string name="fragment_text_priority">Priority</string>
     <string name="fragment_text_set_alarm">Set alarm</string>
     <string name="fragment_text_choose_day_in_week">Choose day in week</string>
@@ -36,6 +35,11 @@
 
     <!-- fragment add asset -->
     <string name="text_choose_icon_asset">Choose your asset icon</string>
+    <string name="fragment_text_add_asset">Add asset</string>
+
+    <!-- fragment add principle -->
+    <string name="text_choose_icon_principle">Choose your principle icon</string>
+    <string name="fragment_text_add_principle">Add principle</string>
 
     <!-- header item -->
     <string name="text_task_list_setting">Task list</string>
