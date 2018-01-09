@@ -220,7 +220,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             // Check list is null then set visible gone
             // If the date not TO DAY...
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
-            headerViewHolder.setIsRecyclable(false);
+//            headerViewHolder.setIsRecyclable(false);
             headerViewHolder.headerDate.setText(android.text.format.DateFormat.getDateFormat(mContext).format(mHeaderDate));
             View.OnClickListener onClickListener = new View.OnClickListener() {
                 @Override

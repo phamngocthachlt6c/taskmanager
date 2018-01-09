@@ -17,6 +17,7 @@
 package com.ngocthach.taskmanager.db;
 
 import com.ngocthach.taskmanager.db.entity.AssetEntity;
+import com.ngocthach.taskmanager.db.entity.BookEntity;
 import com.ngocthach.taskmanager.db.entity.PrincipleEntity;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 
@@ -55,5 +56,14 @@ public class DataGenerator {
         principles.add(new PrincipleEntity("An nhieu", 100, "url"));
         principles.add(new PrincipleEntity("An nhieu", 100, "url"));
         return principles;
+    }
+
+    public static List<BookEntity> generateBooks() {
+        List<BookEntity> bookEntities = new ArrayList<>();
+        bookEntities.add(new BookEntity("An nhieu", "thach", false));
+        bookEntities.add(new BookEntity("An nhieu", "thach", false));
+        bookEntities.add(new BookEntity("An nhieu", "thach", false));
+        bookEntities.add(new BookEntity("An nhieu", "thach", false));
+        return bookEntities;
     }
 }

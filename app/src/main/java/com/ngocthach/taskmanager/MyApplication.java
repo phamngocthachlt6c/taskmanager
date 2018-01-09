@@ -22,6 +22,7 @@ import com.ngocthach.taskmanager.db.AppDatabase;
 import com.ngocthach.taskmanager.di.AppComponent;
 import com.ngocthach.taskmanager.di.AppExecutorModule;
 import com.ngocthach.taskmanager.di.AssetViewModelModule;
+import com.ngocthach.taskmanager.di.BookViewModelModule;
 import com.ngocthach.taskmanager.di.ContextModule;
 import com.ngocthach.taskmanager.di.DaggerAppComponent;
 import com.ngocthach.taskmanager.di.PrincipleViewModelModule;
@@ -50,6 +51,7 @@ public class MyApplication extends Application {
                 .assetViewModelModule(new AssetViewModelModule(new WeakReference<Application>(this)))
                 .appExecutorModule(new AppExecutorModule())
                 .principleViewModelModule(new PrincipleViewModelModule(new WeakReference<Application>(this)))
+                .bookViewModelModule(new BookViewModelModule(new WeakReference<Application>(this)))
                 .build();
         appComponent.inject(this);
 

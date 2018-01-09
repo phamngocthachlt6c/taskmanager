@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.ngocthach.taskmanager.db.AppDatabase;
 import com.ngocthach.taskmanager.db.entity.AssetEntity;
+import com.ngocthach.taskmanager.db.entity.BookEntity;
 import com.ngocthach.taskmanager.db.entity.PrincipleEntity;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 
@@ -103,5 +104,21 @@ public class DataRepository {
 
     public void updatePrinciple(PrincipleEntity entity) {
         mDatabase.principleDao().updatePrinciple(entity);
+    }
+
+    public LiveData<List<BookEntity>> getBooks() {
+        return mDatabase.bookDao().loadAllBooks();
+    }
+
+    public void insertBook(BookEntity bookEntity) {
+        mDatabase.bookDao().insertBook(bookEntity);
+    }
+
+    public void updateBook(BookEntity bookEntity) {
+        mDatabase.bookDao().updateBook(bookEntity);
+    }
+
+    public void deleteBook(BookEntity bookEntity) {
+        mDatabase.bookDao().deleteBook(bookEntity);
     }
 }

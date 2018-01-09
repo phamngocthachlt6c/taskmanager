@@ -6,7 +6,8 @@
     android:layout_marginLeft="@dimen/task_item_margin"
     android:layout_marginRight="@dimen/task_item_margin"
     android:layout_marginStart="@dimen/task_item_margin"
-    android:layout_marginTop="@dimen/task_item_margin">
+    android:layout_marginTop="@dimen/task_item_margin"
+    android:layout_marginBottom="30dp">
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -29,15 +29,17 @@ import android.util.Log;
 
 import com.ngocthach.taskmanager.AppExecutors;
 import com.ngocthach.taskmanager.db.dao.AssetDao;
+import com.ngocthach.taskmanager.db.dao.BookDao;
 import com.ngocthach.taskmanager.db.dao.PrincipleDao;
 import com.ngocthach.taskmanager.db.dao.TaskDao;
 import com.ngocthach.taskmanager.db.entity.AssetEntity;
+import com.ngocthach.taskmanager.db.entity.BookEntity;
 import com.ngocthach.taskmanager.db.entity.PrincipleEntity;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 
 import java.util.List;
 
-@Database(entities = {TaskEntity.class, AssetEntity.class, PrincipleEntity.class}, version = 1)
+@Database(entities = {TaskEntity.class, AssetEntity.class, PrincipleEntity.class, BookEntity.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase sInstance;
@@ -50,6 +52,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract AssetDao assetDao();
 
     public abstract PrincipleDao principleDao();
+
+    public abstract BookDao bookDao();
 
     private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
 
@@ -90,6 +94,10 @@ public abstract class AppDatabase extends RoomDatabase {
 
                             List<PrincipleEntity> principles = DataGenerator.generatePrinciples();
                             insertPrincipleData(database, principles);
+
+                            List<BookEntity> books = DataGenerator.generateBooks();
+                            insertBookData(database, books);
+
                             // notify that the database was created and it's ready to be used
                             database.setDatabaseCreated();
                         });
@@ -125,6 +133,12 @@ public abstract class AppDatabase extends RoomDatabase {
     private static void insertPrincipleData(final AppDatabase database, final List<PrincipleEntity> principleEntities) {
         database.runInTransaction(() -> {
             database.principleDao().insertListPrinciple(principleEntities);
+        });
+    }
+
+    private static void insertBookData(final AppDatabase database, final List<BookEntity> bookEntities) {
+        database.runInTransaction(() -> {
+            database.bookDao().insertListBook(bookEntities);
         });
     }
 

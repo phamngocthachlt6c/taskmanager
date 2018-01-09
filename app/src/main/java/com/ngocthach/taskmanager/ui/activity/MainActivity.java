@@ -18,6 +18,7 @@ import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.common.Constants;
 import com.ngocthach.taskmanager.common.MySharedPreferences;
 import com.ngocthach.taskmanager.ui.fragment.AssetsFragment;
+import com.ngocthach.taskmanager.ui.fragment.BookFragment;
 import com.ngocthach.taskmanager.ui.fragment.PrincipleFragment;
 import com.ngocthach.taskmanager.ui.view.SwipeViewPager;
 import com.ngocthach.taskmanager.ui.adapter.SwipeViewAdapter;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private HomeFragment mHomeFragment;
     private AssetsFragment assetsFragment;
     private PrincipleFragment principleFragment;
+    private BookFragment mBookFragment;
     private int mStackLevel;
     @Inject
     MySharedPreferences mySharedPreferences;
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         mHomeFragment = new HomeFragment();
         assetsFragment = new AssetsFragment();
         principleFragment = new PrincipleFragment();
+        mBookFragment = new BookFragment();
         initSwipeViewPager();
         initTabPager();
         ((MyApplication) getApplicationContext()).getMyComponent().inject(this);
@@ -109,8 +112,8 @@ public class MainActivity extends AppCompatActivity {
         SwipeViewAdapter adapter = new SwipeViewAdapter(getSupportFragmentManager());
         adapter.addFragment(mHomeFragment, "HOME"); // all task on today
         adapter.addFragment(assetsFragment, "ASSETS"); // chart
-        adapter.addFragment(principleFragment, "PRINCIPLE");
-        adapter.addFragment(new HomeFragment(), "REPORT");
+        adapter.addFragment(principleFragment, "PRINCIPLES");
+        adapter.addFragment(mBookFragment, "BOOKS");
         swipeViewPager.setAdapter(adapter);
     }
 
@@ -149,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                 actionbarTitle.setText(getResources().getString(R.string.principles_page));
                 break;
             case Constants.TAB_REPORT:
-                actionbarTitle.setText(getResources().getString(R.string.report_page));
+                actionbarTitle.setText(getResources().getString(R.string.book_page));
                 break;
         }
     }
