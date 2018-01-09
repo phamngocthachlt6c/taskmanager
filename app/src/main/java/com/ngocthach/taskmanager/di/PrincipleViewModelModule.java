@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.ngocthach.taskmanager.viewmodel.PrincipleViewModel;
 
+import java.lang.ref.WeakReference;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -15,9 +17,9 @@ import dagger.Provides;
 @Module
 public class PrincipleViewModelModule {
 
-    private Application application;
+    private WeakReference<Application> application;
 
-    public PrincipleViewModelModule(Application application) {
+    public PrincipleViewModelModule(WeakReference<Application> application) {
         this.application = application;
     }
 

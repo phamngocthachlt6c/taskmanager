@@ -1,5 +1,7 @@
 package com.ngocthach.taskmanager.ui.adapter;
 
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.CountDownTimer;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
@@ -27,9 +30,13 @@ import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.common.Constants;
 import com.ngocthach.taskmanager.common.MySharedPreferences;
 import com.ngocthach.taskmanager.common.TimeUtils;
+import com.ngocthach.taskmanager.db.entity.AssetEntity;
+import com.ngocthach.taskmanager.db.entity.PrincipleEntity;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 import com.ngocthach.taskmanager.ui.activity.MainActivity;
 import com.ngocthach.taskmanager.ui.activity.TaskDetailActivity;
+import com.ngocthach.taskmanager.viewmodel.AssetViewModel;
+import com.ngocthach.taskmanager.viewmodel.PrincipleViewModel;
 import com.ngocthach.taskmanager.viewmodel.TaskViewModel;
 import com.squareup.picasso.Picasso;
 
@@ -55,7 +62,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private List<TaskEntity> listTask;
     private SimpleDateFormat dateFormat;
-    private Context context;
+    private Context mContext;
     private TaskViewModel viewModel;
     private Bitmap iconDeleted;
 
@@ -65,16 +72,44 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private CountDownTimer countDownTimer;
     private Date mHeaderDate;
 
-    public TaskListAdapter(Context context/*, executors */, TaskViewModel taskViewModel, MySharedPreferences sharedPreferences) {
+    private int mBankingPoint;
+    private int mPrinciplePoint;
+
+    public TaskListAdapter(Context context, TaskViewModel taskViewModel, AssetViewModel assetViewModel,
+                           PrincipleViewModel principleViewModel, MySharedPreferences sharedPreferences) {
         listTask = new ArrayList<>();
         dateFormat = new SimpleDateFormat("HH:mm");
-        this.context = context;
+        this.mContext = context;
         this.sharedPreferences = sharedPreferences;
         viewModel = taskViewModel;
         iconDeleted = BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon_delete);
         rs = new Rect();
         mHeaderDate = Calendar.getInstance().getTime();
         setSortType(sharedPreferences.getSortType());
+
+        assetViewModel.getLiveAssets().observe((LifecycleOwner) mContext, assetEntities -> {
+            if(assetEntities == null) {
+                return;
+            }
+            int point = 0;
+            for(AssetEntity assetEntity : assetEntities) {
+                point += assetEntity.getValue();
+            }
+            mBankingPoint = point;
+            notifyDataSetChanged();
+        });
+
+        principleViewModel.getLiveList().observe((LifecycleOwner) mContext, principleEntities -> {
+            if(principleEntities == null) {
+                return;
+            }
+            int point = 0;
+            for(PrincipleEntity principleEntity : principleEntities) {
+                point += principleEntity.getPoint();
+            }
+            mPrinciplePoint = point;
+            notifyDataSetChanged();
+        });
     }
 
     public void setSwipeToDeleteItem(RecyclerView recyclerView) {
@@ -92,7 +127,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     listTask.remove(viewHolder.getAdapterPosition() - 1);
                     viewModel.deleteTask(viewHolder.getAdapterPosition() - 1);
                     notifyDataChanged();
-                    new Thread(() -> ((MyApplication) context.getApplicationContext()).getRepository()
+                    new Thread(() -> ((MyApplication) mContext.getApplicationContext()).getRepository()
                             .deleteTask(task)).start();
                 }
             }
@@ -103,7 +138,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 View itemView = viewHolder.itemView;
                 if (viewHolder instanceof TaskViewHolder) {
                     Paint p = new Paint();
-                    p.setColor(context.getResources().getColor(R.color.light_red));
+                    p.setColor(mContext.getResources().getColor(R.color.light_red));
                     p.setAlpha((int) (255 * (dX / (itemView.getRight() - itemView.getLeft()))));
                     c.drawRect((float) itemView.getLeft(), (float) itemView.getTop(), dX,
                             (float) itemView.getBottom(), p);
@@ -186,19 +221,19 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             // If the date not TO DAY...
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
             headerViewHolder.setIsRecyclable(false);
-            headerViewHolder.headerDate.setText(android.text.format.DateFormat.getDateFormat(context).format(mHeaderDate));
+            headerViewHolder.headerDate.setText(android.text.format.DateFormat.getDateFormat(mContext).format(mHeaderDate));
             View.OnClickListener onClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (headerViewHolder.settingLayout.getVisibility() == View.VISIBLE) {
-                        Animation animHide = AnimationUtils.loadAnimation(context, R.anim.view_hide);
+                        Animation animHide = AnimationUtils.loadAnimation(mContext, R.anim.view_hide);
                         headerViewHolder.settingLayout.startAnimation(animHide);
                         headerViewHolder.settingLayout.setVisibility(View.GONE);
                         headerViewHolder.iconSettingBt.setImageResource(R.mipmap.arrow_down);
                     } else {
                         headerViewHolder.settingLayout.setVisibility(View.VISIBLE);
                         headerViewHolder.iconSettingBt.setImageResource(R.mipmap.arrow_up);
-                        Animation animShow = AnimationUtils.loadAnimation(context, R.anim.view_show);
+                        Animation animShow = AnimationUtils.loadAnimation(mContext, R.anim.view_show);
                         headerViewHolder.settingLayout.startAnimation(animShow);
                     }
                 }
@@ -210,7 +245,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if (sharedPreferences.getSortType() == Constants.TIMING) {
                 headerViewHolder.radioSortTypeTime.setChecked(true);
             } else {
-                headerViewHolder.radioSorttypePriority.setChecked(true);
+                headerViewHolder.radioSortTypePriority.setChecked(true);
             }
             headerViewHolder.radioGroup.setOnCheckedChangeListener((radioGroup, id) -> {
                 switch (id) {
@@ -264,10 +299,15 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
                 headerViewHolder.cardViewTime.setVisibility(View.GONE);
             }
+            if(listTask == null || listTask.size() == 0) {
+                headerViewHolder.textNoTask.setVisibility(View.VISIBLE);
+            } else {
+                headerViewHolder.textNoTask.setVisibility(View.GONE);
+            }
 
         } else if (holder instanceof TaskViewHolder) {
             TaskViewHolder taskViewHolder = (TaskViewHolder) holder;
-            Picasso.with(context).load(listTask.get(position - 1).getIconUrl())
+            Picasso.with(mContext).load(listTask.get(position - 1).getIconUrl())
                     .error(R.mipmap.ic_launcher)
                     .into(taskViewHolder.iconView);
             taskViewHolder.taskTitle.setText(listTask.get(position - 1).getTitle());
@@ -277,15 +317,15 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             taskViewHolder.isDoneCb.setChecked(listTask.get(position - 1).isDone());
             taskViewHolder.isDoneCb.setOnCheckedChangeListener((compoundButton, isChecked) -> {
                 listTask.get(position - 1).setDone(isChecked);
-                new Thread(() -> ((MyApplication) context.getApplicationContext()).getRepository()
+                new Thread(() -> ((MyApplication) mContext.getApplicationContext()).getRepository()
                         .updateTask(listTask.get(position - 1))).start();
             });
             if (listTask.get(position - 1).getPriority() == Constants.TaskEntity.HIGHT_PRIOR) {
-                taskViewHolder.bgLayout.setBackgroundColor(context.getResources().getColor(R.color.high_priority));
+                taskViewHolder.bgLayout.setBackgroundColor(mContext.getResources().getColor(R.color.high_priority));
             } else if (listTask.get(position - 1).getPriority() == Constants.TaskEntity.MEDIUM_PRIOR) {
-                taskViewHolder.bgLayout.setBackgroundColor(context.getResources().getColor(R.color.medium_priority));
+                taskViewHolder.bgLayout.setBackgroundColor(mContext.getResources().getColor(R.color.medium_priority));
             } else {
-                taskViewHolder.bgLayout.setBackgroundColor(context.getResources().getColor(R.color.low_priority));
+                taskViewHolder.bgLayout.setBackgroundColor(mContext.getResources().getColor(R.color.low_priority));
             }
 
             taskViewHolder.itemView.setOnTouchListener((view, motionEvent) -> {
@@ -295,9 +335,9 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         taskViewHolder.foregroundLayout.setVisibility(View.VISIBLE);
                         break;
                     case MotionEvent.ACTION_UP:
-                        Intent intent = new Intent(context, TaskDetailActivity.class);
+                        Intent intent = new Intent(mContext, TaskDetailActivity.class);
                         intent.putExtra("taskEntity", listTask.get(position - 1));
-                        ((MainActivity) context).startActivityForResult(intent, Constants.EDIT_TASK_REQUEST);
+                        ((MainActivity) mContext).startActivityForResult(intent, Constants.EDIT_TASK_REQUEST);
                     case MotionEvent.ACTION_CANCEL:
                         taskViewHolder.foregroundLayout.setVisibility(View.GONE);
                         break;
@@ -310,7 +350,8 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             // If the date not TO DAY...
             FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
             footerViewHolder.setIsRecyclable(false);
-            footerViewHolder.text.setText("afsdf");
+            footerViewHolder.principleScore.setText(String.valueOf(mPrinciplePoint));
+            footerViewHolder.bankingPoint.setText(String.valueOf(mBankingPoint));
         }
     }
 
@@ -348,8 +389,10 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     // may be appear Ads here
     class FooterViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.zzzz)
-        TextView text;
+        @BindView(R.id.bankingPoint)
+        TextView bankingPoint;
+        @BindView(R.id.principleScore)
+        TextView principleScore;
 
         public FooterViewHolder(View itemView) {
             super(itemView);
@@ -369,13 +412,15 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @BindView(R.id.radioSortTypeTime)
         RadioButton radioSortTypeTime;
         @BindView(R.id.radioSortTypePriority)
-        RadioButton radioSorttypePriority;
+        RadioButton radioSortTypePriority;
         @BindView(R.id.remainTime)
         TextView remainTime;
         @BindView(R.id.remainTimeCardView)
         View cardViewTime;
         @BindView(R.id.headerDate)
         TextView headerDate;
+        @BindView(R.id.textNoTask)
+        TextView textNoTask;
 
         public HeaderViewHolder(View itemView) {
             super(itemView);

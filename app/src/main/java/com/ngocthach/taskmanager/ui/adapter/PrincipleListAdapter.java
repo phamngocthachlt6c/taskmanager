@@ -1,11 +1,13 @@
 package com.ngocthach.taskmanager.ui.adapter;
 
 import android.content.Context;
+import android.content.Entity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -76,6 +78,23 @@ public class PrincipleListAdapter extends RecyclerView.Adapter<PrincipleListAdap
                 return false;
             }
         });
+        holder.point.setText(String.valueOf(principleEntities.get(position).getPoint()));
+        holder.subtractBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PrincipleEntity entity = principleEntities.get(position);
+                entity.setPoint(entity.getPoint() - 1);
+                mViewModel.updatePrinciple(entity);
+            }
+        });
+        holder.plusBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PrincipleEntity entity = principleEntities.get(position);
+                entity.setPoint(entity.getPoint() + 1);
+                mViewModel.updatePrinciple(entity);
+            }
+        });
     }
 
     @Override
@@ -89,6 +108,12 @@ public class PrincipleListAdapter extends RecyclerView.Adapter<PrincipleListAdap
         TextView principleTitle;
         @BindView(R.id.iconView)
         ImageView principleIcon;
+        @BindView(R.id.point)
+        TextView point;
+        @BindView(R.id.principleItemPlus)
+        Button plusBt;
+        @BindView(R.id.principleItemSubtract)
+        Button subtractBt;
 
         public PrincipleVH(View itemView) {
             super(itemView);

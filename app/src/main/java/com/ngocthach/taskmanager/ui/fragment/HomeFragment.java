@@ -16,6 +16,8 @@ import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.common.MySharedPreferences;
 import com.ngocthach.taskmanager.db.entity.TaskEntity;
 import com.ngocthach.taskmanager.ui.adapter.TaskListAdapter;
+import com.ngocthach.taskmanager.viewmodel.AssetViewModel;
+import com.ngocthach.taskmanager.viewmodel.PrincipleViewModel;
 import com.ngocthach.taskmanager.viewmodel.TaskViewModel;
 
 import java.util.Calendar;
@@ -42,6 +44,10 @@ public class HomeFragment extends Fragment {
 
     @Inject
     MySharedPreferences sharedPreferences;
+    @Inject
+    AssetViewModel mAssetViewModel;
+    @Inject
+    PrincipleViewModel mPrincipleViewModel;
     private TaskViewModel taskViewModel;
     private TaskListAdapter taskListAdapter;
 
@@ -64,7 +70,7 @@ public class HomeFragment extends Fragment {
         TaskViewModel.Factory factory = new TaskViewModel.Factory(getActivity().getApplication());
         taskViewModel = ViewModelProviders.of(this, factory).get(TaskViewModel.class);
         taskViewModel.setDate(Calendar.getInstance().getTime());
-        taskListAdapter = new TaskListAdapter(getContext(), taskViewModel, sharedPreferences);
+        taskListAdapter = new TaskListAdapter(getContext(), taskViewModel, mAssetViewModel, mPrincipleViewModel, sharedPreferences);
         taskRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         taskRecyclerView.setAdapter(taskListAdapter);
         taskListAdapter.setSwipeToDeleteItem(taskRecyclerView);

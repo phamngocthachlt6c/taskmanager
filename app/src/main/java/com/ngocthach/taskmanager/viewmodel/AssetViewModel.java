@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import com.ngocthach.taskmanager.MyApplication;
 import com.ngocthach.taskmanager.db.entity.AssetEntity;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
@@ -18,12 +19,12 @@ import java.util.List;
 public class AssetViewModel extends AndroidViewModel {
 
     private LiveData<List<AssetEntity>> listLiveAssets;
-    private Application mApplication;
+    private WeakReference<Application> mApplication;
 
-    public AssetViewModel(@NonNull Application application) {
-        super(application);
+    public AssetViewModel(@NonNull WeakReference<Application> application) {
+        super(application.get());
         mApplication = application;
-        listLiveAssets = ((MyApplication) application).getRepository().getAssets();
+        listLiveAssets = ((MyApplication) application.get()).getRepository().getAssets();
     }
 
     public LiveData<List<AssetEntity>> getLiveAssets() {
@@ -31,10 +32,19 @@ public class AssetViewModel extends AndroidViewModel {
     }
 
     public void deleteAsset(AssetEntity assetEntity) {
-        ((MyApplication) mApplication).getMyAppExecutors().diskIO().execute(new Runnable() {
+        ((MyApplication) mApplication.get()).getMyAppExecutors().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                ((MyApplication) mApplication).getRepository().deleteAsset(assetEntity);
+                ((MyApplication) mApplication.get()).getRepository().deleteAsset(assetEntity);
+            }
+        });
+    }
+
+    public void updateAsset(AssetEntity assetEntity) {
+        ((MyApplication) mApplication.get()).getMyAppExecutors().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                ((MyApplication) mApplication.get()).getRepository().updateAsset(assetEntity);
             }
         });
     }

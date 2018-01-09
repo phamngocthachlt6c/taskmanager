@@ -7,7 +7,7 @@
 
     <!-- tab page name -->
     <string name="home_page">Tasks</string>
-    <string name="assets_page">Assets</string>
+    <string name="assets_page">Your Banking</string>
     <string name="principles_page">Principles</string>
     <string name="report_page">Report</string>
 
@@ -36,10 +36,12 @@
     <!-- fragment add asset -->
     <string name="text_choose_icon_asset">Choose your asset icon</string>
     <string name="fragment_text_add_asset">Add asset</string>
+    <string name="banking_text_footer">Your banking balance: </string>
 
     <!-- fragment add principle -->
     <string name="text_choose_icon_principle">Choose your principle icon</string>
     <string name="fragment_text_add_principle">Add principle</string>
+    <string name="principle_text_footer">Your principle score: </string>
 
     <!-- header item -->
     <string name="text_task_list_setting">Task list</string>
@@ -47,6 +49,7 @@
     <string name="text_sort_by_Priority">Sort by priority</string>
     <string name="text_setting">Setting</string>
     <string name="text_remain_time">Remain time for your day</string>
+    <string name="text_no_task">There is no task</string>
 
     <string name="text_principle">Principle</string>
 

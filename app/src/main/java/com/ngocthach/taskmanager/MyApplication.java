@@ -27,6 +27,8 @@ import com.ngocthach.taskmanager.di.DaggerAppComponent;
 import com.ngocthach.taskmanager.di.PrincipleViewModelModule;
 import com.ngocthach.taskmanager.di.SharedPreferencesModule;
 
+import java.lang.ref.WeakReference;
+
 import javax.inject.Inject;
 
 /**
@@ -45,9 +47,9 @@ public class MyApplication extends Application {
         appComponent = DaggerAppComponent.builder()
                 .contextModule(new ContextModule(getApplicationContext()))
                 .sharedPreferencesModule(new SharedPreferencesModule())
-                .assetViewModelModule(new AssetViewModelModule(this))
+                .assetViewModelModule(new AssetViewModelModule(new WeakReference<Application>(this)))
                 .appExecutorModule(new AppExecutorModule())
-                .principleViewModelModule(new PrincipleViewModelModule(this))
+                .principleViewModelModule(new PrincipleViewModelModule(new WeakReference<Application>(this)))
                 .build();
         appComponent.inject(this);
 

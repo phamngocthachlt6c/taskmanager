@@ -85,6 +85,10 @@ public class DataRepository {
         mDatabase.assetDao().deleteAsset(assetEntity);
     }
 
+    public void updateAsset(AssetEntity assetEntity) {
+        mDatabase.assetDao().updateAsset(assetEntity);
+    }
+
     public LiveData<List<PrincipleEntity>> getPrinciples() {
         return mDatabase.principleDao().loadAllPrinciples();
     }
@@ -95,5 +99,9 @@ public class DataRepository {
 
     public long insertPrinciple(PrincipleEntity entity) {
         return mDatabase.principleDao().insertPrinciple(entity);
+    }
+
+    public void updatePrinciple(PrincipleEntity entity) {
+        mDatabase.principleDao().updatePrinciple(entity);
     }
 }

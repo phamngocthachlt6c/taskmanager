@@ -41,7 +41,6 @@
                 android:id="@+id/point"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="100"
                 android:textColor="@color/app_color_theme" />
 
         </LinearLayout>
@@ -63,7 +62,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/selector_plus" />
+                android:background="@mipmap/icon_subtract" />
 
         </LinearLayout>
 

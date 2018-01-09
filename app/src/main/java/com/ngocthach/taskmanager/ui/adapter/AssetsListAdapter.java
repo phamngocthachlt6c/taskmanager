@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -76,6 +77,15 @@ public class AssetsListAdapter extends RecyclerView.Adapter<AssetsListAdapter.As
                 return false;
             }
         });
+        holder.point.setText(String.valueOf(assetEntities.get(position).getValue()));
+        holder.plusBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AssetEntity entity = assetEntities.get(position);
+                entity.setValue(entity.getValue() + 1);
+                mViewModel.updateAsset(entity);
+            }
+        });
     }
 
     @Override
@@ -89,6 +99,10 @@ public class AssetsListAdapter extends RecyclerView.Adapter<AssetsListAdapter.As
         TextView assetTitle;
         @BindView(R.id.iconView)
         ImageView assetIcon;
+        @BindView(R.id.assetItemPlus)
+        Button plusBt;
+        @BindView(R.id.point)
+        TextView point;
 
         public AssetVH(View itemView) {
             super(itemView);
