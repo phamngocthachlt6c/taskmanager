@@ -43,6 +43,11 @@
     <string name="fragment_text_add_principle">Add principle</string>
     <string name="principle_text_footer">Your principle score: </string>
 
+    <!-- fragment add book -->
+    <string name="text_add_book">Add book</string>
+    <string name="fragment_add_book_name_field">Book name</string>
+    <string name="fragment_add_book_author_field">Author</string>
+
     <!-- header item -->
     <string name="text_task_list_setting">Task list</string>
     <string name="text_sort_by_time">Sort by time</string>
@@ -70,5 +75,9 @@
     </string-array>
 
     <string name="link_icon">https://www.flaticon.com/search?word=plus</string>
+    <string name="admob_app_id">ca-app-pub-XXXXXXXX~XXXXXXXXXXX</string>
+
+    <!-- google test -->
+    <string name="banner_home_footer">ca-app-pub-3940256099942544/6300978111</string>
 
 </resources>

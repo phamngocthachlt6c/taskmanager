@@ -24,7 +24,12 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.ngocthach.taskmanager.MyApplication;
 import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.common.Constants;
@@ -352,6 +357,44 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             footerViewHolder.setIsRecyclable(false);
             footerViewHolder.principleScore.setText(String.valueOf(mPrinciplePoint));
             footerViewHolder.bankingPoint.setText(String.valueOf(mBankingPoint));
+
+
+//            ((FooterViewHolder) holder).adView.setAdSize(AdSize.BANNER);
+//            ((FooterViewHolder) holder).adView.setAdUnitId(mContext.getString(R.string.banner_home_footer));
+
+            AdRequest adRequest = new AdRequest.Builder()
+                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                    // Check the LogCat to get your test device ID
+                    .addTestDevice("831BDCA1DF76FF908D1D81F744DD09EC")
+                    .build();
+
+            footerViewHolder.adView.setAdListener(new AdListener() {
+                @Override
+                public void onAdLoaded() {
+                }
+
+                @Override
+                public void onAdClosed() {
+                    Toast.makeText(mContext, "Ad is closed!", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onAdFailedToLoad(int errorCode) {
+                    Toast.makeText(mContext, "Ad failed to load! error code: " + errorCode, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onAdLeftApplication() {
+                    Toast.makeText(mContext, "Ad left application!", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onAdOpened() {
+                    super.onAdOpened();
+                }
+            });
+
+            footerViewHolder.adView.loadAd(adRequest);
         }
     }
 
@@ -393,6 +436,8 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView bankingPoint;
         @BindView(R.id.principleScore)
         TextView principleScore;
+        @BindView(R.id.adView)
+        AdView adView;
 
         public FooterViewHolder(View itemView) {
             super(itemView);

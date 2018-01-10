@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         initSwipeViewPager();
         initTabPager();
         ((MyApplication) getApplicationContext()).getMyComponent().inject(this);
+
     }
 
     private void initTabPager() {
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout.getTabAt(0).setIcon(R.mipmap.icon_home);
         mTabLayout.getTabAt(1).setIcon(R.mipmap.icon_asset);
         mTabLayout.getTabAt(2).setIcon(R.mipmap.icon_principle);
-        mTabLayout.getTabAt(3).setIcon(R.mipmap.icon_report);
+        mTabLayout.getTabAt(3).setIcon(R.mipmap.icon_book);
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                         setVisibleControlOptionMenu(Constants.TAB_PRINCIPLE);
                         break;
                     case 3:
-                        setVisibleControlOptionMenu(Constants.TAB_REPORT);
+                        setVisibleControlOptionMenu(Constants.TAB_BOOK);
                         break;
                 }
             }
@@ -135,12 +136,14 @@ public class MainActivity extends AppCompatActivity {
                 mOptionMenu.findItem(R.id.action_calendar).setVisible(true);
                 mOptionMenu.findItem(R.id.action_add_asset).setVisible(false);
                 mOptionMenu.findItem(R.id.action_add_principle).setVisible(false);
+                mOptionMenu.findItem(R.id.action_add_book).setVisible(false);
                 actionbarTitle.setText(getResources().getString(R.string.home_page));
                 break;
             case Constants.TAB_ASSETS:
                 mOptionMenu.findItem(R.id.action_add_principle).setVisible(false);
                 mOptionMenu.findItem(R.id.action_add_task).setVisible(false);
                 mOptionMenu.findItem(R.id.action_calendar).setVisible(false);
+                mOptionMenu.findItem(R.id.action_add_book).setVisible(false);
                 mOptionMenu.findItem(R.id.action_add_asset).setVisible(true);
                 actionbarTitle.setText(getResources().getString(R.string.assets_page));
                 break;
@@ -149,9 +152,15 @@ public class MainActivity extends AppCompatActivity {
                 mOptionMenu.findItem(R.id.action_add_task).setVisible(false);
                 mOptionMenu.findItem(R.id.action_calendar).setVisible(false);
                 mOptionMenu.findItem(R.id.action_add_asset).setVisible(false);
+                mOptionMenu.findItem(R.id.action_add_book).setVisible(false);
                 actionbarTitle.setText(getResources().getString(R.string.principles_page));
                 break;
-            case Constants.TAB_REPORT:
+            case Constants.TAB_BOOK:
+                mOptionMenu.findItem(R.id.action_add_principle).setVisible(false);
+                mOptionMenu.findItem(R.id.action_add_task).setVisible(false);
+                mOptionMenu.findItem(R.id.action_calendar).setVisible(false);
+                mOptionMenu.findItem(R.id.action_add_asset).setVisible(false);
+                mOptionMenu.findItem(R.id.action_add_book).setVisible(true);
                 actionbarTitle.setText(getResources().getString(R.string.book_page));
                 break;
         }
@@ -178,6 +187,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.action_add_principle:
                 startActivity(new Intent(this, AddPrincipleActivity.class));
+                return true;
+            case R.id.action_add_book:
+                startActivity(new Intent(this, AddBookActivity.class));
                 return true;
             default:
                 // If we got here, the user's action was not recognized.

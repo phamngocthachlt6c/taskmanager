@@ -18,6 +18,7 @@ package com.ngocthach.taskmanager;
 
 import android.app.Application;
 
+import com.google.android.gms.ads.MobileAds;
 import com.ngocthach.taskmanager.db.AppDatabase;
 import com.ngocthach.taskmanager.di.AppComponent;
 import com.ngocthach.taskmanager.di.AppExecutorModule;
@@ -54,6 +55,9 @@ public class MyApplication extends Application {
                 .bookViewModelModule(new BookViewModelModule(new WeakReference<Application>(this)))
                 .build();
         appComponent.inject(this);
+
+        // initialize the AdMob app
+//        MobileAds.initialize(this, getString(R.string.admob_app_id));
 
     }
 

@@ -41,6 +41,6 @@ public class Constants {
     public static final int TAB_HOME = 0;
     public static final int TAB_ASSETS = 1;
     public static final int TAB_PRINCIPLE = 2;
-    public static final int TAB_REPORT = 3;
+    public static final int TAB_BOOK = 3;
 
 }

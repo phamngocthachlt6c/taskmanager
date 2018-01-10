@@ -6,11 +6,11 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.ngocthach.taskmanager.MyApplication;
 import com.ngocthach.taskmanager.R;
 import com.ngocthach.taskmanager.db.entity.BookEntity;
 import com.ngocthach.taskmanager.viewmodel.BookViewModel;
@@ -54,6 +54,7 @@ public class BooksListAdapter  extends RecyclerView.Adapter<BooksListAdapter.Boo
     public void onBindViewHolder(BooksListAdapter.BookVH holder, int position) {
         holder.bookName.setText(bookEntities.get(position).getBookName());
         holder.author.setText(bookEntities.get(position).getAuthor());
+        holder.checkDone.setChecked(bookEntities.get(position).isDone());
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -74,15 +75,16 @@ public class BooksListAdapter  extends RecyclerView.Adapter<BooksListAdapter.Boo
                 return false;
             }
         });
-//        holder.point.setText(String.valueOf(assetEntities.get(position).getValue()));
-//        holder.plusBt.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                AssetEntity entity = assetEntities.get(position);
-//                entity.setValue(entity.getValue() + 1);
-//                mViewModel.updateAsset(entity);
-//            }
-//        });
+        holder.checkDone.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            bookEntities.get(position).setDone(isChecked);
+            ((MyApplication) mContext.getApplicationContext()).getMyAppExecutors().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    ((MyApplication) mContext.getApplicationContext()).getRepository()
+                            .updateBook(bookEntities.get(position));
+                }
+            });
+        });
     }
 
     @Override
